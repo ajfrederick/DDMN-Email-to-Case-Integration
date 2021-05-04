@@ -136,7 +136,9 @@ public class UiComponentServices {
                                                         LastName, 
                                                         Email 
                                                             WHERE Email != :Constants.FROM_ADDRESS
-                                                            AND Email NOT IN :emails
+                                                            AND Email NOT IN :escapedEmails
+                                                            AND (Email LIKE :search
+                                                                OR Name LIKE :search)
                                                     ),
                                                     User(
                                                         Id, 
@@ -144,7 +146,9 @@ public class UiComponentServices {
                                                         LastName, 
                                                         Email 
                                                             WHERE Email != :Constants.FROM_ADDRESS
-                                                            AND Email NOT IN :emails
+                                                            AND Email NOT IN :escapedEmails
+                                                            AND (Email LIKE :search
+                                                                OR Name LIKE :search)
                                                     )];
         
         SObject[] ret = new SObject[]{};
@@ -224,7 +228,7 @@ public class UiComponentServices {
                 }
 
                 if( fileVersion == null ) continue;
-System.debug(fileVersion);
+
                 if( feedData.attachmentsByMessageId.containsKey(message.Id) ){
                     feedData.attachmentsByMessageId.get( message.Id ).add( fileVersion );
                 } else {
