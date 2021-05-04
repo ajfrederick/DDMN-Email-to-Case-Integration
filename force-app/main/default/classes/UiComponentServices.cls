@@ -265,7 +265,7 @@ public class UiComponentServices {
     }
 
 /**
- * QUERY UTILITIES
+ * QUERY METHODS
  */
 
     /**

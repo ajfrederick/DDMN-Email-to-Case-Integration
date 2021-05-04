@@ -148,6 +148,7 @@ public class EmailInfo {
 /**
  * CLASSES
 **/
+
     public class EmailContent {
         public String Subject {get;set;}
         public String HtmlBody {get;set;}
