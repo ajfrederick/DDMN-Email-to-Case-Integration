@@ -1,15 +1,19 @@
+<!-- this is an indiviual TYPE of address which holds all addresses of it's typeit will either be a To, Cc, Bcc -->
 <template>
 
+    <!-- Container -->
     <div class="address-container">
-
         <lightning-layout>
 
+            <!-- Label -->
             <lightning-layout-item size="1" flexibility="auto">
                 <label>
                     {label}
                 </label>
             </lightning-layout-item>
+            <!-- END Label -->
 
+            <!-- Addresses String -->
             <lightning-layout-item size="11" flexibility="auto">
                 
                 <!-- NOT FOCUS -->
@@ -18,6 +22,7 @@
                         {addressesString}
                     </div>
                 </template>
+                <!-- END NOT FOCUS -->
 
                 <!-- FOCUS -->
                 <template if:true={isFocus}>
@@ -31,6 +36,7 @@
                         </c-address-pill>
 
                     </template>
+                    <!-- END PILLS -->
 
                     <!-- INPUT -->
                     <div class="address-input-container">
@@ -50,9 +56,14 @@
                         </c-recipient-options>
 
                     </div>
+                    <!-- END INPUT -->
                 </template>
+                <!-- END FOCUS -->
+
             </lightning-layout-item>
+            <!-- END Addresses String -->
             
         </lightning-layout>
     </div>
+    <!-- END Container -->
 </template>

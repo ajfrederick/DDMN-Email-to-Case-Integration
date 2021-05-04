@@ -68,7 +68,7 @@ EMAIL SETUP:
 
 1) Setup user as context user for email service
 
-2) Set Up Email Service
+2) Set Up Email Service using the provided apex InboundEmailHandler
 
 3) Set up forwarding in the email client with the provided Email Services Address.
 

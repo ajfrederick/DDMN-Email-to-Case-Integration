@@ -1,8 +1,20 @@
+/**
+ * @name AttachmentCreatorOutbound
+ * @description this child class helps create and insert attachments for outgoing emails
+ */
 public class AttachmentCreatorOutbound extends AttachmentCreator {
+
+/**
+ * CONSTRUCTOR
+ */
 
     public AttachmentCreatorOutbound( EmailInfo[] wrappers ) {
         super(wrappers);
     }
+
+/**
+ * OVERRIDE METHODS
+ */
 
     /**
      * @name getMessageId
