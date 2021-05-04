@@ -1,6 +1,8 @@
-# Connect Team Email to Case Service Package
+# Email Integration Package
 
-This Salesforce Unlocked Package holds all entities to enable the Connect Team of DDMN to Communitcate via Email from Cases Created by an Apex Email Service as well provide reports and dashboards that display analytics about their service process.
+This is an application that allows an email inbox to be integrated into Salesforce. 
+
+After an initial email is sent to an external inbox it is forward to Salesforce and received by this app at which point any and all communications can be handled from the configured object's record. Initially it will be set up for Cases but it will be developed to integrate into any record.
 
 ## Non-Code Entities
 
