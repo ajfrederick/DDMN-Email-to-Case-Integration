@@ -1,0 +1,95 @@
+<template>
+    
+    <!-- IF HAS MASSAGE -->
+    <div if:true={message}>
+        
+        <c-modal no-footer="true">
+            
+            <div slot="header">
+                New Message
+            </div>
+
+            <!-- BOX -->
+            <div class="slds-box slds-m-bottom_small" slot="body">
+                <!-- header -->
+                <lightning-layout class="message-header" horizontal-align="spread">
+
+                    <!-- address inputs -->
+                    <lightning-layout-item padding="around-small" size="11">
+
+                        <!-- Addresses -->
+                        <c-addresses 
+                            message={message} 
+                            is-new="true">
+                        </c-addresses>
+
+                        <!-- Subject -->
+                        <div>
+                            <lightning-input
+                                value={message.content.Subject}
+                                placeholder="Subject"
+                                name="Subject"
+                                onchange={handleSubjectChange}>
+                            </lightning-input> 
+                        </div>
+
+                    </lightning-layout-item>
+
+                </lightning-layout>
+                <!-- END header -->
+
+                <!-- body -->
+                <div class="slds-p-vertical_small">
+                    <lightning-input-rich-text
+                        value={message.content.HtmlBody}
+                        onchange={handleBodyChange}>
+                    </lightning-input-rich-text>
+                </div>
+                <!-- END body -->
+
+                <!-- footer -->
+                <lightning-layout horizontal-align="spread" vertical-align="end">
+                    
+                    <!-- attachments -->
+                    <lightning-layout-item>
+                        <c-message-attachments 
+                            attachments={attachments}
+                            is-new="true"
+                            onattached={handleAttachmentAttached}
+                            onattachmentdeleted={handleAttachmentDeleted}>
+                        </c-message-attachments>
+                    </lightning-layout-item>
+                    <!-- END attachments -->
+                    
+                    <!-- BUTTONS -->
+                    <lightning-layout-item>
+                        <div class="slds-clearfix">
+                            <!-- Send Button -->
+                            <lightning-button
+                                label="Send"
+                                title="Send Message"
+                                onclick={send}
+                                class="slds-float_right"
+                                variant="brand">
+                            </lightning-button>
+
+                            <!-- Cancel Button -->
+                            <lightning-button
+                                label="Cancel"
+                                title="Cancel Send Message"
+                                onclick={cancel}
+                                class="slds-float_right">
+                            </lightning-button>
+                        </div>
+                    </lightning-layout-item>
+
+                </lightning-layout>
+                <!-- END footer -->
+            </div>
+            <!-- END BOX -->
+
+        </c-modal>
+        
+    </div>
+    <!-- END IF HAS MASSAGE -->
+</template>

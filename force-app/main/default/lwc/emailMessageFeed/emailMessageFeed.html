@@ -1,0 +1,29 @@
+<!-- this is the template for the email thread for a record that is tied to emails-->
+<template>
+    <div class="email-feed">
+        <!-- 
+            NEW MESSAGE
+        -->
+        <c-new-message-box
+            onsent={newMessageSent}>
+        </c-new-message-box>
+
+        <!-- 
+            SENT MESSAGES
+        -->
+        <!-- START LOOP -->
+        <template 
+            for:each={messages}
+            for:item="message">
+            
+            <c-message-box 
+                key={message.Id} 
+                message={message}
+                onreply={setNewMessage}>
+            </c-message-box>
+
+        </template>
+        <!-- END LOOP -->
+
+    </div>
+</template>

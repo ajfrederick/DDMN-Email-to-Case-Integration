@@ -1,0 +1,19 @@
+{
+    "packageDirectories": [
+        {
+            "path": "force-app",
+            "default": true,
+            "package": "ConnectTeamSupportProcess",
+            "versionName": "ver 0.1",
+            "versionNumber": "0.1.0.NEXT"
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "50.0",
+    "packageAliases": {
+        "ConnectTeamSupportProcess": "0Ho4x000000PAwFCAW",
+        "ConnectTeamSupportProcess@0.1.0-1": "04t4x0000009lbVAAQ",
+        "ConnectTeamSupportProcess@0.1.0-2": "04t4x000000A3psAAC"
+    }
+}

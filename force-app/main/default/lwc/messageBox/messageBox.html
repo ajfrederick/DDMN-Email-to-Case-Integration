@@ -1,0 +1,130 @@
+<template>
+    <!-- message box -->
+    <div class="slds-box slds-m-bottom_small">
+                
+        <!-- header -->
+        <div class="message-header">
+            
+            <!-- meat of the header body -->
+            <lightning-layout horizontal-align="spread">
+
+                <!-- avatar -->
+                <lightning-layout-item padding="around-small" size="1" flexibility="auto">
+
+                    <lightning-avatar
+                        src="/bad/url/resource.png"
+                        fallback-icon-name={iconData.name}
+                        initials={iconData.initials}
+                        alternative-text="From">
+                    </lightning-avatar>
+
+                </lightning-layout-item>
+
+                <!-- addresses -->
+                <lightning-layout-item padding="around-small" size="7">
+
+                    <c-addresses 
+                        message={message}>
+                    </c-addresses>
+                    
+                </lightning-layout-item>
+
+                <!-- Date and Attachments Present Icon -->
+                <lightning-layout-item padding="around-small" size="4"  class="slds-clearfix">
+
+                    <lightning-layout class="slds-float_right">
+                        
+                        <!-- Attachment Icon -->
+                        <lightning-layout-item style="margin: 0 10px 0 0;">
+                            <lightning-icon
+                                icon-name="utility:attach"
+                                if:true={hasAttachments}
+                                size="xx-small">
+                            </lightning-icon>
+                        </lightning-layout-item>
+                        <!-- END Attachment Icon -->
+
+                        <!-- DATE -->
+                        <lightning-layout-item class="email-date">
+                            <lightning-formatted-date-time 
+                                value={messageDate}
+                                year="2-digit"
+                                month="short" 
+                                day="2-digit"
+                                weekday="long"
+                                hour="2-digit" 
+                                minute="2-digit" 
+                                second="2-digit">
+                            </lightning-formatted-date-time>
+
+                            <div>{durationFromSent}</div>
+                        </lightning-layout-item>
+                        <!-- END DATE-->
+
+                    </lightning-layout>
+
+                </lightning-layout-item>
+                <!-- END Date and Attachments Present Icon -->
+                
+            </lightning-layout>
+            <!-- END meat of the header body -->
+            
+            <!-- SUBJECT-->
+            <lightning-layout> 
+                <div class="subject">{message.Subject}</div>
+            </lightning-layout> 
+            <!-- END SUBJECT -->
+
+        </div>
+        <!-- END header -->
+
+        <!-- POSSIBLE TO DO: Put Collapse HERE --> 
+        
+            <!-- body -->
+            <div class="slds-p-around_small">
+                <lightning-formatted-rich-text value={message.HtmlBody}></lightning-formatted-rich-text>
+            </div>
+            <!-- END body -->
+
+            <!-- Footer -->
+            <lightning-layout class="slds-border_top slds-p-around_small" horizontal-align="spread" if:true={showFooter}>
+
+                <!-- attachments -->
+                <lightning-layout-item>
+                        <c-message-attachments 
+                        attachments={message.attachments}>
+                    </c-message-attachments>
+                </lightning-layout-item>
+                <!-- END attachments -->
+
+                <!-- reply buttons -->
+                <lightning-layout-item if:true={message.Incoming}>
+
+                    <!-- Reply Button -->
+                    <lightning-button
+                        label="Reply"
+                        title="Reply to this message"
+                        onclick={reply}
+                        class="reply-button"
+                        variant="brand">
+                    </lightning-button>
+
+                    <!-- Reply All Button -->
+                    <lightning-button
+                        label="Reply All"
+                        title="Reply to all recipients of this message"
+                        onclick={replyAll}
+                        class="reply-button">
+                    </lightning-button>
+
+                </lightning-layout-item>
+                <!-- END reply buttons -->
+
+            </lightning-layout>
+            <!-- END Footer -->
+        
+        <!-- END Collapse -->
+
+    </div>
+    <!-- END message box -->
+</template>

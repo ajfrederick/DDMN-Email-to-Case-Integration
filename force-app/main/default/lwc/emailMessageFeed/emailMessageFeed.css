@@ -1,0 +1,10 @@
+.email-feed {
+    overflow-y: scroll;
+    max-height: 850px;
+    scroll-behavior: smooth;
+}
+
+.email-feed label {
+    width: 25px;
+    display: inline-block;
+}

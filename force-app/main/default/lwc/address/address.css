@@ -1,0 +1,37 @@
+.addresses-string {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+label {
+    width: 30px;
+    padding: 0 5px 0 0;
+    display: inline-block;
+    font-size: .8em;
+    text-align: right;
+}
+
+.address-input-container {
+    position: relative;
+    display: inline-block;
+    padding: 3px;
+}
+
+.address-input {
+    display: inline-block;
+}
+
+.address-input input{
+    border: none;  
+}
+
+.address-input input:focus {
+    outline: none;
+}
+
+.error-message {
+    position: absolute;
+    color: red;
+    font-size: .8em;
+    z-index: 9999;
+}

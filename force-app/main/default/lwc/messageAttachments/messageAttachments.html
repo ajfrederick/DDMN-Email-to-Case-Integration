@@ -1,0 +1,39 @@
+<template>
+    <template if:true={hasAttachments}>
+
+        <!-- LABEL
+        <h2 class="slds-m-bottom_small" if:false={isNew}>
+            Attachments
+        </h2> -->
+
+        <lightning-layout vertical-align="end">
+            
+            <!-- File Input -->
+            <lightning-layout-item if:true={isNew}>
+
+                <lightning-input
+                    type="file"
+                    onchange={handleAttachment}
+                    class="slds-m-right_medium">
+                </lightning-input>
+
+            </lightning-layout-item>
+            <!-- END File Input -->
+
+            <!-- LOOP Attachments -->
+            <template for:each={attachments} for:item="attachment">
+                <lightning-layout-item key={attachment.Id}>
+                    
+                    <c-message-attachment 
+                        attachment={attachment}
+                        is-new={isNew}>
+                    </c-message-attachment>
+
+                </lightning-layout-item>
+            </template>
+            <!-- END Attachments Loop-->
+
+        </lightning-layout>
+
+    </template>
+</template>

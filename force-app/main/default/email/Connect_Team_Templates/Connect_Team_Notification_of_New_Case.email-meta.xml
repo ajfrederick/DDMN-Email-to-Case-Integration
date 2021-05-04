@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Template for notifying sender in Connect Team Email-to-Case that a new case has been made. DO NOT change unique name.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Connect Team Notification of New Case</name>
+    <style>none</style>
+    <subject>Support is on it&apos;s way</subject>
+    <textOnly>Thank you for contacting us! 
+
+You&apos;re request has been logged as case number {!Case.CaseNumber}. Have no fear! We will be in contact with you shortly. 
+
+ Have a great day! 
+ 
+-Delta Dental of Minnesota Connect Team</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

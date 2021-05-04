@@ -1,0 +1,13 @@
+.recipient-options {
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
+.recipient-options.displayed {
+    display: block;
+}
+
+.recipient-option {
+    cursor: pointer;
+}

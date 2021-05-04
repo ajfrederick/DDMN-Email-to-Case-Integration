@@ -1,0 +1,56 @@
+<template>
+
+    <div class="addresses" onclick={handleClick}>
+
+        <!-- FROM ADDRESS --> 
+        <template if:false={isNew}>
+            <lightning-layout>
+
+                <lightning-layout-item size="1" flexibility="auto">
+                    <label>
+                        From
+                    </label>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="11" flexibility="auto">
+                    <template for:each={addresses.FromAddress} for:item="address">
+                        {address.email}
+                    </template>
+                </lightning-layout-item>
+
+            </lightning-layout>
+        </template>
+        
+        <!-- TO ADDRESS -->
+        <c-address
+            if:true={hasTos}
+            addresses={addresses.ToAddresses}
+            label="To"
+            is-focus={isFocus}
+            onaddressremoved={handleAddressRemoved}
+            onaddressadded={handleAddressAdded}>
+        </c-address>
+            
+        <!-- CC ADDRESS -->
+        <c-address
+            if:true={hasCcs}
+            addresses={addresses.CcAddresses}
+            label="Cc"
+            is-focus={isFocus}
+            onaddressremoved={handleAddressRemoved}
+            onaddressadded={handleAddressAdded}>
+        </c-address>
+        
+        <!-- BCC ADDRESS -->
+        <c-address
+            if:true={hasBccs}
+            addresses={addresses.BccAddresses}
+            label="Bcc"
+            is-focus={isFocus}
+            onaddressremoved={handleAddressRemoved}
+            onaddressadded={handleAddressAdded}>
+        </c-address>
+
+    </div>
+
+</template>

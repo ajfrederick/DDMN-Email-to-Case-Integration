@@ -1,0 +1,27 @@
+<template>
+    <!-- ACTUAL Collapse --> 
+    <div class={collapseClass}>
+
+        <slot>
+            <!-- CONTENT WILL GO HERE -->
+        </slot>
+
+    </div>
+    <!-- END ACTUAL Collapse -->
+
+    <!-- Collapse Button-->
+    <div>
+
+        <lightning-icon 
+            class={buttonClass}
+            icon-name={iconName}
+            title={title}
+            alternative-text="Toggle Collapse"
+            size="small"
+            onclick={toggleCollapse}>
+        </lightning-icon>
+
+    </div>
+    <!-- END Collapse Button -->
+
+</template>

@@ -1,0 +1,22 @@
+<template>
+
+    <!-- IF IS USER OR CONTACT -->
+    <template if:true={hasRelation}>
+        <lightning-pill
+            key={address.id}
+            href={linkUrl}
+            label={address.name}
+            onremove={handlePillRemove}>
+        </lightning-pill>
+    </template>
+
+    <!-- IF SIMPLE ADDRESS STRING -->
+    <template if:false={hasRelation}>
+        <lightning-pill
+            key={address.email}
+            label={address.email}
+            onremove={handlePillRemove}>
+        </lightning-pill>
+    </template>
+    
+</template>

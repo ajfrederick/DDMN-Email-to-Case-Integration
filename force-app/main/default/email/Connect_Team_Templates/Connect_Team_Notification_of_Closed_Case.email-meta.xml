@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Template for notifying contact on Connect Team Case that it has been closed. DO NOT change unique name.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Connect Team Notification of Closed Case</name>
+    <style>none</style>
+    <subject>Hooray! Your case has been closed.</subject>
+    <textOnly>Your case {!Case.CaseNumber} has been closed. Thanks for doing business with us!</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,17 @@
+.message-header {
+    border-bottom: 1px solid rgb(221, 219, 218);
+}
+
+.subject {
+    font-size: 1.1em;
+    padding: 1em;
+    font-weight: 600;
+}
+
+.email-date {
+    font-size: .8em;
+}
+
+.reply-button {
+    margin: 0 5px 10px 0;
+}

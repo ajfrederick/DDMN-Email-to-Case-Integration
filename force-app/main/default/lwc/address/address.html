@@ -1,0 +1,58 @@
+<template>
+
+    <div class="address-container">
+
+        <lightning-layout>
+
+            <lightning-layout-item size="1" flexibility="auto">
+                <label>
+                    {label}
+                </label>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="11" flexibility="auto">
+                
+                <!-- NOT FOCUS -->
+                <template if:false={isFocus}>
+                    <div class="slds-truncate slds-has-flexi-truncate addresses-string" title={addressesString}>
+                        {addressesString}
+                    </div>
+                </template>
+
+                <!-- FOCUS -->
+                <template if:true={isFocus}>
+                    <!-- PILLS -->
+                    <template for:each={addresses} for:item="address"> 
+
+                        <c-address-pill 
+                            key={address.email}
+                            address={address}
+                            address-type={addressType}>
+                        </c-address-pill>
+
+                    </template>
+
+                    <!-- INPUT -->
+                    <div class="address-input-container">
+
+                        <div class="address-input">
+                            <input onkeyup={handleKeyup} onblur={handleBlur} />
+                        </div>
+                        <div if:true={hasErrors} class="error-message">
+                            {errorMessage}
+                        </div>
+
+                        <c-recipient-options 
+                            search-string={searchString}
+                            addresses={addresses}
+                            address-type={addressType}
+                            onaddressadded={handleAddressAdded}>
+                        </c-recipient-options>
+
+                    </div>
+                </template>
+            </lightning-layout-item>
+            
+        </lightning-layout>
+    </div>
+</template>
