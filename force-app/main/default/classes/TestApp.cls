@@ -1,8 +1,13 @@
+/**
+ * @name TestApp
+ * @description this tests the application as a whole as a 'User'
+ * TODO: Write unit tests
+ */
 @isTest(SeeAllData = true)
 public class TestApp {
     
     @IsTest
-    static void testInboundEmail(){
+    static void testEmail(){
         Messaging.InboundEmail email = new Messaging.InboundEmail();
         email.fromAddress = 'test@from.com';
         email.ToAddresses  = new String[]{'test@to.com'};
@@ -46,6 +51,9 @@ public class TestApp {
 
         newMessage.ToAddresses.add(email.fromAddress);
         newMessage.content.HtmlBody = 'reply here';
+        
+        // only reseting this cause test fails sending email because inReplyTo will not be a vaild external message Id
+        newMessage.inReplyTo = null; 
 
         UiComponentServices.NewMessageAttachmentData newMessageAttachment = new UiComponentServices.NewMessageAttachmentData();
         newMessageAttachment.Title = 'attachment.txt';
@@ -62,5 +70,15 @@ public class TestApp {
         UiComponentServices.FeedData feedData2 = (UiComponentServices.FeedData) JSON.deserialize( JSONmessages2, UiComponentServices.FeedData.class );
 
         System.assertEquals( 2, feedData2.messages.size() );
+
+        //update the case to close
+        newCase.Status = 'Closed';
+        update newCase;
+
+        String JSONmessages3 = UiComponentServices.getData( newCase.Id );
+
+        UiComponentServices.FeedData feedData3 = (UiComponentServices.FeedData) JSON.deserialize( JSONmessages3, UiComponentServices.FeedData.class );
+
+        System.assertEquals( 3, feedData3.messages.size() );
     }
 }

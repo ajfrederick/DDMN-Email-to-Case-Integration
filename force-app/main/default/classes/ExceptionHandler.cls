@@ -88,8 +88,6 @@ public class ExceptionHandler {
      * @return void
     **/
     public void email(){
-        if( Test.isRunningTest() ) return;
-
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
 
         String body = getMessageBody( ex );

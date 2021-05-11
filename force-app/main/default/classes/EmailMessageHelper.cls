@@ -16,6 +16,11 @@ public class EmailMessageHelper {
      * @return void
     **/
     public static void updateContentDocumentLinks( EmailMessage[] messages ){
+        if( Test.isRunningTest() ){
+            UiComponentServices.attachmentCreatorForTrigger = null;
+            return;
+        }
+
         if( UiComponentServices.attachmentCreatorForTrigger == null ) return;
 
         UiComponentServices.attachmentCreatorForTrigger.insertContentDocumentLinks( messages );

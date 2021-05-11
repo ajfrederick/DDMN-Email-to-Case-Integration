@@ -86,12 +86,18 @@ public class MessageHandler {
         }
     }
 
+/**
+
+    
+--- THIS IS COMMENTED OUT BECAUSE IT SEEMS AS OF MAY 10, 2021 THIS IS BUILT SALESFORCE FUNCTIONALITY ---
+
+
     /**
      * @name createEmailMessageRelations
      * @description creates the necessary email message relations when there are contacts or users as To, Cc, or Bcc address
      * @param EmailMessage[] messages
      * @return EmailMessageRelation[]
-    **/
+   
     private EmailMessageRelation[] createEmailMessageRelations( EmailMessage[] messages ){
         EmailMessageRelation[] relations = new EmailMessageRelation[]{};
 
@@ -138,7 +144,7 @@ public class MessageHandler {
      * @name getFromRelation
      * @description creates a EmailMessageRelations from a 'From Address' 
      * @return EmailMessageRelation
-    **/
+  
     private EmailMessageRelation getFromRelation( EmailMessage message, Map<String, Id> senderIdsByAddress ){
         
         EmailMessageRelation fromRelation = new EmailMessageRelation(
@@ -159,7 +165,7 @@ public class MessageHandler {
      * @name getSenderIdsByAddress
      * @description creates the necessary email message relations when there are contacts as Sender
      * @return EmailMessageRelation
-    **/
+
     private Map<String, Id> getSenderIdsByAddress( EmailMessage[] messages ){
         Map<String, Id> senderIdsByAddress = new Map<String, Id>();
 
@@ -191,6 +197,7 @@ public class MessageHandler {
 
         return senderIdsByAddress;
     }
+**/
 
 /**
  * CLASSES
