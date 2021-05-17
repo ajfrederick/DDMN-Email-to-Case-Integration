@@ -119,43 +119,15 @@ public class MessageCreatorInbound extends MessageCreator {
         return wrapper.hasToAddresses() && wrapper.hasContent();
     }
 
-    private Contact[] getContacts( String[] addresses ){
-        Contact[] contacts = new Contact[]{};
-
-        try {
-            
-            contacts.addAll([SELECT
-                                Id,
-                                Email
-                                    FROM Contact
-                                    WHERE email IN :addresses]);
-
-        } catch( QueryException qe ){
-
-        }
-
-        return contacts;
-    }
-
-    private User[] getUsers( String[] addresses ){
-        User[] users = new User[]{};
-
-        try {
-            
-            users.addAll([SELECT
-                                Id,
-                                Email
-                                    FROM User
-                                    WHERE email IN :addresses]);
-
-        } catch( QueryException qe ){
-
-        }
-
-        return users;
-    }
-
-    private String getAddressString( String[] addresses, String[] contactEmails ){
+    /**
+     * @name getAddressString
+     * @description returns the rest of the email address that aren't associated with a User or Contact. Formated
+     * as a comma delimited string because that's the way Salesforce developed it.
+     * @param String[] addresses
+     * @param String[] recipientEmails
+     * @return String 
+    **/
+    private String getAddressString( String[] addresses, String[] recipientEmails ){
         String addressString = '';
 
         Integer len = addresses.size();
@@ -163,7 +135,7 @@ public class MessageCreatorInbound extends MessageCreator {
         for( Integer i=0; i<len; i++ ){
             String address = addresses[i];
 
-            if( !contactEmails.contains( address ) ){
+            if( !recipientEmails.contains( address ) ){
                 addressString += address;
                 
                 if( i < (len-1) ){

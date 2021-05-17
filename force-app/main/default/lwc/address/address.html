@@ -19,7 +19,16 @@
                 <!-- NOT FOCUS -->
                 <template if:false={isFocus}>
                     <div class="slds-truncate slds-has-flexi-truncate addresses-string" title={addressesString}>
-                        {addressesString}
+                        
+                        <template for:each={addresses} for:item="address" for:index="i">
+                            <c-address-link 
+                                key={address.email}
+                                address={address}
+                                total={addresses.length}
+                                index={i}>
+                            </c-address-link>
+                        </template>
+
                     </div>
                 </template>
                 <!-- END NOT FOCUS -->

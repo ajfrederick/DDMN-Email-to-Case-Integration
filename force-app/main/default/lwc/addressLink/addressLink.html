@@ -1,0 +1,13 @@
+<template>
+    <span if:true={isInternalRecipient}>
+        <a href={linkUrl} target='blank'>{address.name}</a>
+    </span>
+
+    <span if:false={isInternalRecipient}>
+        {address.email}
+    </span>
+
+    <span if:false={isLast} style="margin-right: 4px;">
+        ,
+    </span>
+</template>

@@ -77,4 +77,40 @@ public abstract class MessageCreator {
     public Boolean hasInboundMessages(){
         return !inboundMessages.isEmpty();
     }
+
+    protected Contact[] getContacts( String[] addresses ){
+        Contact[] contacts = new Contact[]{};
+
+        try {
+            
+            contacts.addAll([SELECT
+                                Id,
+                                Email
+                                    FROM Contact
+                                    WHERE email IN :addresses]);
+
+        } catch( QueryException qe ){
+
+        }
+
+        return contacts;
+    }
+
+    protected User[] getUsers( String[] addresses ){
+        User[] users = new User[]{};
+
+        try {
+            
+            users.addAll([SELECT
+                                Id,
+                                Email
+                                    FROM User
+                                    WHERE email IN :addresses]);
+
+        } catch( QueryException qe ){
+
+        }
+
+        return users;
+    }
 }

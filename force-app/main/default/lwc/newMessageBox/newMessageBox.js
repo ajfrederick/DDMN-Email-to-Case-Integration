@@ -7,6 +7,8 @@ import sendEmailMessage from '@salesforce/apex/UiComponentServices.sendEmailMess
 
 import { addressTypes } from 'c/utilsApp';
 
+let timeoutId = null;
+
 export default class NewMessageBox extends LightningElement {
 
 /**
@@ -17,6 +19,8 @@ export default class NewMessageBox extends LightningElement {
     message;
 
     @track attachments = [];
+
+    isSending = false;
 
 /**
  * API FUNCS
@@ -63,28 +67,39 @@ export default class NewMessageBox extends LightningElement {
 
     // sends a new message
     send(){
-        this.prepMessage();
+        this.isSending = true;
 
-        const JSONnewMessageData = JSON.stringify({
-            message : this.message,
-            attachments : this.attachments
-        });
+        // debounce to avoid double click
+        const later = ()=>{
+            timeoutId = null;
 
-        sendEmailMessage({ JSONnewMessageData : JSONnewMessageData })
-            .then((data)=>{
-                let detail = {
-                    detail : { 
-                        data : JSON.parse(data)
-                    }
-                };
+            this.prepMessage();
 
-                this.dispatchEvent( new CustomEvent('sent', detail) );
-
-                this.reset();
-            })
-            .catch((error)=>{
-                console.error(error);
+            const JSONnewMessageData = JSON.stringify({
+                message : this.message,
+                attachments : this.attachments
             });
+
+            sendEmailMessage({ JSONnewMessageData : JSONnewMessageData })
+                .then((data)=>{
+                    let detail = {
+                        detail : { 
+                            data : JSON.parse(data)
+                        }
+                    };
+
+                    this.dispatchEvent( new CustomEvent('sent', detail) );
+
+                    this.reset();
+                })
+                .catch((error)=>{
+                    console.error(error);
+                });
+        };
+        
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(later, 300);
     }
 
     // cancels sending a new message
@@ -130,5 +145,6 @@ export default class NewMessageBox extends LightningElement {
     reset(){
         this.message = null;
         this.attachments = [];
+        this.isSending = false;
     }
 }

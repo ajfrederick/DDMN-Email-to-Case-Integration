@@ -1,6 +1,6 @@
 <!-- this is a new email message -->
 <template>
-    
+
     <!-- IF HAS MASSAGE -->
     <div if:true={message}>
         
@@ -12,6 +12,7 @@
 
             <!-- BOX -->
             <div class="slds-box slds-m-bottom_small" slot="body">
+
                 <!-- header -->
                 <lightning-layout class="message-header" horizontal-align="spread">
 
@@ -86,6 +87,12 @@
 
                 </lightning-layout>
                 <!-- END footer -->
+ 
+                <lightning-spinner 
+                    if:true={isSending}
+                    alternative-text="Sending...">
+                </lightning-spinner>
+
             </div>
             <!-- END BOX -->
 

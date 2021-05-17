@@ -6,7 +6,8 @@
 
             <div key={option.Id} class="recipient-option">
                 <span onclick={handleClick} data-id={option.Id} data-email={option.Email}>
-                    {option.FirstName} {option.LastName}
+                    <span class="recipient-name">{option.FirstName} {option.LastName}</span>
+                    <span>&lt;{option.Email}&gt;</span>
                 </span>
             </div>
 

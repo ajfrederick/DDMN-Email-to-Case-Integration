@@ -14,9 +14,16 @@
                 </lightning-layout-item>
 
                 <lightning-layout-item size="11" flexibility="auto">
-                    <template for:each={addresses.FromAddress} for:item="address">
-                        {address.email}
+
+                    <template for:each={addresses.FromAddress} for:item="address" for:index="i">
+                        <c-address-link 
+                            key={address.email}
+                            address={address}
+                            total={addresses.FromAddress.length}
+                            index={i}>
+                        </c-address-link>
                     </template>
+
                 </lightning-layout-item>
 
             </lightning-layout>

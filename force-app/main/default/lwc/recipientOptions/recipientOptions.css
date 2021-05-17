@@ -2,6 +2,7 @@
     position: absolute;
     z-index: 999;
     display: none;
+    background-color: #fff;
 }
 
 .recipient-options.displayed {
@@ -10,4 +11,10 @@
 
 .recipient-option {
     cursor: pointer;
+    margin: 1px 0;
+}
+
+.recipient-name {
+    margin-right: 2px;
+    font-weight: 700;
 }

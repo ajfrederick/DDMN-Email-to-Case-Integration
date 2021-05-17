@@ -34,6 +34,8 @@ export default class Addresses extends LightningElement {
                 addressType 
             );
         });
+
+        log(this.message);
     }
 
     @api getAddresses(){
@@ -81,7 +83,8 @@ function getAddresses( message, addresses, addressType ){
     // gets any users or contacts that are associated with an address
     let relations = getRelations( message, addressType ),
         addressObjs = [];
-
+log(addressType);
+log(relations);
     // means it's the FromAddress which is never a list
     if( !Array.isArray(addresses) ){
 
@@ -107,10 +110,16 @@ function getAddresses( message, addresses, addressType ){
     // if the address is purely an address then it will only contain 
     // an email address string which was split into this array 
     addresses.map((address)=>{
+        if( hasRelation( address, addressObjs ) ) return;
+
         let obj = getAddressObj( address );
 
         addressObjs.push( obj );
     });
 
     return addressObjs;
+}
+
+function hasRelation( address, addressObjs ){
+    return [...addressObjs].filter( addressObj => addressObj.email === address ).length > 0;
 }

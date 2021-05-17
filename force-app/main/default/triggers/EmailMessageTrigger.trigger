@@ -21,6 +21,7 @@ trigger EmailMessageTrigger on EmailMessage (
     if( Trigger.isAfter ){
         if( Trigger.isInsert ){
             EmailMessageHelper.updateContentDocumentLinks(Trigger.new);
+            EmailMessageHelper.createEmailMessageRelations(Trigger.new);
         } else 
         if( Trigger.isUpdate ){
 

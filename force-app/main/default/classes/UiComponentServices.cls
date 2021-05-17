@@ -46,10 +46,10 @@ public class UiComponentServices {
     **/
     @AuraEnabled
     public static String getReply( String replyToMessageJSON ){
-        EmailMessage message;
+        Map<String, Object> message;
 
         try {   
-            message = (EmailMessage) JSON.deserialize( replyToMessageJSON, EmailMessage.Class );
+            message = (Map<String, Object>) JSON.deserializeUntyped( replyToMessageJSON );
         } catch( Exception e ){
             throw new AuraHandledException(e.getMessage());
         }
@@ -127,46 +127,38 @@ public class UiComponentServices {
             escapedEmails.add( String.escapeSingleQuotes(email) );
         }
 
-        List<List<SObject>> searchResults = [FIND :search 
-                                                IN ALL FIELDS 
-                                                RETURNING
-                                                    Contact(
-                                                        Id, 
-                                                        FirstName, 
-                                                        LastName, 
-                                                        Email 
-                                                            WHERE Email != :Constants.FROM_ADDRESS
-                                                            AND Email NOT IN :escapedEmails
-                                                            AND (Email LIKE :search
-                                                                OR Name LIKE :search)
-                                                    ),
-                                                    User(
-                                                        Id, 
-                                                        FirstName, 
-                                                        LastName, 
-                                                        Email 
-                                                            WHERE Email != :Constants.FROM_ADDRESS
-                                                            AND Email NOT IN :escapedEmails
-                                                            AND (Email LIKE :search
-                                                                OR Name LIKE :search)
-                                                    )];
+        Contact[] contacts = [SELECT
+                                Id, 
+                                FirstName, 
+                                LastName, 
+                                Email 
+                                    FROM Contact
+                                    WHERE Email != :Constants.FROM_ADDRESS
+                                    AND Email NOT IN :escapedEmails
+                                    AND (Email LIKE :search
+                                        OR Name LIKE :search)];
+
+        User[] users = [SELECT
+                            Id, 
+                            FirstName, 
+                            LastName, 
+                            Email 
+                                FROM User
+                                WHERE Email != :Constants.FROM_ADDRESS
+                                AND Email NOT IN :escapedEmails
+                                AND (Email LIKE :search
+                                    OR Name LIKE :search)];
         
         SObject[] ret = new SObject[]{};
-
-        for( SObject[] objs : searchResults ){
-            for( SObject obj : objs ){
-                ret.add( obj );
-            }
-        }
+        ret.addAll(contacts);
+        ret.addAll(users);
 
         return ret;
     }
 
 /**
  * UTILITY MEHTODS
-**/
-
-    
+**/   
 
     /**
      * @name setMessageRelations
@@ -244,18 +236,18 @@ public class UiComponentServices {
      * @param EmailMessage message 
      * @return EmailInfo
     **/
-    public static EmailInfo getWrapper( EmailMessage message ){
+    public static EmailInfo getWrapper( Map<String, Object> message ){
         EmailInfo wrapper = new EmailInfo();
 
         try {
 
             OrgWideEmailAddress oweAddress = Utils.getOrgWideEmailAddress( Constants.FROM_ADDRESS );
             
-            wrapper.whatId = message.ParentId;
+            wrapper.whatId = (String) message.get('ParentId');
             wrapper.FromAddress = oweAddress.Address;
             wrapper.FromName = oweAddress.DisplayName;
-            wrapper.setContent( message.Subject, '', '');
-            wrapper.inReplyTo = message.MessageIdentifier;
+            wrapper.setContent( (String) message.get('Subject'), '', '');
+            wrapper.inReplyTo = (String) message.get('MessageIdentifier');
 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
