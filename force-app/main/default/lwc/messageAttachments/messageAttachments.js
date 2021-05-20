@@ -12,8 +12,27 @@ export default class MessageAttachments extends LightningElement {
         return this.isNew ? true : this.attachments.length > 0;
     }
 
+    _errorMessage;
+
+    get errorMessage(){
+        return this._errorMessage;
+    }
+    set errorMessage(value){
+        this._errorMessage = value;
+        this.hasErrors = value ? true : false;
+    }
+
+    hasErrors = false;
+
     handleAttachment(e){
+        this.setErrorMessage('');
+
         const file = e.detail.files[0];
+
+        if( largerThan5MB(file.size) ){
+            this.setErrorMessage('Attachment cannot exceed 5 MB');
+            return;
+        }
 
         let reader = new FileReader();
         
@@ -33,4 +52,12 @@ export default class MessageAttachments extends LightningElement {
         
         reader.readAsDataURL(file);
     }
+
+    setErrorMessage(message){
+        this.errorMessage = message;
+    }
 }
+
+function largerThan5MB(size){
+    return size > 5000000;
+};

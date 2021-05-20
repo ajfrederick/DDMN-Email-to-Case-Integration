@@ -34,8 +34,6 @@ export default class Addresses extends LightningElement {
                 addressType 
             );
         });
-
-        log(this.message);
     }
 
     @api getAddresses(){
@@ -83,8 +81,7 @@ function getAddresses( message, addresses, addressType ){
     // gets any users or contacts that are associated with an address
     let relations = getRelations( message, addressType ),
         addressObjs = [];
-log(addressType);
-log(relations);
+
     // means it's the FromAddress which is never a list
     if( !Array.isArray(addresses) ){
 
@@ -96,7 +93,7 @@ log(relations);
     }
 
     // loop through the relationships and add object with Name and Id for Markup
-    relations.map((rel)=>{
+    /*relations.map((rel)=>{
         let name = rel.FirstName + ' ' + rel.LastName,
             obj = getAddressObj(
                 rel.Email,
@@ -105,21 +102,31 @@ log(relations);
             );
                     
         addressObjs.push( obj );
-    });
+    });*/
     
     // if the address is purely an address then it will only contain 
     // an email address string which was split into this array 
     addresses.map((address)=>{
-        if( hasRelation( address, addressObjs ) ) return;
+        let rels = relations.filter( rel => rel.Email == address ),
+            obj;
 
-        let obj = getAddressObj( address );
+        if( rels.length > 0 ){
+
+            let rel = rels[0],
+                name = rel.FirstName + ' ' + rel.LastName;
+
+            obj = getAddressObj(
+                rel.Email,
+                rel.Id,
+                name
+            );
+
+        } else {
+            obj = getAddressObj( address );
+        }
 
         addressObjs.push( obj );
     });
 
     return addressObjs;
-}
-
-function hasRelation( address, addressObjs ){
-    return [...addressObjs].filter( addressObj => addressObj.email === address ).length > 0;
 }

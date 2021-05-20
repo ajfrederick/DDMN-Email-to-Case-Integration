@@ -45,7 +45,43 @@
     <picklistValues>
         <picklist>Type</picklist>
         <values>
-            <fullName>Connect Team Placeholder</fullName>
+            <fullName>Agent of Record %28AOR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Contact Changes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Termination</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employer Services Portal %28ESP%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment %26 Eligibility</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Misc Agency Changes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Misc Changes to ETS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Clients</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFP%27s</fullName>
             <default>false</default>
         </values>
     </picklistValues>

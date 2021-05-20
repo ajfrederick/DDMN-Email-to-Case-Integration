@@ -2,16 +2,29 @@
 <template>
     <div class={optionsClass}>
 
+        <!-- LOOP -->
         <template for:each={options} for:item="option">
 
-            <div key={option.Id} class="recipient-option">
-                <span onclick={handleClick} data-id={option.Id} data-email={option.Email}>
-                    <span class="recipient-name">{option.FirstName} {option.LastName}</span>
-                    <span>&lt;{option.Email}&gt;</span>
-                </span>
+            <!-- Option-->
+            <div 
+                key={option.Id} 
+                class="recipient-option" 
+                onclick={handleClick} 
+                data-id={option.Id} 
+                data-email={option.Email}
+                data-name={option.FullName}>
+
+                <div class="recipient-name">
+                    {option.FullName}
+                </div>
+                <div>
+                    &lt;{option.Email}&gt;
+                </div>
             </div>
+            <!-- END Option-->
 
         </template>
+        <!-- END LOOP -->
 
     </div>
 </template>

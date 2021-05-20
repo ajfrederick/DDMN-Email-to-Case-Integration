@@ -34,27 +34,7 @@ export default class NewMessageBox extends LightningElement {
         // get reply message object. We want an expected format so let's get it from the server.
         getReply({replyToMessageJSON : replyToMessageJSON})
             .then((data)=>{
-                let newMessage = JSON.parse( data ); // newMessage of apex type EmailInfo
-
-                // TO DO make this more eligant. But this is to flip flop address info since it's a reply
-                newMessage.ToAddresses.push(replyToMessage.FromAddress);
-
-                if( replyAll ){
-                    newMessage.CcAddresses = replyToMessage.ToAddresses.filter( address => !address.includes( newMessage.FromAddress ) );
-                  
-                    if( replyToMessage.CcAddresses ){
-                        newMessage.CcAddresses = replyToMessage.CcAddresses.filter((address)=>{
-                            return !address.includes( newMessage.FromAddress );
-                        }).concat( newMessage.CcAddresses );
-                    }
-                }
-
-                // copy this objects over for addresses component
-                newMessage.relationsById = {...replyToMessage.relationsById};
-                newMessage.EmailMessageRelations = {...replyToMessage.EmailMessageRelations};
-
-                this.message = newMessage;
-
+                this.message = this.getNewMessage(data, replyToMessage, replyAll);;
             })
             .catch((error)=>{
                 console.error(error);
@@ -73,7 +53,7 @@ export default class NewMessageBox extends LightningElement {
         const later = ()=>{
             timeoutId = null;
 
-            this.prepMessage();
+            this.prepMessageForSend();
 
             const JSONnewMessageData = JSON.stringify({
                 message : this.message,
@@ -123,7 +103,36 @@ export default class NewMessageBox extends LightningElement {
         this.attachments = this.attachments.filter( attachment => attachment.Title != e.detail.Title );
     }
 
-    prepMessage(){
+/**
+ * UTILITY FUNCS
+ */
+
+    getNewMessage(data, replyToMessage, replyAll){
+        let newMessage = JSON.parse( data ); // newMessage of apex type EmailInfo
+
+        // TO DO make this more eligant. But this is to flip flop address info since it's a reply
+        newMessage.ToAddresses = [replyToMessage.FromAddress];
+
+        // if reply all convert reply to message To Address and Cc Addresses (if there are Cc Addresses) to CcAddress for new message
+        if( replyAll ){
+            newMessage.CcAddresses = replyToMessage.ToAddresses.filter( address => !address.includes( newMessage.FromAddress ) );
+            
+            // only if there are CcAddresses on the reply to message
+            if( replyToMessage.CcAddresses ){
+                newMessage.CcAddresses = replyToMessage.CcAddresses.filter((address)=>{
+                    return !address.includes( newMessage.FromAddress );
+                }).concat( newMessage.CcAddresses );
+            }
+        }
+
+        // copy these objects over for addresses component
+        newMessage.relationsById = {...replyToMessage.relationsById};
+        newMessage.EmailMessageRelations = {...replyToMessage.EmailMessageRelations};
+
+        return newMessage;
+    }
+
+    prepMessageForSend(){
         let addressesComp = this.template.querySelector('c-addresses'),
             addresses = addressesComp.getAddresses();
 

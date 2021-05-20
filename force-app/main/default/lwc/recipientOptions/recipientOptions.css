@@ -11,10 +11,13 @@
 
 .recipient-option {
     cursor: pointer;
-    margin: 1px 0;
+    padding: 5px;
+}
+
+.recipient-option:hover {
+    background-color: #efefef;
 }
 
 .recipient-name {
-    margin-right: 2px;
     font-weight: 700;
 }

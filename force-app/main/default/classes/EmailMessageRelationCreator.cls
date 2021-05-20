@@ -9,7 +9,7 @@ public class EmailMessageRelationCreator {
  * FIELDS
 **/
 
-    public static final String[] addressTypes = new String[]{'From','To','Cc','Bcc'};
+    private static final String[] addressTypes = new String[]{'From','To','Cc','Bcc'};
 
 /**
  * ACTION METHODS
@@ -57,7 +57,7 @@ public class EmailMessageRelationCreator {
                 if( !isUpdate ) relationsToInsert.add( newRelation );
             }
         }
-        
+
         try {
 
             insert relationsToInsert;

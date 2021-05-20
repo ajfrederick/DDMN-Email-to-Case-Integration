@@ -36,6 +36,17 @@ export default class RecipientOptions extends LightningElement {
 
         searchRecipients({ searchString : value, emails : emails })
             .then((options)=>{
+                
+                options.map((option, i)=>{
+                    let fullName = '';
+                    
+                    if(option.FirstName) fullName += option.FirstName;
+                    if(option.LastName) fullName += ' ' + option.LastName;
+
+                    option.FullName = fullName;
+
+                    if( i === options.length-1 ) option.isLast = true;
+                });
 
                 if( options.length ){
                     this.options = options;
@@ -59,7 +70,7 @@ export default class RecipientOptions extends LightningElement {
     handleClick(e){
         let email = e.currentTarget.dataset.email,
             id = e.currentTarget.dataset.id,
-            name = e.currentTarget.innerHTML;
+            name = e.currentTarget.dataset.name;
 
         let detail = {
                 addressObj : getAddressObj( email, id, name ),

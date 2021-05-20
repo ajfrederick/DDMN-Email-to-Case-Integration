@@ -58,7 +58,7 @@ public virtual class EmailExtractor {
 
         for( Messaging.InboundEmail email : emails ){
             EmailInfo wrapper = new EmailInfo();
-            
+
             for( String address : email.ToAddresses ){
                 wrapper.toAddresses.add(address);
             }
@@ -68,7 +68,6 @@ public virtual class EmailExtractor {
                 for( String address : email.CcAddresses ){
                     wrapper.ccAddresses.add(address);
                 }
-
             }
 
             wrapper.FromAddress = email.FromAddress;

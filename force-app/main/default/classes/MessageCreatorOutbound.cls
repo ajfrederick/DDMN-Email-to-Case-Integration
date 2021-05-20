@@ -23,7 +23,7 @@ public class MessageCreatorOutbound extends MessageCreator {
  * CONSTRUCTOR
 **/
 
-    public MessageCreatorOutbound( EmailInfo[] wrappers) {
+    public MessageCreatorOutbound( EmailInfo[] wrappers ) {
         super(wrappers);
     }
 
@@ -85,11 +85,10 @@ public class MessageCreatorOutbound extends MessageCreator {
     }
 
     private void setAddressInfo( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
-        String[] emails = setRecipientIds( message, wrapper );
         
-        message.getToAddresses().addAll( getAddressStrings( wrapper.ToAddresses, emails ) );
-        message.getCcAddresses().addAll( getAddressStrings( wrapper.CcAddresses, emails ) );
-        message.getBccAddresses().addAll( getAddressStrings( wrapper.BccAddresses, emails ) );
+        message.setToAddresses( wrapper.ToAddresses );
+        message.setCcAddresses( wrapper.CcAddresses );
+        message.setBccAddresses( wrapper.BccAddresses );
 
         // sets from Address with org wide email address Id
         // we have to do this cause this how SF handles setting the From Address for outgoing emails
@@ -119,41 +118,6 @@ public class MessageCreatorOutbound extends MessageCreator {
         if( !contentVersionIds.isEmpty() ){
             message.setEntityAttachments( contentVersionIds );
         }
-    }
-
-    private String[] setRecipientIds( Messaging.SingleEmailMessage message, EmailInfo wrapper  ){
-        SObject[] objs = new SObject[]{};
-
-        objs.addAll( getContacts( wrapper.allAddresses ) );
-        objs.addAll( getUsers( wrapper.allAddresses ) );
-        
-        String[] emails = new String[]{};
-
-        String[] ToIds = new String[]{};
-        String[] CcIds = new String[]{};
-        String[] BccIds = new String[]{};
-
-        for( SObject obj : objs ){
-            String email = (String) obj.get('Email');
-
-            if( wrapper.ToAddresses.contains( email ) ){
-                ToIds.add( obj.Id );
-            } else
-            if( wrapper.CcAddresses.contains( email ) ){
-                CcIds.add( obj.Id );
-            } else
-            if( wrapper.BccAddresses.contains( email ) ){
-                BccIds.add( obj.Id );
-            }
-
-            emails.add( email );
-        }
-
-        message.setToAddresses( ToIds );
-        message.setCcAddresses( CcIds );
-        message.setBccAddresses( BccIds );
-
-        return emails;
     }
 
 /**
@@ -204,26 +168,6 @@ public class MessageCreatorOutbound extends MessageCreator {
     **/
     public void setContentVersionIds( String[] ids ){
         contentVersionIds = ids;
-    }
-
-    /**
-     * @name getAddressStrings
-     * @description returns the rest of the email address that aren't associated with a User or Contact
-     * @param String[] addresses
-     * @param String[] recipientEmails
-     * @return String[] 
-    **/
-    private String[] getAddressStrings( String[] addresses, String[] recipientEmails ){
-        String[] addressStrings = new String[]{};
-
-        for( String address : addresses ){
-
-            if( !recipientEmails.contains( address ) ){
-                addressStrings.add(address);
-            }
-        }
-
-        return addressStrings;
     }
 
 /**

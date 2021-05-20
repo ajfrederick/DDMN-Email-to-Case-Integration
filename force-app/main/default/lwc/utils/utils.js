@@ -77,8 +77,8 @@ const getSuccessToast = (message)=>{
     });
 };
 
-const getErrorToast = (error)=>{
-    const messages = reduceErrors(error);
+const getErrorToast = (errors)=>{
+    const messages = reduceErrors(errors);
     
     let message;
 
@@ -116,13 +116,22 @@ const getDateDiff = ( latterDate, formerDate )=>{
         second: 1,
     };
 
-    // returned object
-    let ret = {};
+    // returned object and total counter
+    let ret = {
+            noDiff : false
+        },
+        total = 0;
 
     // loop through the amount of seconds and start lopping of each value
     for( let key in amountOfSeconds ){
         ret[key] = Math.floor( dateDiff / amountOfSeconds[key] );
         dateDiff -= ret[key] * amountOfSeconds[key];
+
+        total += ret[key];
+    }
+
+    if( total === 0 ){
+        ret.noDiff = true;
     }
 
     return ret;

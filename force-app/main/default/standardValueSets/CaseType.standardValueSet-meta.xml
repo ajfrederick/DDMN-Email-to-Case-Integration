@@ -2,23 +2,53 @@
 <StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <sorted>false</sorted>
     <standardValue>
-        <fullName>Problem</fullName>
+        <fullName>Enrollment &amp; Eligibility</fullName>
         <default>false</default>
-        <label>Problem</label>
+        <label>Enrollment &amp; Eligibility</label>
     </standardValue>
     <standardValue>
-        <fullName>Feature Request</fullName>
+        <fullName>New Clients</fullName>
         <default>false</default>
-        <label>Feature Request</label>
+        <label>New Clients</label>
     </standardValue>
     <standardValue>
-        <fullName>Question</fullName>
+        <fullName>Agent of Record (AOR)</fullName>
         <default>false</default>
-        <label>Question</label>
+        <label>Agent of Record (AOR)</label>
     </standardValue>
     <standardValue>
-        <fullName>Connect Team Placeholder</fullName>
+        <fullName>Misc Agency Changes</fullName>
         <default>false</default>
-        <label>Connect Team Placeholder</label>
+        <label>Misc Agency Changes</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Employer Services Portal (ESP)</fullName>
+        <default>false</default>
+        <label>Employer Services Portal (ESP)</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Client Contact Changes</fullName>
+        <default>false</default>
+        <label>Client Contact Changes</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Misc Changes to ETS</fullName>
+        <default>false</default>
+        <label>Misc Changes to ETS</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Client Termination</fullName>
+        <default>false</default>
+        <label>Client Termination</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Contract Change</fullName>
+        <default>false</default>
+        <label>Contract Change</label>
+    </standardValue>
+    <standardValue>
+        <fullName>RFP&apos;s</fullName>
+        <default>false</default>
+        <label>RFP&apos;s</label>
     </standardValue>
 </StandardValueSet>

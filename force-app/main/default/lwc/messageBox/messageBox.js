@@ -36,15 +36,22 @@ export default class MessageBox extends LightningElement {
             
         let ret = '(';
 
-        for( let key in dateDiff ){
-            let value = dateDiff[key], unit = key;
+        if( dateDiff.noDiff ){
 
-            if( value > 0 ){
-                if( value > 1 ) unit += 's';
+            ret += '0 seconds';
 
-                ret += value + ' ' + unit;
+        } else {
 
-                break;
+            for( let key in dateDiff ){
+                let value = dateDiff[key], unit = key;
+
+                if( value > 0 ){
+                    if( value > 1 ) unit += 's';
+
+                    ret += value + ' ' + unit;
+
+                    break;
+                }
             }
         }
 

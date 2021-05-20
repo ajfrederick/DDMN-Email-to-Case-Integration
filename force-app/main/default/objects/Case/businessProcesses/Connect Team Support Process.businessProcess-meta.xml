@@ -4,11 +4,31 @@
     <description>For Connect Team Email2Case Support.</description>
     <isActive>true</isActive>
     <values>
+        <fullName>Assigned</fullName>
+        <default>false</default>
+    </values>
+    <values>
         <fullName>Closed</fullName>
         <default>false</default>
     </values>
     <values>
-        <fullName>New</fullName>
+        <fullName>Closed - Duplicate</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Closed - Incomplete</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>In Progress</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Pending Close Approval</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Received</fullName>
         <default>true</default>
     </values>
 </BusinessProcess>

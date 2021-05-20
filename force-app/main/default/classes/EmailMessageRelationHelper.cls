@@ -32,7 +32,6 @@ public class EmailMessageRelationHelper {
 **/
 
     public void unpackAddresses( EmailMessage[] messages ){
-
         if( String.isBlank(data.type) ) return;
 
         Set<Id> ids = new Set<Id>();
@@ -44,9 +43,9 @@ public class EmailMessageRelationHelper {
                 addresses.add(address);
             }
 
-            for( Id id : getIds(message) ){
+            /*for( Id id : getIds(message) ){
                 ids.add(id);
-            }
+            }*/
         }
 
         data.getRecipients( ids, addresses );
@@ -62,16 +61,13 @@ public class EmailMessageRelationHelper {
                 relationsByMessageId.put( messageId, new EmailMessageRelation[]{} );
             }
 
-            setRelationsFromIds( message );
+            //setRelationsFromIds( message );
             setRelationsFromAddress( message );
-
         }
 
     }
     
     private void setRelationsFromIds( EmailMessage message ){
-        if( data.type == 'From' ) return;
-
         String messageId = message.Id;
 
         EmailMessageRelation[] relations = relationsByMessageId.get(messageId);
@@ -129,7 +125,7 @@ public class EmailMessageRelationHelper {
                 ids.addAll( message.BccIds );
             }
         }
-
+        
         return ids;
     }
 
@@ -144,7 +140,6 @@ public class EmailMessageRelationHelper {
             }
             when 'To'  {
                 addressString = message.ToAddress;
-                
             }
             when 'Cc'  {
                 addressString = message.CcAddress;
@@ -155,7 +150,9 @@ public class EmailMessageRelationHelper {
         }
 
         if( addressString != null ){
-            addresses.addAll( addressString.split(',') );
+            for( String address : addressString.split(';') ){
+                addresses.add(address.trim());
+            }
         }
 
         return addresses;

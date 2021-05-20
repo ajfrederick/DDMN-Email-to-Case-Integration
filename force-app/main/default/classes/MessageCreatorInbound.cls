@@ -62,12 +62,10 @@ public class MessageCreatorInbound extends MessageCreator {
     }
 
     private void setAddressInfo( EmailMessage message, EmailInfo wrapper ){
-        String[] emails = setRecipientIds( message, wrapper );
-        
-        message.ToAddress = getAddressString( wrapper.ToAddresses, emails );
-        message.CcAddress = getAddressString( wrapper.CcAddresses, emails );
-        message.BccAddress = getAddressString( wrapper.BccAddresses, emails );
-        
+        message.ToAddress = getAddressString( wrapper.ToAddresses );
+        message.CcAddress = getAddressString( wrapper.CcAddresses );
+        message.BccAddress = getAddressString( wrapper.BccAddresses );
+   
         message.fromAddress = wrapper.fromAddress;
         message.fromName = wrapper.fromName;
     }
@@ -76,33 +74,6 @@ public class MessageCreatorInbound extends MessageCreator {
         message.Subject = wrapper.content.Subject;
         message.HtmlBody = wrapper.content.HtmlBody;
         message.TextBody = wrapper.content.PlainTextBody;
-    }
-    
-    private String[] setRecipientIds( EmailMessage message, EmailInfo wrapper  ){
-        SObject[] objs = new SObject[]{};
-
-        objs.addAll( getContacts( wrapper.allAddresses ) );
-        objs.addAll( getUsers( wrapper.allAddresses ) );
-        
-        String[] emails = new String[]{};
-
-        for( SObject obj : objs ){
-            String email = (String) obj.get('Email');
-
-            if( wrapper.ToAddresses.contains( email ) ){
-                message.ToIds.add( obj.Id );
-            } else
-            if( wrapper.CcAddresses.contains( email ) ){
-                message.CcIds.add( obj.Id );
-            } else
-            if( wrapper.BccAddresses.contains( email ) ){
-                message.BccIds.add( obj.Id );
-            }
-
-            emails.add( email );
-        }
-
-        return emails;
     }
 
 /**
@@ -122,28 +93,18 @@ public class MessageCreatorInbound extends MessageCreator {
     /**
      * @name getAddressString
      * @description returns the rest of the email address that aren't associated with a User or Contact. Formated
-     * as a comma delimited string because that's the way Salesforce developed it.
+     * as a semi colon delimited string because that's the way Salesforce developed it.
      * @param String[] addresses
-     * @param String[] recipientEmails
      * @return String 
     **/
-    private String getAddressString( String[] addresses, String[] recipientEmails ){
+    private String getAddressString( String[] addresses ){
         String addressString = '';
 
-        Integer len = addresses.size();
-
-        for( Integer i=0; i<len; i++ ){
-            String address = addresses[i];
-
-            if( !recipientEmails.contains( address ) ){
-                addressString += address;
-                
-                if( i < (len-1) ){
-                    addressString += ',';
-                }
-            }
+        for( String address : addresses ){
+            addressString += address + '; ';
         }
 
-        return addressString;
+        // remove the last semi colon
+        return addressString.removeEnd('; ');
     }
 }

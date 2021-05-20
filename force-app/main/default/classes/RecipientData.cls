@@ -47,6 +47,8 @@ public class RecipientData {
  */
 
     public void getRecipients( Set<Id> recipientIds, String[] recipientAddresses ){
+        if( recipientIds.isEmpty() && recipientAddresses.isEmpty() ) return;
+        
         SObject[] recipients = new SObject[]{};
 
         try {
@@ -69,7 +71,7 @@ public class RecipientData {
             ExceptionHandler handler = new ExceptionHandler(qe);
             handler.debug();
         }
-        
+
         for( SObject recipient : recipients ){
             Id id = recipient.Id;
 
@@ -79,6 +81,5 @@ public class RecipientData {
                 recipientsByAddress.put( (String) recipient.get('Email'), recipient );
             }
         }
-
     }
 }

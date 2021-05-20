@@ -37,11 +37,11 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Case Owner&apos;s Average Time to Close by Type</header>
+                <header>Owner Average Time to Close By Type</header>
                 <legendPosition>Right</legendPosition>
                 <report>ConnectTeamReports/Owner_Average_Time_to_Close_By_Type_bia</report>
                 <showPercentage>false</showPercentage>
-                <showValues>false</showValues>
+                <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
@@ -58,7 +58,6 @@
                     <axisBinding>y</axisBinding>
                     <column>RowCount</column>
                 </chartSummary>
-                <componentChartTheme>dark</componentChartTheme>
                 <componentType>Column</componentType>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -90,7 +89,7 @@
     <dashboardType>SpecifiedUser</dashboardType>
     <description>Dashboard containing at a glance chart information based on reports found in the Connect Team Reports folder.</description>
     <isGridLayout>true</isGridLayout>
-    <runningUser>test-ncyarploiptd@example.com</runningUser>
+    <runningUser>test-n34bxsufe31i@example.com</runningUser>
     <textColor>#000000</textColor>
     <title>Connect Team Case Management</title>
     <titleColor>#000000</titleColor>
