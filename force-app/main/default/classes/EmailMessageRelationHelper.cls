@@ -1,169 +1,115 @@
 /**
  * @name EmailMessageRelationHelper
- * @description Helps pull and sort address/recipient data EmailMessage's to help create EmailMessageRelations that the System
- * doesn't create
+ * @description Ensures that system generated EmailMessageRelations get associated with recipient record
 **/
 public class EmailMessageRelationHelper {
-  
-/**
- * FIELDS
-**/
 
-    private RecipientData data {get;set;}
+    /**
+     * @name updateRelationIds
+     * @description updates EmailMessageRelations if they aren't properly associated with a Contact or User record
+     * @param EmailMessage[] message
+     * @return Map<Id, EmailMessageRelation>
+    **/
+    public static void updateRelationIds( EmailMessage[] messages ){
+        Set<Id> messageIds = new Map<Id, EmailMessage>( messages ).keyset();
 
-    public Map<Id, EmailMessageRelation[]> relationsByMessageId {
-        get {
-            if( relationsByMessageId == null ) relationsByMessageId = new Map<Id, EmailMessageRelation[]>();
-            return relationsByMessageId;
-        }
-        set;
-    }
+        EmailMessageRelation[] relations = getRelations( messageIds );
 
-/**
- * CONSTRUCTOR
-**/
-
-    public EmailMessageRelationHelper( RecipientData d ){
-        data = d;
-    }
-
-/**
- * ACTION METHODS
-**/
-
-    public void unpackAddresses( EmailMessage[] messages ){
-        if( String.isBlank(data.type) ) return;
-
-        Set<Id> ids = new Set<Id>();
         String[] addresses = new String[]{};
 
-        for( EmailMessage message : messages ){
-
-            for( String address : getAddresses(message) ){
-                addresses.add(address);
-            }
-
-            /*for( Id id : getIds(message) ){
-                ids.add(id);
-            }*/
+        for( EmailMessageRelation relation : relations ){
+            addresses.add( relation.RelationAddress );
         }
 
-        data.getRecipients( ids, addresses );
-    }
+        Map<String, SObject> recipientsByAddress = getRecipientsByAddress( addresses );
 
-    public void getRelations( EmailMessage[] messages ){
-        if( String.isBlank(data.type) ) return;
+        EmailMessageRelation[] relationsToUpdate = new EmailMessageRelation[]{};
 
-        for( EmailMessage message : messages ){
-            String messageId = message.Id;
+        for( EmailMessageRelation relation : relations ){
+            if( relation.RelationId != null ) continue;
 
-            if( !relationsByMessageId.containsKey(messageId) ){
-                relationsByMessageId.put( messageId, new EmailMessageRelation[]{} );
-            }
+            String address = relation.RelationAddress;
 
-            //setRelationsFromIds( message );
-            setRelationsFromAddress( message );
+            if( !recipientsByAddress.containsKey( address ) ) continue;
+
+            relation.RelationId = recipientsByAddress.get(address).Id;
+
+            relationsToUpdate.add(relation);
         }
 
-    }
-    
-    private void setRelationsFromIds( EmailMessage message ){
-        String messageId = message.Id;
+        try {
 
-        EmailMessageRelation[] relations = relationsByMessageId.get(messageId);
-        
-        // loop through email message addresses that were stored in the Id fields
-        for( Id id : getIds( message ) ){
-            String address = '';
+            update relationsToUpdate;
 
-            if( data.recipientsById.containsKey(id) ){
-                address = (String) data.recipientsById.get(id).get('Email');
-            }
-
-            relations.add( getRelation( messageId, id, address ) );
+        } catch( Exception e ){
+            ExceptionHandler handler = new ExceptionHandler(e);
+            handler.handle();
         }
     }
 
-    private void setRelationsFromAddress( EmailMessage message ){
-        String messageId = message.Id;
+    /**
+     * @name getExistingRelationsByMessageId
+     * @description returns any EmailMessageRelations, which are system generated, for all the EmailMessages to update them if
+     * they aren't associated properly with a User or Contact
+     * @param Set<Id> messageIds
+     * @return Map<Id, EmailMessageRelation>
+    **/
+    private static EmailMessageRelation[] getRelations( Set<Id> messageIds ){
+        EmailMessageRelation[] relations = new EmailMessageRelation[]{};
 
-        EmailMessageRelation[] relations = relationsByMessageId.get(messageId);
+        try {
 
-        // loop through email message addresses that were stored in the Address fields
-        for( String address : getAddresses( message ) ){
-            address = address.trim();
+            relations.addAll([SELECT
+                                    Id,
+                                    RelationAddress,
+                                    RelationId,
+                                    RelationType,
+                                    EmailMessageId
+                                        FROM EmailMessageRelation
+                                        WHERE EmailMessageId IN :messageIds]);
 
-            Id id;
-
-            if( data.recipientsByAddress.containsKey(address) ){
-                id = (Id) data.recipientsByAddress.get(address).Id;
-            }
-
-            // if there is no internal recipient (ie User or Contact) then we don't have to worry about making
-            // a relation the system has already done so.
-            if( id == null ) continue;
-
-            relations.add( getRelation( messageId, id, address ) );
+        } catch( Exception e ){
+            ExceptionHandler handler = new ExceptionHandler(e);
+            handler.debug();
         }
+
+        return relations;
     }
 
-/**
- * UTILITY METHODS
-**/
+    /**
+     * @name getRecipientsByAddress
+     * @description returns map of recipient records (User or Contact) keyed on their email address
+     * @param Set<Id> messageIds
+     * @return Map<Id, EmailMessageRelation>
+    **/
+    private static Map<String, SObject> getRecipientsByAddress( String[] addresses ){
+        SObject[] recipients = new SObject[]{};
 
-    private Id[] getIds( EmailMessage message ){       
-        Id[] ids = new Id[]{};
+        try {
 
-        switch on data.type {
-            when 'To' {
-                ids.addAll( message.ToIds );
-            }
-            when 'Cc' {
-                ids.addAll( message.CcIds );
-            }
-            when 'Bcc' {
-                ids.addAll( message.BccIds );
-            }
-        }
-        
-        return ids;
-    }
+            recipients.addAll([SELECT
+                                Id,
+                                Email
+                                    FROM User
+                                    WHERE Email IN :addresses]);
 
-    private String[] getAddresses( EmailMessage message ){
-        String[] addresses = new String[]{};
+            recipients.addAll([SELECT
+                                Id,
+                                Email
+                                    FROM Contact
+                                    WHERE Email IN :addresses]);
 
-        String addressString;
-
-        switch on data.type {
-            when 'From' {
-                addresses.add(message.FromAddress);
-            }
-            when 'To'  {
-                addressString = message.ToAddress;
-            }
-            when 'Cc'  {
-                addressString = message.CcAddress;
-            }
-            when 'Bcc'  {
-                addressString = message.BccAddress;
-            }
+        } catch( Exception e ){
+            ExceptionHandler handler = new ExceptionHandler(e);
+            handler.debug();
         }
 
-        if( addressString != null ){
-            for( String address : addressString.split(';') ){
-                addresses.add(address.trim());
-            }
+        Map<String, SObject> recipientsByAddress = new Map<String, SObject>();
+
+        for( SObject recipient : recipients ){
+            recipientsByAddress.put( (String) recipient.get('Email'), recipient );
         }
 
-        return addresses;
-    }
-
-    private EmailMessageRelation getRelation( Id messageId, Id relationId, String relationAddress ){
-        return new EmailMessageRelation(
-            emailMessageId = messageId,
-            relationId = relationId,
-            relationAddress = relationAddress,
-            relationType = data.type + 'Address'
-        );
+        return recipientsByAddress;
     }
 }

@@ -28,15 +28,4 @@ public class EmailMessageHelper {
 
         UiComponentServices.attachmentCreatorForTrigger = null;
     }
-
-       /**
-     * @name createEmailMessageRelations
-     * @description creates EmailMessageRelations after sending a message. Ensures that the relation is linked
-     * to a contact or user record.
-     * @param EmailMessage[] messages
-     * @return void
-    **/
-    public static void createEmailMessageRelations( EmailMessage[] messages ){
-        EmailMessageRelationCreator.create(messages);
-    }
 }
