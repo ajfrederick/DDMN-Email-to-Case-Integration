@@ -4,6 +4,7 @@ import {log} from 'c/utils';
 
 // Apex Service Methods
 import getData from '@salesforce/apex/UiComponentServices.getData';
+import getFromAddress from '@salesforce/apex/UiComponentServices.getFromAddress';
 
 export default class EmailMessageFeed extends LightningElement {
 
@@ -21,6 +22,7 @@ export default class EmailMessageFeed extends LightningElement {
     };
     set recordId(value){
         this._recordId = value;
+        this.getFromAddress();
         this.getMessages();
     };
 
@@ -40,6 +42,20 @@ export default class EmailMessageFeed extends LightningElement {
             .catch((error)=>{
                 console.error(error);
             });
+    }
+
+    getFromAddress(){
+        getFromAddress()
+            .then((addressJSON)=>{
+                let address = JSON.parse(addressJSON);
+
+                window.MessageFeedConfig = window.MessageFeedConfig || {};
+                
+                window.MessageFeedConfig.orgWideAddress = {...address};
+            })
+            .catch((error)=>{
+                console.error(error);
+            })
     }
 
 /**

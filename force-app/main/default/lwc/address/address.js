@@ -1,12 +1,17 @@
 import { LightningElement, api } from 'lwc';
-import { log } from 'c/utils';
 
-import { addAddress, addressTypes, getAddressObj } from 'c/utilsApp';
+import { log } from 'c/utils';
+import { addAddress, addressTypes } from 'c/utilsApp';
 
 let timeoutId;
+let detailTimeoutId;
 
 export default class Address extends LightningElement {
-    
+
+/**
+ * PROPS
+ */
+
     @api addresses;
 
     get addressType(){
@@ -38,6 +43,13 @@ export default class Address extends LightningElement {
     get hasErrors(){
         return this.errorMessage !== null;
     }
+
+    detailShown = false;
+    detailEntered = false;
+
+/**
+ * DOM EVENT FUNCS
+ */
 
     handleKeyup(e){
         if( e.which === 13 ){
@@ -85,5 +97,37 @@ export default class Address extends LightningElement {
         let input = this.template.querySelectorAll('input')[0];
         input.value = '';
         this.searchString = '';
+    }
+
+    showDetail(){
+
+        let show = ()=>{
+            this.detailShown = true;
+            detailTimeoutId = null;
+        }
+
+        detailTimeoutId = setTimeout( show, 1000 );
+    }
+
+    hideDetail(e){
+
+        if( detailTimeoutId ){
+            clearTimeout(detailTimeoutId);
+            detailTimeoutId = null;
+            return;
+        }
+
+        let hide = ()=>{
+            if( (!this.detailEntered) || e.detail.removeDetail ){
+                this.detailShown = false;
+                this.detailEntered = false;
+            }
+        }
+
+        setTimeout( hide, 200 );
+    }
+
+    keepDetail(){
+        this.detailEntered = true;
     }
 }

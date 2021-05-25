@@ -156,6 +156,27 @@ public class UiComponentServices {
         return ret;
     }
 
+    /**
+     * @name getFromAddress
+     * @description this returns the from address that is the external inbox to which all inqueries go to that get forwarded to
+     * this application
+     * @return String {JSON}
+    **/
+    @AuraEnabled
+    public static String getFromAddress(){
+        OrgWideEmailAddress oweAddress;
+
+        try {
+            
+            oweAddress = Utils.getOrgWideEmailAddress( Constants.FROM_ADDRESS );
+
+        } catch( Exception e ){
+            throw new AuraHandledException(e.getMessage());
+        }
+
+        return JSON.serialize( oweAddress );
+    }
+
 /**
  * UTILITY MEHTODS
 **/   
@@ -246,7 +267,7 @@ public class UiComponentServices {
             wrapper.whatId = (String) message.get('ParentId');
             wrapper.FromAddress = oweAddress.Address;
             wrapper.FromName = oweAddress.DisplayName;
-            wrapper.setContent( (String) message.get('Subject'), '', '');
+            wrapper.setContent( (String) message.get('Subject'), (String) message.get('HtmlBody'), '');
             wrapper.inReplyTo = (String) message.get('MessageIdentifier');
 
         } catch (Exception e) {

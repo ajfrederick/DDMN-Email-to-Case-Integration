@@ -1,8 +1,12 @@
-<!-- this is an indiviual TYPE of address which holds all addresses of it's typeit will either be a To, Cc, Bcc -->
+<!-- this is an indiviual TYPE of address which holds all addresses of it's type. It will either be a To, Cc, Bcc -->
 <template>
 
     <!-- Container -->
-    <div class="address-container">
+    <div 
+        class="address-container" 
+        onmouseenter={showDetail}
+        onmouseleave={hideDetail}>
+
         <lightning-layout>
 
             <!-- Label -->
@@ -18,7 +22,7 @@
                 
                 <!-- NOT FOCUS -->
                 <template if:false={isFocus}>
-                    <div class="slds-truncate slds-has-flexi-truncate addresses-string" title={addressesString}>
+                    <div class="slds-truncate slds-has-flexi-truncate addresses-string">
                         
                         <template for:each={addresses} for:item="address" for:index="i">
                             <c-address-link 
@@ -73,6 +77,14 @@
             <!-- END Addresses String -->
             
         </lightning-layout>
+
+        <c-address-detail 
+            addresses={addresses}
+            shown={detailShown}
+            ondetailentered={keepDetail}
+            ondetailleft={hideDetail}>
+        </c-address-detail>
+
     </div>
     <!-- END Container -->
 </template>

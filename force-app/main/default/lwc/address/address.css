@@ -1,3 +1,7 @@
+.address-container {
+    position: relative;
+}
+
 .addresses-string {
     display: inline-block;
     vertical-align: middle;

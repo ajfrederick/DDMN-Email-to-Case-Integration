@@ -1,0 +1,15 @@
+.address-detail {
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    z-index: 999;
+}
+
+.address-detail.displayed {
+    display: block;
+}
+
+.detail-name {
+    font-weight: 700;
+    text-align: right;
+}

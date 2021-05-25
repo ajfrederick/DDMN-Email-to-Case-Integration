@@ -1,10 +1,11 @@
 import { LightningElement, api } from 'lwc';
+import { log } from 'c/utils';
 
 export default class AddressLink extends LightningElement {
 
     @api address;
-    @api total;
-    @api index;
+    @api total = null;
+    @api index = null;
 
     get isInternalRecipient(){
         return this.address.id ? true : false;
@@ -15,6 +16,17 @@ export default class AddressLink extends LightningElement {
     }
 
     get isLast(){
+        
+        if( this.index == null && this.total == null ){
+            return true;
+        }
+
         return this.index === this.total-1;
     }
+
+    get isOrgFromAddress(){
+        return this.address.email === window.MessageFeedConfig.orgWideAddress.Address;
+    }
+
+    fromAddressDisplayName = window.MessageFeedConfig.orgWideAddress.DisplayName;
 }

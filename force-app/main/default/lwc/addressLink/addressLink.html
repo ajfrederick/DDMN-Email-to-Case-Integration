@@ -4,7 +4,10 @@
     </span>
 
     <span if:false={isInternalRecipient}>
-        {address.email}
+
+        <span if:true={isOrgFromAddress}>{fromAddressDisplayName}</span>
+        <span if:false={isOrgFromAddress}>{address.email}</span>
+
     </span>
 
     <span if:false={isLast} style="margin-right: 4px;">

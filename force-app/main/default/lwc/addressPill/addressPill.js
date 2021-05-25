@@ -7,7 +7,7 @@ export default class AddressPill extends LightningElement {
     @api address;
 
     @api addressType;
-
+    
     get hasRelation(){
         return this.address.id ? true : false;
     }
