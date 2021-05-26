@@ -1,5 +1,9 @@
+/**
+ * @name Utils
+ * @description general utility class
+**/
 public class Utils {
-    
+
     /**
      * @name getOrgWideEmailAddress
      * @description returns Org Wide Email Address

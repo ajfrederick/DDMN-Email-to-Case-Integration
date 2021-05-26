@@ -22,8 +22,14 @@ export default class EmailMessageFeed extends LightningElement {
     };
     set recordId(value){
         this._recordId = value;
-        this.getFromAddress();
-        this.getMessages();
+
+        window.MessageFeedConfig = window.MessageFeedConfig || {};
+
+        if( window.MessageFeedConfig.orgWideAddress === undefined ){
+            this.getFromAddress();
+        } else {
+            this.getMessages();
+        }
     };
 
     // array of email messages
@@ -48,14 +54,14 @@ export default class EmailMessageFeed extends LightningElement {
         getFromAddress()
             .then((addressJSON)=>{
                 let address = JSON.parse(addressJSON);
-
-                window.MessageFeedConfig = window.MessageFeedConfig || {};
                 
                 window.MessageFeedConfig.orgWideAddress = {...address};
+
+                this.getMessages();
             })
             .catch((error)=>{
                 console.error(error);
-            })
+            });
     }
 
 /**

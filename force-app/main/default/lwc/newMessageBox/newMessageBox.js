@@ -18,6 +18,8 @@ export default class NewMessageBox extends LightningElement {
     // New message object of apex type EmailInfo. The shape is defined in the getReply method above
     message;
 
+    replyToMessage;
+
     @track attachments = [];
 
     isSending = false;
@@ -38,7 +40,9 @@ export default class NewMessageBox extends LightningElement {
             })
             .catch((error)=>{
                 console.error(error);
-            }); 
+            });
+
+        this.replyToMessage = {...replyToMessage};
     }
 
 /**
@@ -57,7 +61,8 @@ export default class NewMessageBox extends LightningElement {
 
             const JSONnewMessageData = JSON.stringify({
                 message : this.message,
-                attachments : this.attachments
+                attachments : this.attachments,
+                replyToMessage : this.replyToMessage
             });
 
             sendEmailMessage({ JSONnewMessageData : JSONnewMessageData })
@@ -153,6 +158,7 @@ export default class NewMessageBox extends LightningElement {
     
     reset(){
         this.message = null;
+        this.replyToMessage = null;
         this.attachments = [];
         this.isSending = false;
     }

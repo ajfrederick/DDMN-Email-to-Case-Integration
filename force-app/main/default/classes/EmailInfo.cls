@@ -113,6 +113,12 @@ public class EmailInfo {
         attachments.add( new AttachmentData( bodyBlob, filename ) );
     }
 
+    public void setQuote( String quote ){
+        if( content == null ) setContent( '', '', '' );
+
+        content.HtmlBody += '<br/>' + quote;
+    }
+
 /**
  * UTILITY METHODS
 **/

@@ -73,6 +73,8 @@ public class UiComponentServices {
 
         EmailInfo wrapper = newMessageData.message;
 
+        wrapper.setQuote( getQuote(newMessageData.replyToMessage) );
+
         try {
 
             for( NewMessageAttachmentData attachment : newMessageData.attachments ){
@@ -167,7 +169,7 @@ public class UiComponentServices {
         OrgWideEmailAddress oweAddress;
 
         try {
-            
+
             oweAddress = Utils.getOrgWideEmailAddress( Constants.FROM_ADDRESS );
 
         } catch( Exception e ){
@@ -267,7 +269,7 @@ public class UiComponentServices {
             wrapper.whatId = (String) message.get('ParentId');
             wrapper.FromAddress = oweAddress.Address;
             wrapper.FromName = oweAddress.DisplayName;
-            wrapper.setContent( (String) message.get('Subject'), (String) message.get('HtmlBody'), '');
+            wrapper.setContent( (String) message.get('Subject'), '', '');
             wrapper.inReplyTo = (String) message.get('MessageIdentifier');
 
         } catch (Exception e) {
@@ -275,6 +277,25 @@ public class UiComponentServices {
         }
 
         return wrapper;
+    }
+
+    /**
+     * @name getQuote
+     * @description returns an HTML formatted string to format the replied messages body as a 'quote'
+     * @param ReplyToMessage message 
+     * @return String
+    **/
+    public static String getQuote( ReplyToMessage message ){
+        String formattedDate = message.MessageDate.format('E, MMM dd, yyyy') + ' at ' + message.MessageDate.format('hh:mm a');
+
+        String head = '<div>On ' + formattedDate + ' ' + message.FromName + ' <' + message.FromAddress + '> wrote:</div><br/>';
+
+        String blockQuote = '<blockquote style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex" class="creed_quote">';
+        blockQuote += message.HtmlBody + '</blockquote>';
+
+        String wrappedQuote = '<div>' + head + blockQuote + '</div>';
+
+        return wrappedQuote;
     }
 
 /**
@@ -415,11 +436,19 @@ public class UiComponentServices {
     public class NewMessageData {
         public EmailInfo message {get;set;}
         public NewMessageAttachmentData[] attachments {get;set;}
+        public ReplyToMessage replyToMessage {get;set;}
     }
 
     public class NewMessageAttachmentData {
         public String Title {get;set;}
         public String base64 {get;set;}
         public String FileExtension {get;set;}
+    }
+
+    public class ReplyToMessage {
+        public DateTime MessageDate {get;set;}
+        public String FromAddress {get;set;}
+        public String FromName {get;set;}
+        public String HtmlBody {get;set;}
     }
 }
