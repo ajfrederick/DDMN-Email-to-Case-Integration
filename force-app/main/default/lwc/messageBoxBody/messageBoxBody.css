@@ -1,0 +1,21 @@
+.quoted-message {
+    display: none;
+    padding-top: 10px;
+}
+
+.quoted-message.displayed {
+    display: block;
+}
+
+.quoted-message-abbr {
+    background-color: #efefef;
+    border-radius: 20px;
+    padding: 0px 6px;
+    display: inline;
+    cursor: pointer;
+}
+
+.quoted-message-abbr:hover {
+    background-color: #ccc;
+    font-weight: 700;
+}

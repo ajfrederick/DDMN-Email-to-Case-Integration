@@ -72,7 +72,8 @@ public class UiComponentServices {
         NewMessageData newMessageData = (NewMessageData) JSON.deserialize( JSONnewMessageData, NewMessageData.class );
 
         EmailInfo wrapper = newMessageData.message;
-
+        
+        wrapper.content.HtmlBody = wrapper.wrapHTMLBody( wrapper.content.HtmlBody );
         wrapper.setQuote( getQuote(newMessageData.replyToMessage) );
 
         try {
@@ -290,7 +291,7 @@ public class UiComponentServices {
 
         String head = '<div>On ' + formattedDate + ' ' + message.FromName + ' <' + message.FromAddress + '> wrote:</div><br/>';
 
-        String blockQuote = '<blockquote style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex" class="creed_quote">';
+        String blockQuote = '<blockquote style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">';
         blockQuote += message.HtmlBody + '</blockquote>';
 
         String wrappedQuote = '<div>' + head + blockQuote + '</div>';

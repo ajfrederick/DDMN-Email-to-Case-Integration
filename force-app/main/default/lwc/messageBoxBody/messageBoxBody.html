@@ -1,0 +1,36 @@
+<!-- This component helps trim quoted messages from emails to avoid adding unecessary visual length to the feed -->
+<template>
+    
+    <!-- body-->
+    <div>
+        <!-- message body -->
+        <div style="margin-bottom: 10px;">
+            <lightning-formatted-rich-text value={message}></lightning-formatted-rich-text>
+        </div>
+        <!-- END message body -->
+
+        <!-- Quoted Message -->
+        <div if:true={quotedMessage}>
+
+            <!-- Ellipses -->
+            <div class="quoted-message-abbr" onclick={handleAbbrClick}>
+                <lightning-icon
+                    icon-name="utility:threedots"
+                    alternative-text="Quoted Message"
+                    size="x-small">
+                </lightning-icon>
+            </div>
+            <!-- END Ellipses -->
+
+            <!-- Quoted Message Body -->
+            <div class={quotedClass}>
+                <lightning-formatted-rich-text value={quotedMessage}></lightning-formatted-rich-text>
+            </div>
+            <!-- END Quoted Message Body -->
+
+        </div>
+        <!-- END Quoted Message-->
+    </div>
+    <!-- body -->
+
+</template>

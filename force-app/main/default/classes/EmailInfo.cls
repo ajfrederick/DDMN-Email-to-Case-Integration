@@ -97,7 +97,7 @@ public class EmailInfo {
     public void setContent( String Subject, String HtmlBody, String PlainTextBody ){
         EmailContent cont = new EmailContent();
         cont.Subject = Subject;
-        cont.HtmlBody = HtmlBody;
+        cont.HtmlBody = wrapHTMLBody(HtmlBody);
         cont.PlainTextBody = PlainTextBody;
 
         content = cont;
@@ -116,7 +116,7 @@ public class EmailInfo {
     public void setQuote( String quote ){
         if( content == null ) setContent( '', '', '' );
 
-        content.HtmlBody += '<br/>' + quote;
+        content.HtmlBody += '<br/>' + wrapQuotedHTMLBody(quote);
     }
 
 /**
@@ -149,6 +149,14 @@ public class EmailInfo {
 
     public Boolean hasInReplyTo(){
         return !String.isBlank( inReplyTo );
+    }
+
+    public String wrapHTMLBody( String HtmlBody ){
+        return '<div class="creed-message">' + HtmlBody +'</div>';
+    }
+
+    private String wrapQuotedHTMLBody( String quote ){
+        return '<div class="creed-message-quote">' + quote +'</div>';
     }
 
 /**
