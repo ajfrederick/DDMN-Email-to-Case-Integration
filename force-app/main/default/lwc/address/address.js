@@ -36,6 +36,8 @@ export default class Address extends LightningElement {
 
     @api isFocus = false;
 
+    @api isNew = false;
+
     searchString = '';
 
     errorMessage = null;

@@ -78,7 +78,8 @@
             
         </lightning-layout>
 
-        <c-address-detail 
+        <c-address-detail
+            if:false={isNew}
             addresses={addresses}
             shown={detailShown}
             ondetailentered={keepDetail}

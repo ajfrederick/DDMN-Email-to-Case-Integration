@@ -5,28 +5,11 @@
 
         <!-- FROM ADDRESS --> 
         <template if:false={isNew}>
-            <lightning-layout>
-
-                <lightning-layout-item size="1" flexibility="auto">
-                    <label>
-                        From
-                    </label>
-                </lightning-layout-item>
-
-                <lightning-layout-item size="11" flexibility="auto">
-
-                    <template for:each={addresses.FromAddress} for:item="address" for:index="i">
-                        <c-address-link 
-                            key={address.email}
-                            address={address}
-                            total={addresses.FromAddress.length}
-                            index={i}>
-                        </c-address-link>
-                    </template>
-
-                </lightning-layout-item>
-
-            </lightning-layout>
+            <c-address
+                if:true={hasTos}
+                addresses={addresses.FromAddress}
+                label="From">
+            </c-address>
         </template>
         
         <!-- TO ADDRESS -->
@@ -35,6 +18,7 @@
             addresses={addresses.ToAddresses}
             label="To"
             is-focus={isFocus}
+            is-new={isNew}
             onaddressremoved={handleAddressRemoved}
             onaddressadded={handleAddressAdded}>
         </c-address>
@@ -45,6 +29,7 @@
             addresses={addresses.CcAddresses}
             label="Cc"
             is-focus={isFocus}
+            is-new={isNew}
             onaddressremoved={handleAddressRemoved}
             onaddressadded={handleAddressAdded}>
         </c-address>
@@ -55,6 +40,7 @@
             addresses={addresses.BccAddresses}
             label="Bcc"
             is-focus={isFocus}
+            is-new={isNew}
             onaddressremoved={handleAddressRemoved}
             onaddressadded={handleAddressAdded}>
         </c-address>

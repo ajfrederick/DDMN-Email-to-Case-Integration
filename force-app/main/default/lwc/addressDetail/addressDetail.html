@@ -8,41 +8,42 @@
 
         <!-- BOX -->
         <div class='slds-box'>
-                
-                <lightning-layout horizontal-align="spread">
 
-                    <!-- NAMEs -->
-                    <lightning-layout-item class="slds-m-right_xx-small">
+            <lightning-layout horizontal-align="spread">
 
-                        <!-- LOOP -->
-                        <template for:each={addresses} for:item="address">
-                            <div key={address.email} class="detail-name">
+                <!-- NAMES-->
+                <lightning-layout-item class="slds-m-right_xx-small">
 
-                                <c-address-link address={address}></c-address-link>
+                    <!-- LOOP -->
+                    <template for:each={addresses} for:item="address">
+                        <div key={address.email} class="detail-name">
 
-                            </div>
-                        </template>
+                            <c-address-link address={address}></c-address-link>
 
-                    </lightning-layout-item>
-                    <!--END NAMEs -->
+                        </div>
+                    </template>
+                    <!-- END LOOP -->
 
-                    <!-- ADDRESSES -->
-                    <lightning-layout-item>
+                </lightning-layout-item>
+                <!--END NAMES -->
 
-                        <!-- LOOP -->
-                        <template for:each={addresses} for:item="address">
-                            <div key={address.email}>
+                <!-- ADDRESSES -->
+                <lightning-layout-item>
 
-                                {address.email}
+                    <!-- LOOP -->
+                    <template for:each={addresses} for:item="address">
+                        <div key={address.email}>
 
-                            </div>
-                        </template>
+                            {address.email}
 
-                    </lightning-layout-item>
-                    <!-- END ADDRESSES -->
+                        </div>
+                    </template>
+                    <!-- END LOOP -->
 
-                </lightning-layout>
-            <!-- END LOOP -->
+                </lightning-layout-item>
+                <!-- END ADDRESSES -->
+
+            </lightning-layout>
         </div>
         <!-- END BOX-->
     </div>

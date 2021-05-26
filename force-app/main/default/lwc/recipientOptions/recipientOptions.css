@@ -3,6 +3,8 @@
     z-index: 999;
     display: none;
     background-color: #fff;
+    max-height: 500px;
+    overflow-y: scroll;
 }
 
 .recipient-options.displayed {
