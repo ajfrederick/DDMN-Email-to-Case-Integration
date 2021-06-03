@@ -3,7 +3,6 @@
     <aggregates>
         <calculatedFormula>Case.Case_Age__c:AVG</calculatedFormula>
         <datatype>number</datatype>
-        <description>The average time in days it takes for an owner to close a case.</description>
         <developerName>FORMULA1</developerName>
         <isActive>true</isActive>
         <isCrossBlock>false</isCrossBlock>
@@ -17,6 +16,12 @@
         <field>Case$Account</field>
     </columns>
     <columns>
+        <field>Case$SuppliedEmail</field>
+    </columns>
+    <columns>
+        <field>Case$Subject</field>
+    </columns>
+    <columns>
         <field>Case$Status</field>
     </columns>
     <columns>
@@ -26,14 +31,14 @@
         <field>Case$Reason</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>Case$Case_Age__c</field>
-    </columns>
-    <columns>
         <field>Case$CreatedDate</field>
     </columns>
     <columns>
         <field>Case$ClosedDate</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Case_Age__c</field>
     </columns>
     <description>Calculates a Case Owner&apos;s average time to close by Case Type.</description>
     <filter>
@@ -43,6 +48,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Case.Connect_Team</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$IsClosed</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>

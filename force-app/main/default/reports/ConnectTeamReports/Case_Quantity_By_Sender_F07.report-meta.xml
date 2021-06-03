@@ -7,7 +7,7 @@
         <field>Case$Account</field>
     </columns>
     <columns>
-        <field>Case$SuppliedEmail</field>
+        <field>Case$Owner</field>
     </columns>
     <columns>
         <field>Case$Subject</field>
@@ -16,23 +16,23 @@
         <field>Case$Status</field>
     </columns>
     <columns>
-        <field>Case$Reason</field>
+        <field>Case$Type</field>
     </columns>
     <columns>
-        <field>Case$Priority</field>
+        <field>Case$Reason</field>
     </columns>
     <columns>
         <field>Case$CreatedDate</field>
     </columns>
-    <description>Shows open cases by their respective owner.</description>
+    <columns>
+        <field>Case$ClosedDate</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Case_Age__c</field>
+    </columns>
+    <description>Number of cases bucketed by sender&apos;s email address.</description>
     <filter>
-        <criteriaItems>
-            <column>Case$IsClosed</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>0</value>
-        </criteriaItems>
         <criteriaItems>
             <column>Case$RecordType</column>
             <columnToColumn>false</columnToColumn>
@@ -41,18 +41,13 @@
             <value>Case.Connect_Team</value>
         </criteriaItems>
     </filter>
-    <format>Matrix</format>
-    <groupingsAcross>
-        <dateGranularity>Day</dateGranularity>
-        <field>Case$Type</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsAcross>
+    <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Case$Owner</field>
+        <field>Case$SuppliedEmail</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Open Cases By Owner And Type</name>
+    <name>Case Quantity By Sender</name>
     <params>
         <name>co</name>
         <value>1</value>

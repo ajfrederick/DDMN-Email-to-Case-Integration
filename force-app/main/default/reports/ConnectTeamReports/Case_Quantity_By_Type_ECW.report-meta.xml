@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>Case.Case_Age__c:AVG</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Average Case Age (Days)</masterLabel>
+        <scale>2</scale>
+    </aggregates>
     <columns>
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
         <field>Case$Account</field>
+    </columns>
+    <columns>
+        <field>Case$Contact</field>
     </columns>
     <columns>
         <field>Case$SuppliedEmail</field>
@@ -19,20 +31,17 @@
         <field>Case$Reason</field>
     </columns>
     <columns>
-        <field>Case$Priority</field>
+        <field>Case$ClosedDate</field>
     </columns>
     <columns>
         <field>Case$CreatedDate</field>
     </columns>
-    <description>Shows open cases by their respective owner.</description>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Case_Age__c</field>
+    </columns>
+    <description>All Connect Team Cases bucketed by Type</description>
     <filter>
-        <criteriaItems>
-            <column>Case$IsClosed</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>0</value>
-        </criteriaItems>
         <criteriaItems>
             <column>Case$RecordType</column>
             <columnToColumn>false</columnToColumn>
@@ -49,10 +58,10 @@
     </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Case$Owner</field>
+        <field>Case$RecordType</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Open Cases By Owner And Type</name>
+    <name>Cases By Type</name>
     <params>
         <name>co</name>
         <value>1</value>
