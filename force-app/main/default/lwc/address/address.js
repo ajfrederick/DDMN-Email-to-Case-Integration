@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 
 import { log } from 'c/utils';
-import { addAddress, addressTypes } from 'c/utilsApp';
+import { emailValid, getAddressObj, addressTypes } from 'c/utilsApp';
 
 let timeoutId;
 let detailTimeoutId;
@@ -49,14 +49,18 @@ export default class Address extends LightningElement {
     detailShown = false;
     detailEntered = false;
 
+    optionClicked = false;
+
 /**
  * DOM EVENT FUNCS
  */
 
     handleKeyup(e){
+        let address = e.currentTarget.value;
+
         if( e.which === 13 ){
 
-            let validEmail = addAddress( e, this );
+            let validEmail = this.addAddress( address );
 
             if( !validEmail ) return;
 
@@ -70,11 +74,24 @@ export default class Address extends LightningElement {
     }
 
     handleBlur(e){
-        e.currentTarget.value = '';
-        this.errorMessage = null;
+        let currentTarget = e.currentTarget,
+            address = currentTarget.value;
 
         setTimeout(()=>{
+
+            if( this.optionClicked ){
+                this.optionClicked = false;
+                return;
+            }
+
+            let validEmail = this.addAddress( address );
+    
+            if( !validEmail ) return;
+    
+            currentTarget.value = '';
+
             this.searchString = '';
+
         }, 300);
     }
 
@@ -95,9 +112,16 @@ export default class Address extends LightningElement {
         timeoutId = setTimeout(later, 300);
     }
 
+/**
+ * CUSTOM EVENT FUNCS
+ */
+
     handleAddressAdded(e){
+        this.optionClicked = true;
+
         let input = this.template.querySelectorAll('input')[0];
         input.value = '';
+
         this.searchString = '';
     }
 
@@ -131,5 +155,31 @@ export default class Address extends LightningElement {
 
     keepDetail(){
         this.detailEntered = true;
+    }
+
+/**
+ * UTILITY FUNCS
+ */
+
+    addAddress(address){
+        if( !address ) return false;
+    
+        if( !emailValid( address ) ){
+            this.errorMessage = 'Must enter valid email address if no supplied option is selected';
+            return false;
+        }
+    
+        let detail = {
+            addressObj : getAddressObj( address ),
+            addressType : this.addressType
+        };
+    
+        let event = new CustomEvent('addressadded', {
+                detail : detail
+            });
+    
+        this.dispatchEvent( event );
+    
+        return true;
     }
 }

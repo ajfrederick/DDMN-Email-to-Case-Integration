@@ -42,28 +42,6 @@ const addressTypes = [
     'BccAddresses'
 ];
 
-const addAddress = (e, that)=>{
-    let email = e.currentTarget.value;
-
-    if( !emailValid( email ) ){
-        that.errorMessage = 'Must enter valid email address if no supplied option is selected';
-        return false;
-    }
-
-    let detail = {
-        addressObj : getAddressObj( email ),
-        addressType : that.addressType
-    };
-
-    let event = new CustomEvent('addressadded', {
-            detail : detail
-        });
-
-    that.dispatchEvent( event );
-
-    return true;
-};
-
 const emailValid = (email)=>{
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -72,6 +50,6 @@ const emailValid = (email)=>{
 export {
     getRelations,
     getAddressObj,
-    addAddress,
+    emailValid,
     addressTypes
 };
