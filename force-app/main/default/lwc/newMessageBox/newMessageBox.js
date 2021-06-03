@@ -130,9 +130,7 @@ export default class NewMessageBox extends LightningElement {
             }
         }
 
-        // copy these objects over for addresses component
-        newMessage.relationsById = {...replyToMessage.relationsById};
-        newMessage.EmailMessageRelations = {...replyToMessage.EmailMessageRelations};
+        this.fixRelations( newMessage, replyToMessage );
 
         return newMessage;
     }
@@ -154,6 +152,33 @@ export default class NewMessageBox extends LightningElement {
 
         delete this.message.relationsById;
         delete this.message.EmailMessageRelations;
+    }
+
+    fixRelations( newMessage, replyToMessage ){
+        // copy these objects over for addresses component
+        newMessage.relationsById = {...replyToMessage.relationsById};
+        newMessage.EmailMessageRelations = {...replyToMessage.EmailMessageRelations};
+
+
+        // hack-ish: flip the EmailMessageRelation record RelationType for addresses component for getRelations method 
+        // TODO: overall better organize data from server and how it is sorted through, flattened, etc
+        let records = [];
+
+        newMessage.EmailMessageRelations.records.map((record)=>{
+            //
+            let r = {...record};
+
+            if( r.RelationType === 'FromAddress' ){
+                r.RelationType = 'ToAddress';
+            } else
+            if( r.RelationType === 'ToAddress' ){
+                r.RelationType = 'CcAddress';
+            }
+
+            records.push(r);
+        });
+
+        newMessage.EmailMessageRelations.records = [...records];
     }
     
     reset(){
