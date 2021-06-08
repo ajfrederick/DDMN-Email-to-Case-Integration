@@ -67,7 +67,7 @@ public class ConnectTeamCaseSorter {
     }
 
     /**
-     * @name getConnectTeamClosedCases
+     * @name getClosedCases
      * @description returns a list of connect team cases that are closed upon update
      * @param Map<Id, Case> oldMap
      * @return Case[]
