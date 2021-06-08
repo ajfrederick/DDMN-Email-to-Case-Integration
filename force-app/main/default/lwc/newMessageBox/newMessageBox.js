@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 
-import { log } from 'c/utils';
+import { log, getErrorToast } from 'c/utils';
 
 import getReply from '@salesforce/apex/UiComponentServices.getReply';
 import sendEmailMessage from '@salesforce/apex/UiComponentServices.sendEmailMessage';
@@ -39,7 +39,9 @@ export default class NewMessageBox extends LightningElement {
                 this.message = this.getNewMessage(data, replyToMessage, replyAll);;
             })
             .catch((error)=>{
-                console.error(error);
+                let errorToast = getErrorToast(error);
+
+                this.dispatchEvent(errorToast);
             });
 
         this.replyToMessage = {...replyToMessage};
@@ -78,7 +80,9 @@ export default class NewMessageBox extends LightningElement {
                     this.reset();
                 })
                 .catch((error)=>{
-                    console.error(error);
+                    let errorToast = getErrorToast(error);
+    
+                    this.dispatchEvent(errorToast);
                 });
         };
         

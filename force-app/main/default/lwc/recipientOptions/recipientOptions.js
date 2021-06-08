@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { log } from 'c/utils';
+import { log, getErrorToast } from 'c/utils';
 
 import searchRecipients from '@salesforce/apex/UiComponentServices.searchRecipients';
 
@@ -57,7 +57,9 @@ export default class RecipientOptions extends LightningElement {
                 }
             })
             .catch((error)=>{
-                console.error(error);
+                let errorToast = getErrorToast(error);
+
+                this.dispatchEvent(errorToast);
             });
     }
 

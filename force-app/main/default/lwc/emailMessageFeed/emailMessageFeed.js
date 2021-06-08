@@ -1,6 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
 
-import {log} from 'c/utils';
+import {log, getErrorToast, getSuccessToast} from 'c/utils';
 
 // Apex Service Methods
 import getData from '@salesforce/apex/UiComponentServices.getData';
@@ -46,7 +46,9 @@ export default class EmailMessageFeed extends LightningElement {
                 this.setData( JSON.parse(data) );
             })
             .catch((error)=>{
-                console.error(error);
+                let errorToast = getErrorToast(error);
+
+                this.dispatchEvent(errorToast);
             });
     }
 
@@ -60,7 +62,9 @@ export default class EmailMessageFeed extends LightningElement {
                 this.getMessages();
             })
             .catch((error)=>{
-                console.error(error);
+                let errorToast = getErrorToast(error);
+
+                this.dispatchEvent(errorToast);
             });
     }
 
@@ -121,6 +125,10 @@ export default class EmailMessageFeed extends LightningElement {
         this.setData(detail.data);
 
         this.scroll();
+
+        let successToast = getSuccessToast('Email Sent!');
+
+        this.dispatchEvent(successToast);
     }
 
 /**
