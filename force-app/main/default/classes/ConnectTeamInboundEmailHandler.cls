@@ -107,12 +107,19 @@ public class ConnectTeamInboundEmailHandler implements Messaging.InboundEmailHan
         EmailMessage replyToMessage;
 
         if( email.inReplyTo != null ){
-            replyToMessage = [SELECT 
-                                Id, 
-                                ParentId 
-                                    FROM EmailMessage 
-                                    WHERE MessageIdentifier = :email.inReplyTo];
 
+            try {
+
+                replyToMessage = [SELECT 
+                                    Id, 
+                                    ParentId 
+                                        FROM EmailMessage 
+                                        WHERE MessageIdentifier = :email.inReplyTo];
+
+            } catch( Exception e ){
+                ExceptionHandler handler = new ExceptionHandler(e);
+                handler.debug();
+            }
         }
         
         Id caseId;

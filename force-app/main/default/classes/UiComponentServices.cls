@@ -139,7 +139,8 @@ public class UiComponentServices {
                                     WHERE Email != :Constants.FROM_ADDRESS
                                     AND Email NOT IN :escapedEmails
                                     AND (Email LIKE :search
-                                        OR Name LIKE :search)];
+                                        OR Name LIKE :search)
+                                    LIMIT 25];
 
         User[] users = [SELECT
                             Id, 
@@ -150,7 +151,8 @@ public class UiComponentServices {
                                 WHERE Email != :Constants.FROM_ADDRESS
                                 AND Email NOT IN :escapedEmails
                                 AND (Email LIKE :search
-                                    OR Name LIKE :search)];
+                                    OR Name LIKE :search)
+                                LIMIT 25];
         
         SObject[] ret = new SObject[]{};
         ret.addAll(contacts);
@@ -338,7 +340,8 @@ public class UiComponentServices {
                         FROM EmailMessageRelations)
                     FROM EmailMessage
                     WHERE ParentId = :recordId
-                    ORDER BY MessageDate desc]);
+                    ORDER BY MessageDate desc
+                    LIMIT 10000]);
 
         } catch( Exception e ){
             ExceptionHandler handler = new ExceptionHandler( e );
@@ -363,7 +366,8 @@ public class UiComponentServices {
                 LastName,
                 Email
                     FROM Contact
-                    WHERE Id IN :contactIds];
+                    WHERE Id IN :contactIds
+                    LIMIT 10000];
     }
 
     /**
@@ -381,7 +385,8 @@ public class UiComponentServices {
                 LastName,
                 Email
                     FROM User
-                    WHERE Id IN :userIds];
+                    WHERE Id IN :userIds
+                    LIMIT 10000];
     }
 
     /**
@@ -399,7 +404,8 @@ public class UiComponentServices {
                 FileExtension,
                 ContentDocumentId
                     FROM ContentVersion
-                    WHERE ContentDocumentId IN :docIds];
+                    WHERE ContentDocumentId IN :docIds
+                    LIMIT 10000];
     }
 
 /**
