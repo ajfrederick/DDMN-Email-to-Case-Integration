@@ -15,3 +15,6 @@ package.xml
 *.profile
 *.appMenu
 *.prompt
+*.entitlementProcess
+*.milestoneType
+*.flexiPage

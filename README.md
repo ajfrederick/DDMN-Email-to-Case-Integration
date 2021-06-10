@@ -86,6 +86,6 @@ SECURITY SETUP:
 
 MISC SETUP:
 
-1) Add Users to Connect Team Queue
+1) Add Users to Connect Team Queue and Public Group
 
-2) Add Desired Quick Actions to Connect Team Case Page Layout. Add Email Feed Component to Page Layout.
+2) Add Desired Quick Actions to Connect Team Case Page Layout. Add Email Feed Component to Page Layout if needed.

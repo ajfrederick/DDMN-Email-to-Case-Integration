@@ -9,7 +9,7 @@
 
 if [ -z $1 ]
 then
-  sfdx force:org:create  -d 30 -f ../config/project-scratch-def.json -a Scratchy -s
+  sfdx force:org:create  -d 30 -f ./config/project-scratch-def.json -a Scratchy -s
 else
-  sfdx force:org:create  -d 30 -f ../config/project-scratch-def.json -a $1 -s
+  sfdx force:org:create  -d 30 -f ./config/project-scratch-def.json -a $1 -s
 fi
