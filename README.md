@@ -4,65 +4,9 @@ This is an application that allows an email inbox to be integrated into Salesfor
 
 After an initial email is sent to an external inbox it is forward to Salesforce and received by this app at which point any and all communications can be handled from the configured object's record. Initially it will be set up for Cases but it will be developed to integrate into any record.
 
-## Non-Code Entities
+## Install
 
-Custom Label:
-- Connect Team From Email Address
-
-Dashboards:
-- Connect Team Case Management
-
-Email Templates:
-- Connect Team Notification of New Case
-- Connect Team Notification of Closed Case
-
-Email Template Folders:
-- Connect Team Templates
-
-Lightning App:
-- Connect Team Support
-
-Lightning Record Page:
-- Connect Team Case Page
-
-List Views:
-- Connect Team Cases
-
-Page Layouts:
-- Connect Team Layout
-
-Permission Sets:
-- Connect Team Cases
-- Connect Team Case Management
-
-Picklist Value Sets:
-- Case Reason
-- Case Type
-
-Queues:
-- Connect Team
-
-Quick Actions:
-- Send Email
-
-Record Types:
-- Connect Team
-
-Reports:
-- Open Cases By Owner
-- Owner Average Time to Close By Type
-
-Report Types:
-- Cases for Connect Team
-
-Support Processes:
-- Connect Team
-
-App Utility Bar:
-- Connect Team Support
-- LightningService (Default Utility Bar for Lightning apps)
-
-## Post Install
+## Post Install Config
 
 EMAIL SETUP:
 
