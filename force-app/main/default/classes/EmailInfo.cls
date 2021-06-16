@@ -94,6 +94,9 @@ public class EmailInfo {
  * ACTION METHODS
 **/
 
+    /**
+     * @name setContent
+    **/
     public void setContent( String Subject, String HtmlBody, String PlainTextBody ){
         EmailContent cont = new EmailContent();
         cont.Subject = Subject;
