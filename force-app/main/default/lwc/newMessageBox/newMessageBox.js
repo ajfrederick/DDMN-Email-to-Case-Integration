@@ -1,3 +1,7 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api, track } from 'lwc';
 
 import { log, getErrorToast } from 'c/utils';
@@ -7,7 +11,15 @@ import sendEmailMessage from '@salesforce/apex/UiComponentServices.sendEmailMess
 
 import { addressTypes } from 'c/utilsApp';
 
+/**
+ * CLOSURE VAR
+ */ 
+
 let timeoutId = null;
+
+/**
+ * CLASS
+ */ 
 
 export default class NewMessageBox extends LightningElement {
 

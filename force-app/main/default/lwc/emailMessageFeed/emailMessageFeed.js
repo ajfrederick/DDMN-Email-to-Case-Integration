@@ -11,6 +11,7 @@ export default class EmailMessageFeed extends LightningElement {
 /**
  * PROPERTIES
  */ 
+
     // private recordId property for setter and getter
     _recordId;
 

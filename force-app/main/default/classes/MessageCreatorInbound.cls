@@ -35,7 +35,7 @@ public class MessageCreatorInbound extends MessageCreator {
      * @description creates a single email massage and sets necessary fields base on certain conditions
      * waterfalls the next 3 methods
      * @param EmailInfo wrapper
-     * @return SObject message
+     * @return EmailMessage message
     **/
     private EmailMessage getMessage( EmailInfo wrapper ){
         EmailMessage message = new EmailMessage();

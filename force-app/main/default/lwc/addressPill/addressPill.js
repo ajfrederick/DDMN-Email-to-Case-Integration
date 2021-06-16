@@ -1,7 +1,19 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api } from 'lwc';
 import { log } from 'c/utils';
 
+/**
+ * CLASS
+ */ 
+
 export default class AddressPill extends LightningElement {
+
+/**
+ * PROPERTIES
+ */ 
 
     // address object that is made in addresses component
     @api address;
@@ -15,6 +27,10 @@ export default class AddressPill extends LightningElement {
     get linkUrl(){
         return window.location.origin + '/' + this.address.id;
     }
+
+/**
+ * CUSTOM EVENT FUNCS
+ */ 
     
     handlePillRemove(e){
         let detail = {
