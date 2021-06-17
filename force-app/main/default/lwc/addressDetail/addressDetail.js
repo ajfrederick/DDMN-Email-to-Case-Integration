@@ -31,6 +31,7 @@ export default class AddressDetail extends LightningElement {
  * DOM EVENT FUNCS
  */
 
+    
     keepDetail(){
         this.dispatchEvent( new CustomEvent('detailentered') );
     }
