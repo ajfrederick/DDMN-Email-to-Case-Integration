@@ -1,5 +1,12 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement } from 'lwc';
 
+
+/**
+ * CLASS
+ */ 
 export default class Collapse extends LightningElement {
 
     isCollapsed = true;
@@ -8,6 +15,9 @@ export default class Collapse extends LightningElement {
     iconName = 'utility:chevrondown';
     title = 'Open';
 
+/**
+ * DOM EVENT HANDLERS
+ */
     toggleCollapse(){
         if( this.isCollapsed ){
             this.isCollapsed = false;

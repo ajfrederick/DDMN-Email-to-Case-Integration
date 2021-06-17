@@ -63,6 +63,11 @@ export default class Address extends LightningElement {
  * DOM EVENT HANDLERS
  */
 
+    /**
+     * @name handleKeyup
+     * @description sugggests valid email addreses in address-input
+     * @param {DOMEvent} e 
+    **/
     handleKeyup(e){
         let address = e.currentTarget.value;
 
@@ -81,6 +86,11 @@ export default class Address extends LightningElement {
         }
     }
 
+    /**
+     * @name handleBlur
+     * @description sugggests valid email addreses captured from .address-input <input/>
+     * @param any e
+    **/
     handleBlur(e){
         let currentTarget = e.currentTarget,
             address = currentTarget.value;
@@ -120,19 +130,10 @@ export default class Address extends LightningElement {
         timeoutId = setTimeout(later, 300);
     }
 
-/**
- * CUSTOM EVENT FUNCS
- */
-
-    handleAddressAdded(e){
-        this.optionClicked = true;
-
-        let input = this.template.querySelectorAll('input')[0];
-        input.value = '';
-
-        this.searchString = '';
-    }
-
+    /**
+     * @name showDetail
+     * @description shows details on mouseenter on .address-container
+    **/
     showDetail(){
 
         let show = ()=>{
@@ -159,6 +160,25 @@ export default class Address extends LightningElement {
         }
 
         setTimeout( hide, 200 );
+    }
+
+/**
+ * CUSTOM EVENT FUNCS
+ */
+
+    /**
+     * @name handleAddressAdded
+     * @description handles custom event fired in recipientOptions.js
+     * this method zeros out string values
+     * @param {CustomEvent} e
+    **/
+    handleAddressAdded(e){
+        this.optionClicked = true;
+
+        let input = this.template.querySelectorAll('input')[0];
+        input.value = '';
+
+        this.searchString = '';
     }
 
     keepDetail(){

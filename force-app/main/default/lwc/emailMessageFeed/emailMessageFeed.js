@@ -1,7 +1,6 @@
 /**
  * IMPORTS
  */ 
-
 import { LightningElement, api, wire } from 'lwc';
 
 import {log, getErrorToast, getSuccessToast} from 'c/utils';

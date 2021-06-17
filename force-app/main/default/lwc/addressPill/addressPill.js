@@ -1,12 +1,23 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement, api } from 'lwc';
 import { log } from 'c/utils';
 
+/**
+ * CLASS
+ */ 
 export default class AddressPill extends LightningElement {
+/**
+ * PROPERTIES
+ */ 
 
     // address object that is made in addresses component
     @api address;
 
     @api addressType;
+
+
     
     get hasRelation(){
         return this.address.id ? true : false;
@@ -16,6 +27,10 @@ export default class AddressPill extends LightningElement {
         return window.location.origin + '/' + this.address.id;
     }
     
+/**
+ * DOM EVENT HANDLERS
+ */
+
     handlePillRemove(e){
         let detail = {
                 email : this.address.email,

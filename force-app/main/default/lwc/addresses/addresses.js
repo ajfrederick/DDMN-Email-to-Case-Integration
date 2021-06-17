@@ -1,7 +1,15 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api, track } from 'lwc';
 import { log } from 'c/utils';
 
 import { getRelations, getAddressObj, addressTypes } from 'c/utilsApp';
+
+/**
+ * CLASS
+ */ 
 
 export default class Addresses extends LightningElement {
 
@@ -33,8 +41,12 @@ export default class Addresses extends LightningElement {
  * LIFECYCLE HOOKS
  */
 
+    /**
+     * @name connectedCallback
+     * @description prep class with props and 
+     * fill with 'address objects' that are formatted for the UI
+    */
     connectedCallback(){
-        // prep class with props and fill with 'address objects' that are formatted for the UI
         addressTypes.map((addressType)=>{
             this.addresses[addressType] = getAddresses( 
                 this.message, 

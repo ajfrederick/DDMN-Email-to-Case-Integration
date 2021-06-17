@@ -1,5 +1,7 @@
 <!-- this is an indivual attachment -->
 <template>
+
+    <!-- MESSAGE ATTACHMENT -->
     <div class="message-attachment" onmouseover={showDelete} onmouseout={hideDelete}>
 
         <lightning-icon
@@ -8,7 +10,8 @@
             title={attachment.Title}
             onclick={preview}>   
         </lightning-icon>
-
+        
+        <!-- IF IS NEW -->
         <template if:true={isNew}>
             <div class={deleteClass}>
 
@@ -24,4 +27,5 @@
         </template>
 
     </div>
+    <!-- END MESSAGE ATTACHMENT -->
 </template>

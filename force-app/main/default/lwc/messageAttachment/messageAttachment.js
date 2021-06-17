@@ -1,3 +1,6 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement, api } from 'lwc';
 
 import { NavigationMixin } from 'lightning/navigation';

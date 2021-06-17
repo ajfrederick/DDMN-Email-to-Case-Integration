@@ -1,5 +1,13 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api } from 'lwc';
 import { log } from 'c/utils';
+
+/**
+ * CLASS
+ */ 
 
 export default class AddressDetail extends LightningElement {
 
