@@ -1,3 +1,7 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api } from 'lwc';
 
 import { log } from 'c/utils';
@@ -5,6 +9,10 @@ import { emailValid, getAddressObj, addressTypes } from 'c/utilsApp';
 
 let timeoutId;
 let detailTimeoutId;
+
+/**
+ * CLASS
+ */ 
 
 export default class Address extends LightningElement {
 
@@ -52,7 +60,7 @@ export default class Address extends LightningElement {
     optionClicked = false;
 
 /**
- * DOM EVENT FUNCS
+ * DOM EVENT HANDLERS
  */
 
     handleKeyup(e){

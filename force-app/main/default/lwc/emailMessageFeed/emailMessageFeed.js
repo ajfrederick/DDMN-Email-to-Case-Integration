@@ -48,7 +48,11 @@ export default class EmailMessageFeed extends LightningElement {
  * ACTION FUNCTIONS
  */
 
-    // gets all the messages
+
+    /**
+     * @name getMessages
+     * @description gets all messages
+    **/
     getMessages(){
         getData({recordId : this.recordId})
             .then((data)=>{
@@ -61,6 +65,10 @@ export default class EmailMessageFeed extends LightningElement {
             });
     }
 
+    /**
+     * @name getFromAddress
+     * @description gets from address
+    **/
     getFromAddress(){
         getFromAddress()
             .then((addressJSON)=>{
@@ -80,7 +88,12 @@ export default class EmailMessageFeed extends LightningElement {
 /**
  * PROMISE FUNCTIONS
  */ 
-    // process data recieved from apex call
+    
+    /**
+     * @name getFromAddress
+     * @description process data recieved from apex call
+     * @param any data
+    **/
     setData(data){
         this.messages = data.messages;
 
@@ -124,12 +137,22 @@ export default class EmailMessageFeed extends LightningElement {
  * DOM EVENT HANDLERS
  */
 
+    /**
+     * @name setNewMessage
+     * @description process data recieved from apex call
+     * @param event
+    **/
     setNewMessage(event){
         let newMessageBox = this.template.querySelector('c-new-message-box');
 
         newMessageBox.setNewMessage( event );
     }
 
+    /**
+     * @name newMessageSent
+     * @description dispatches the success toast event
+     * @param detail
+    **/
     newMessageSent({detail}){
         this.setData(detail.data);
 
@@ -144,6 +167,10 @@ export default class EmailMessageFeed extends LightningElement {
  * UTILITIES
  */
     
+    /**
+     * @name scroll
+     * @description scrolls to top of feed
+    **/
     scroll(){
         let feed = this.template.querySelector('.email-feed');
 
