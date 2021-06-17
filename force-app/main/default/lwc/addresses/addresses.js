@@ -5,6 +5,10 @@ import { getRelations, getAddressObj, addressTypes } from 'c/utilsApp';
 
 export default class Addresses extends LightningElement {
 
+/**
+ * PROPS
+ */
+
     @api message;
 
     @track addresses = {};
@@ -25,6 +29,10 @@ export default class Addresses extends LightningElement {
         return this.isNew || this.addresses[addressTypes[3]].length > 0;
     }
 
+/**
+ * LIFECYCLE HOOKS
+ */
+
     connectedCallback(){
         // prep class with props and fill with 'address objects' that are formatted for the UI
         addressTypes.map((addressType)=>{
@@ -36,9 +44,17 @@ export default class Addresses extends LightningElement {
         });
     }
 
+/**
+ * API FUNCS
+ */
+
     @api getAddresses(){
         return this.addresses;
     }
+
+/**
+ * DOM FUNCS
+ */
 
     handleClick(e){
         if( !this.isNew ) return;
@@ -66,7 +82,7 @@ export default class Addresses extends LightningElement {
 }
 
 /**
- * UTIL FUNCS
+ * CLOSURE UTIL FUNCS
  */
 
 /**
