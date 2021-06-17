@@ -81,7 +81,7 @@ public abstract class MessageCreator {
     
     /**
      * @name hasInboundMessages
-     * @description checks to see if hasInboundMessages of type EmailMessage[] is empty or not
+     * @description checks to see if hasInboundMessages of type EmailMessage[] is empty or not.
      * @return Boolean
     **/
     public Boolean hasInboundMessages(){
