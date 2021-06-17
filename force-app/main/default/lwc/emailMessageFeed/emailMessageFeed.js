@@ -1,3 +1,7 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api, wire } from 'lwc';
 
 import {log, getErrorToast, getSuccessToast} from 'c/utils';
@@ -6,11 +10,16 @@ import {log, getErrorToast, getSuccessToast} from 'c/utils';
 import getData from '@salesforce/apex/UiComponentServices.getData';
 import getFromAddress from '@salesforce/apex/UiComponentServices.getFromAddress';
 
+/**
+ * CLASS
+ */ 
+
 export default class EmailMessageFeed extends LightningElement {
 
 /**
  * PROPERTIES
  */ 
+
     // private recordId property for setter and getter
     _recordId;
 
