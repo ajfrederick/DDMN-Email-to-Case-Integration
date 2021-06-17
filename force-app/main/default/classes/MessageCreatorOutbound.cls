@@ -66,6 +66,13 @@ public class MessageCreatorOutbound extends MessageCreator {
  * WATER FALL METHODS FOR CLEANLINESS
 **/
 
+    /**
+     * @name configureMessage
+     * @description called within getMessage
+     * configures message setting up id's on message from the wrapper, disables signature, enables SaveAsActivity
+     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper
+     * @return void
+    **/
     private void configureMessage( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
         
         if( wrapper.hasWhoId() ){  
@@ -84,19 +91,32 @@ public class MessageCreatorOutbound extends MessageCreator {
         message.setUseSignature( false );
     }
 
+    /**
+     * @name setAddressInfo
+     * @description called within getMessage
+     * sets message's to, cc, and bcc addresses. Sets from Address with org wide email address Id
+     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper 
+     * @return void
+    **/
     private void setAddressInfo( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
         
         message.setToAddresses( wrapper.ToAddresses );
         message.setCcAddresses( wrapper.CcAddresses );
         message.setBccAddresses( wrapper.BccAddresses );
 
-        // sets from Address with org wide email address Id
         // we have to do this cause this how SF handles setting the From Address for outgoing emails
         if( oweAddressId != null ){
             message.setOrgWideEmailAddressId( oweAddressId );
         }
     }
 
+    /**
+     * @name setContent
+     * @description called within getMessage
+     * sets body/subject of message with values from the wrapper & sets id's for attatched documents
+     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper 
+     * @return void
+    **/
     private void setContent( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
         String body = '';
         String subject = '';
