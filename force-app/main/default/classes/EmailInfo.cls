@@ -109,12 +109,12 @@ public class EmailInfo {
         content = cont;
     }
 
-    //ask andrew here
+    //ask andrew
     public void setAttachement( Blob body, String filename ){
         attachments.add( new AttachmentData( body, filename ) );
     }
 
-    //ask andrew here
+    //ask andrew
     public void setAttachement( String body, String filename ){
         Blob bodyBlob = EncodingUtil.base64Decode(body);
 
