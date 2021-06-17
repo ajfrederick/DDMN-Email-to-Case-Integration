@@ -96,6 +96,9 @@ public class EmailInfo {
 
     /**
      * @name setContent
+     * @description creats/sets up a new EmailContent object
+     * @params String Subject, String HtmlBody, String PlainTextBody
+     * @return void
     **/
     public void setContent( String Subject, String HtmlBody, String PlainTextBody ){
         EmailContent cont = new EmailContent();
@@ -106,16 +109,24 @@ public class EmailInfo {
         content = cont;
     }
 
+    //ask andrew here
     public void setAttachement( Blob body, String filename ){
         attachments.add( new AttachmentData( body, filename ) );
     }
 
+    //ask andrew here
     public void setAttachement( String body, String filename ){
         Blob bodyBlob = EncodingUtil.base64Decode(body);
 
         attachments.add( new AttachmentData( bodyBlob, filename ) );
     }
 
+    /**
+     * @name setQuote
+     * @description wraps the content in quote div, otherwise its an empty string
+     * @params String quote
+     * @return void
+    **/
     public void setQuote( String quote ){
         if( content == null ) setContent( '', '', '' );
 

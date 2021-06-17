@@ -4,7 +4,6 @@
 **/
 public class Constants {
 
-   //Ask Andrew Here
 
     public static final String FROM_ADDRESS = System.Label.Connect_Team_From_Email_Address;
 
