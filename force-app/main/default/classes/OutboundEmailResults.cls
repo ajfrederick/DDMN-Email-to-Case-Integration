@@ -114,10 +114,20 @@ public class OutboundEmailResults {
  * UTILITY METHODS
 **/
     
+    /**
+     * @name hasSuccesses
+     * @description checks if email was sent successfully or not
+     * @return Boolean
+    **/
     public Boolean hasSuccesses(){
         return !sentEmailsByObjId.isEmpty();
     }
     
+    /**
+     * @name hasFailures
+     * @description checks if email has any failures
+     * @return Boolean
+    **/
     public Boolean hasFailures(){
         return !failedResults.isEmpty();
     }
