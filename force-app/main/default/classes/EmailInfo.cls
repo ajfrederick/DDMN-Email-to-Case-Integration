@@ -1,6 +1,6 @@
 /**
  * @name EmailInfo
- * @description wrapper class to get email content and info predictablyh no matter the source
+ * @description wrapper class to get email content and info predictably no matter the source
 **/
 public class EmailInfo {
 
@@ -94,6 +94,9 @@ public class EmailInfo {
  * ACTION METHODS
 **/
 
+    /**
+     * @name setContent
+    **/
     public void setContent( String Subject, String HtmlBody, String PlainTextBody ){
         EmailContent cont = new EmailContent();
         cont.Subject = Subject;
@@ -123,38 +126,85 @@ public class EmailInfo {
  * UTILITY METHODS
 **/
 
+    /**
+     * @name hasToAddresses
+     * @description checks to see if ToAddresses of type String[] is empty or not
+     * @return Boolean
+     */
     public Boolean hasToAddresses(){
         return !ToAddresses.isEmpty();
     }
 
+    /**
+     * @name hasTemplate
+     * @description checks to see if template of type EmailTemplate is null or not
+     * @return Boolean
+     */
     public Boolean hasTemplate(){
         return template != null;
     }
 
+    /**
+     * @name hasContent
+     * @description checks to see if content of type EmailContent is null or not
+     * @return Boolean
+     */
     public Boolean hasContent(){
         return content != null;
     }
 
+    /**
+     * @name hasWhatId
+     * @description checks to see if whatId of type Id is null or not
+     * @return Boolean
+     */
     public Boolean hasWhatId(){
         return whatId != null;
     }
 
+    /**
+     * @name hasWhoId
+     * @description checks to see if whoId of type Id is null or not
+     * @return Boolean
+     */
     public Boolean hasWhoId(){
         return whoId != null;
     }
 
+    /**
+     * @name hasMessageId
+     * @description checks to see if messageId of type String is blank or not
+     * @return Boolean
+     */
     public Boolean hasMessageId(){
         return !String.isBlank( messageId );
     }
 
+    /**
+     * @name hasInReplyTo
+     * @description checks to see if inReplyTo of type String is empty or not
+     * @return Boolean
+     */
     public Boolean hasInReplyTo(){
         return !String.isBlank( inReplyTo );
     }
 
+    /**
+     * @name wrapHTMLBody
+     * @description takes a String and wraps it in a div with class of creed-message
+     * @param String HtmlBody
+     * @return String
+     */
     public String wrapHTMLBody( String HtmlBody ){
         return '<div class="creed-message">' + HtmlBody +'</div>';
     }
 
+    /**
+     * @name wrapQuotedHTMLBody
+     * @description takes a String and wraps it in a div with class of creed-message-quote
+     * @param String quote
+     * @return String
+     */
     private String wrapQuotedHTMLBody( String quote ){
         return '<div class="creed-message-quote">' + quote +'</div>';
     }

@@ -70,10 +70,20 @@ public abstract class MessageCreator {
  * UTILITY METHODS
 **/
 
+    /**
+     * @name hasOutboundMessages
+     * @description checks to see if outboundMessages of type Messaging.SingleEmailMessage[] is empty or not
+     * @return Boolean
+    **/
     public Boolean hasOutboundMessages(){
         return !outboundMessages.isEmpty();
     }
     
+    /**
+     * @name hasInboundMessages
+     * @description checks to see if hasInboundMessages of type EmailMessage[] is empty or not.
+     * @return Boolean
+    **/
     public Boolean hasInboundMessages(){
         return !inboundMessages.isEmpty();
     }

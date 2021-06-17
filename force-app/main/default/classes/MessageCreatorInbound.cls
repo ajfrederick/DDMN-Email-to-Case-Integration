@@ -51,6 +51,14 @@ public class MessageCreatorInbound extends MessageCreator {
  * WATER FALL METHODS FOR CLEANLINESS
 **/
 
+    /**
+     * @name configureMessage
+     * @description called within getMessage 
+     * checks to see if the wrapper has an id, if so it sets the ParentId to the wrapper whatId
+     * identifies message as incoming message & sets the messages's identifier as wrapper's message id
+     * @param EmailMessage message, EmailInfo wrapper
+     * @return void
+    **/
     private void configureMessage( EmailMessage message, EmailInfo wrapper  ){
         
         if( wrapper.hasWhatId() ){
@@ -61,6 +69,13 @@ public class MessageCreatorInbound extends MessageCreator {
         message.Incoming = true;
     }
 
+    /**
+     * @name setAddressInfo
+     * @description called within getMessage 
+     * sets all the associated addresses (to, cc, bcc, from, and name addresses) for the message
+     * @param EmailMessage message, EmailInfo wrapper
+     * @return void
+    **/
     private void setAddressInfo( EmailMessage message, EmailInfo wrapper ){
         message.ToAddress = getAddressString( wrapper.ToAddresses );
         message.CcAddress = getAddressString( wrapper.CcAddresses );
@@ -70,6 +85,13 @@ public class MessageCreatorInbound extends MessageCreator {
         message.fromName = wrapper.fromName;
     }
 
+    /**
+     * @name setContent
+     * @description called within getMessage 
+     * sets the related content of the message: the Subject, HtmlBody, & TextBody
+     * @param EmailMessage message, EmailInfo wrapper
+     * @return void
+    **/
     private void setContent( EmailMessage message, EmailInfo wrapper ){
         message.Subject = wrapper.content.Subject;
         message.HtmlBody = wrapper.content.HtmlBody;
