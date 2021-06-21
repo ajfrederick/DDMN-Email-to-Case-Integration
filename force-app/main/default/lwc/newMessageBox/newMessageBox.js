@@ -1,3 +1,6 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement, api, track } from 'lwc';
 
 import { log, getErrorToast } from 'c/utils';
@@ -9,6 +12,9 @@ import { addressTypes } from 'c/utilsApp';
 
 let timeoutId = null;
 
+/**
+ * CLASS
+ */ 
 export default class NewMessageBox extends LightningElement {
 
 /**
@@ -48,10 +54,13 @@ export default class NewMessageBox extends LightningElement {
     }
 
 /**
- * DOM FUNCS
+ * DOM EVENT HANDLERS
  */
 
-    // sends a new message
+    /**
+     * @name send
+     * @description in .slds-clearfix on <lightning-button/> onclick sends a new message
+    **/
     send(){
         this.isSending = true;
 
@@ -91,23 +100,52 @@ export default class NewMessageBox extends LightningElement {
         timeoutId = setTimeout(later, 300);
     }
 
-    // cancels sending a new message
+    /**
+     * @name cancel
+     * @description in .slds-clearfix on <lightning-button/> onclick cancels sending a new message
+     * @param {DOMEvent} e
+    **/
     cancel(e){
         this.reset();
     }
 
+    /**
+     * @name handleSubjectChange
+     * @description in .message-header on <lightning-input/> onchange sets message's subject to
+     * input value
+     * @param {DOMEvent} e
+    **/
     handleSubjectChange(e){
         this.message.content.Subject = e.currentTarget.value;
     }
 
+    /**
+     * @name handleBodyChange
+     * @description in .slds-p-vertical_small on <lightning-input-rich-text/> onchange sets message
+     * HtmlBody to input value
+     * @param {DOMEvent} e
+    **/
     handleBodyChange(e){
         this.message.content.HtmlBody = e.target.value;
     }
 
+    /**
+     * @name handleAttachmentAttached
+     * @description in <lightning-layout/> footer on <c-message-attachments/> on custom event onattached
+     * defined in messageAttachments component adds attachement to attachments list.
+     * @param {DOMEvent} e
+    **/
     handleAttachmentAttached(e){
         this.attachments.push(e.detail);
     }
 
+    /**
+     * @name handleAttachmentAttached
+     * @description in <lightning-layout/> footer on <c-message-attachments/> on custom 
+     * event onattachmentdeleted defined in messageAttachments component 
+     * removes attachment from attachments list.
+     * @param {DOMEvent} e
+    **/
     handleAttachmentDeleted(e){
         this.attachments = this.attachments.filter( attachment => attachment.Title != e.detail.Title );
     }
@@ -116,6 +154,12 @@ export default class NewMessageBox extends LightningElement {
  * UTILITY FUNCS
  */
 
+    /**
+     * @name getNewMessage
+     * @description gets new message
+     * @param {EmailInfo, EmailMessage, EmailInfo} data, replyToMessage, replyAll 
+     * @return {EmailInfo} 
+    **/
     getNewMessage(data, replyToMessage, replyAll){
         let newMessage = JSON.parse( data ); // newMessage of apex type EmailInfo
 
@@ -139,6 +183,11 @@ export default class NewMessageBox extends LightningElement {
         return newMessage;
     }
 
+    /**
+     * @name prepMessageForSend
+     * @description gets message addresses goes through those addresses and if the message type is
+     * FromAddress then zero's out that message's type. Deletes message relations.
+    **/
     prepMessageForSend(){
         let addressesComp = this.template.querySelector('c-addresses'),
             addresses = addressesComp.getAddresses();
@@ -158,18 +207,23 @@ export default class NewMessageBox extends LightningElement {
         delete this.message.EmailMessageRelations;
     }
 
+    /**
+     * @name fixRealtions
+     * @description copies objects over for addresses component
+     * and flip the EmailMessageRelation record RelationType for addresses 
+     * component for getRelations method 
+     * @param {EmailInfo, EmailMessage} newMessage, replyToMessage
+    **/
     fixRelations( newMessage, replyToMessage ){
-        // copy these objects over for addresses component
+
         newMessage.relationsById = {...replyToMessage.relationsById};
         newMessage.EmailMessageRelations = {...replyToMessage.EmailMessageRelations};
 
-
-        // hack-ish: flip the EmailMessageRelation record RelationType for addresses component for getRelations method 
         // TODO: overall better organize data from server and how it is sorted through, flattened, etc
         let records = [];
 
         newMessage.EmailMessageRelations.records.map((record)=>{
-            //
+
             let r = {...record};
 
             if( r.RelationType === 'FromAddress' ){
@@ -185,6 +239,10 @@ export default class NewMessageBox extends LightningElement {
         newMessage.EmailMessageRelations.records = [...records];
     }
     
+    /**
+     * @name reset
+     * @description resets message
+    **/
     reset(){
         this.message = null;
         this.replyToMessage = null;
