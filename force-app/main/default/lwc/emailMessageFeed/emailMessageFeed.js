@@ -133,7 +133,7 @@ export default class EmailMessageFeed extends LightningElement {
     }
 
 /**
- * DOM EVENT HANDLERS
+ * CUSTOM EVENT HANDLERS
  */
 
     /**

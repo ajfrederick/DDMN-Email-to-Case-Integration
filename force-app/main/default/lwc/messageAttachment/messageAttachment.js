@@ -45,6 +45,11 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
 /**
  * DOM EVENTS
  */
+    /**
+     * @name preview
+     * @description on <lightning-icon/> onclick navigates to the filePreview page 
+     * @param {DOMEvent} e
+    **/
     preview(e){
         if( this.isNew ) return;
         
@@ -59,14 +64,27 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
         });
     }
 
+    /**
+     * @name showDelete
+     * @description on .message-attachment onmouseover removes the ' displayed' class
+    **/
     showDelete(){
         this.deleteClass += ' displayed';
     }
 
+    /**
+     * @name hideDelete
+     * @description on .message-attachment onmouseout removes the 'delete-attachment' class
+    **/
     hideDelete(){
         this.deleteClass = 'delete-attachment';
     }
 
+    /**
+     * @name deleteAttachment
+     * @description on <lightning-icon/> onclick removes attachment. Sets detail title and 
+     * creates/fires a custom event attachmentdeleted
+    **/
     deleteAttachment(){
         let detail = {
             Title : this.attachment.Title    
