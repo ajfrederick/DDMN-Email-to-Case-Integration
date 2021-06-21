@@ -60,7 +60,7 @@ export default class MessageBoxBody extends LightningElement {
     }
 
 /**
- * DOM FUNCS     
+ * DOM EVENT HANDLERS    
  */
     /**
      * @name handleAbbrClick
