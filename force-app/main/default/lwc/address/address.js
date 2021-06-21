@@ -113,6 +113,11 @@ export default class Address extends LightningElement {
         }, 300);
     }
 
+    /**
+     * @name search
+     * @description sets value of current email searchString after suggesting valid ones in handleKeyup 
+     * @param {DOMEvent} e 
+    **/
     search(e){
         if( this.errorMessage ) this.errorMessage = null;
 
@@ -144,6 +149,10 @@ export default class Address extends LightningElement {
         detailTimeoutId = setTimeout( show, 1000 );
     }
 
+    /**
+     * @name hideDetail
+     * @description hides details on onmouseleave on .address-container
+    **/
     hideDetail(e){
 
         if( detailTimeoutId ){
@@ -188,7 +197,13 @@ export default class Address extends LightningElement {
 /**
  * UTILITY FUNCS
  */
-
+    /**
+     * @name addAddress
+     * @description if email address is valid gets addressObj/addressType and
+     * creates & fires the addressadded custom event
+     * @param {Address} address
+     * @return {{Boolean}}
+    **/
     addAddress(address){
         if( !address ) return false;
     
