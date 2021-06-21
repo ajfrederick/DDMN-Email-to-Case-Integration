@@ -91,7 +91,7 @@ export default class EmailMessageFeed extends LightningElement {
     /**
      * @name getFromAddress
      * @description process data recieved from apex call
-     * @param any data
+     * @param {Object} data
     **/
     setData(data){
         this.messages = data.messages;
@@ -138,8 +138,9 @@ export default class EmailMessageFeed extends LightningElement {
 
     /**
      * @name setNewMessage
-     * @description process data recieved from apex call
-     * @param event
+     * @description on <c-message-box/> onreply a custom event created in the messageBox component.
+     * Instantiates a newMessageBox and calls itself. 
+     * @param {CustomEvent} event
     **/
     setNewMessage(event){
         let newMessageBox = this.template.querySelector('c-new-message-box');
@@ -149,8 +150,10 @@ export default class EmailMessageFeed extends LightningElement {
 
     /**
      * @name newMessageSent
-     * @description dispatches the success toast event
-     * @param detail
+     * @description on <c-new-message-box/> onsent a custom event created in the newMessage component.
+     * Sets the messages scrolls and calls the custom event successToast indicating the message was
+     * sent.
+     * @param {CustomEvent.detail} detail
     **/
     newMessageSent({detail}){
         this.setData(detail.data);
