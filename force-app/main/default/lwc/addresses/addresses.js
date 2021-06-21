@@ -70,9 +70,9 @@ export default class Addresses extends LightningElement {
 
     /**
      * @name handleClick
-     * @description on .addresses onclick focuses on addresses removes and then adds event listener
+     * @description on .addresses handles onclick focuses addresses removes and then adds event listener
      * for click. Stops event propagation for onclick on .addresses
-     * @param {DOMEvent} e
+     * @param DOMEvent `e`
      */
     handleClick(e){
         if( !this.isNew ) return;
@@ -92,9 +92,9 @@ export default class Addresses extends LightningElement {
 
     /**
      * @name handleAddressRemoved
-     * @description captured by c-address by the custom event addressremoved created in the addressPill
-     * component. Removes address from addresses.
-     * @param {CustomEvent.detail} detail
+     * @description on c-address handles custom event addressremoved defined in the addressPill.js
+     * this method removes address from addresses.
+     * @param ObjectLiteral `detail`
      */
     handleAddressRemoved({detail}){
         this.addresses[detail.addressType] = this.addresses[detail.addressType].filter( address => address.email !== detail.email );
@@ -102,9 +102,9 @@ export default class Addresses extends LightningElement {
 
     /**
      * @name handleAddressAdded
-     * @description captured by c-address by the custom event addressremoved created in the recipientOptions
-     * component. Adds address to addresses.
-     * @param {CustomEvent.detail} detail
+     * @description on c-address handles custom event addressremoved defined in the recipientOptions.js
+     * this method Adds address to addresses.
+     * @param CustomEvent.detail detail
      */
     handleAddressAdded({detail}){
         this.addresses[detail.addressType].push(detail.addressObj);
@@ -119,9 +119,9 @@ export default class Addresses extends LightningElement {
  * @name getAddresses
  * @description method that unpacks address addresses of any type (ie To Address, Cc Address, etc.)
  * from addressesbase model to markup model. Unpacks either an address of an email or an address, name and id of a contact or user
- * @param {String} message email message that all addresses pertain to
- * @param {String} addresses comma separated 'string' list of Email Addresses
- * @param {String} addressType type of address (ie From, To, etc). types list above.
+ * @param String `message` email message that all addresses pertain to
+ * @param String `addresses` comma separated 'string' list of Email Addresses
+ * @param String `addressType` type of address (ie From, To, etc). types list above.
  */
 function getAddresses( message, addresses, addressType ){
     // gets any users or contacts that are associated with an address

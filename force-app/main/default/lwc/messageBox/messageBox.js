@@ -78,9 +78,9 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name reply
-     * @description in Reply Button section on <lightning-button/> onclick sets a new message with
+     * @description in Reply Button section on `<lightning-button/>` handles onclick sets a new message with
      * the message input.
-     * @param {DOMEvent} e
+     * @param DOMEvent `e`
     **/
     reply(e){
         this.setNewMessage({
@@ -90,9 +90,9 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name replyAll
-     * @description in Reply All Button section on <lightning-button/> onclick sets new message with
+     * @description in Reply All Button section on `<lightning-button/>` handles onclick sets new message with
      * the message input and replyAll set to true
-     * @param {DOMEvent} e
+     * @param DOMEvent `e`
     **/
     replyAll(e){
         this.setNewMessage({
@@ -103,8 +103,8 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name handleMouseOver
-     * @description onmouseover adds the 'sld-current-color' class to the element
-     * @param {DOMEvent} e
+     * @description handles onmouseover adds the 'sld-current-color' class to the element
+     * @param DOMEvent `e`
     **/
     handleMouseOver(e){
         e.currentTarget.classList.add('slds-current-color');
@@ -112,8 +112,8 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name handleMouseOut
-     * @description onmouseout removes the 'sld-current-color' from the element
-     * @param {DOMEvent} e
+     * @description handles onmouseout removes the 'sld-current-color' from the element
+     * @param DOMEvent `e`
     **/
     handleMouseOut(e){
         e.currentTarget.classList.remove('slds-current-color');
@@ -126,7 +126,7 @@ export default class MessageBox extends LightningElement {
     /**
      * @name setIconData
      * @description creates icon data for a given message
-     * @param {EmailMessage} message
+     * @param EmailMessage `message`
     **/
     setIconData(message){
         this.iconData = new IconData(message);
@@ -138,7 +138,7 @@ export default class MessageBox extends LightningElement {
      /**
      * @name setNewMessage
      * @description creates/dispatches the custom event reply
-     * @param {ObjecLiteral} detail
+     * @param ObjecLiteral `detail`
     **/   
     setNewMessage(detail){
         this.dispatchEvent( new CustomEvent( 'reply', {detail} ) );
@@ -150,8 +150,9 @@ export default class MessageBox extends LightningElement {
  */
 
     /**
-     * @description class to unpack name or address data to create initals for Icons in markup. This is only for markup.
-     * @param {EmailMessage} message
+     * @description used to unpack name or address data to create initals for Icons in markup. 
+     * This is only for markup.
+     * @param EmailMessage `message`
      */
     function IconData(message){
         let fromRelation, str1, str2, name;

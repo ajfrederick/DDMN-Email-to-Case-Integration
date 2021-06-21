@@ -59,7 +59,7 @@ export default class NewMessageBox extends LightningElement {
 
     /**
      * @name send
-     * @description in .slds-clearfix on <lightning-button/> onclick sends a new message
+     * @description in .slds-clearfix on `<lightning-button/>` handles onclick sends a new message
     **/
     send(){
         this.isSending = true;
@@ -102,8 +102,8 @@ export default class NewMessageBox extends LightningElement {
 
     /**
      * @name cancel
-     * @description in .slds-clearfix on <lightning-button/> onclick cancels sending a new message
-     * @param {DOMEvent} e
+     * @description in .slds-clearfix on `<lightning-button/>` handles onclick cancels sending a new message
+     * @param DOMEvent `e`
     **/
     cancel(e){
         this.reset();
@@ -111,9 +111,9 @@ export default class NewMessageBox extends LightningElement {
 
     /**
      * @name handleSubjectChange
-     * @description in .message-header on <lightning-input/> onchange sets message's subject to
+     * @description in .message-header on `<lightning-input/>` handles onchange sets message's subject to
      * input value
-     * @param {DOMEvent} e
+     * @param DOMEvent `e`
     **/
     handleSubjectChange(e){
         this.message.content.Subject = e.currentTarget.value;
@@ -121,9 +121,9 @@ export default class NewMessageBox extends LightningElement {
 
     /**
      * @name handleBodyChange
-     * @description in .slds-p-vertical_small on <lightning-input-rich-text/> onchange sets message
+     * @description in .slds-p-vertical_small on `<lightning-input-rich-text/>` handles onchange sets message
      * HtmlBody to input value
-     * @param {DOMEvent} e
+     * @param DOMEvent `e`
     **/
     handleBodyChange(e){
         this.message.content.HtmlBody = e.target.value;
@@ -131,9 +131,9 @@ export default class NewMessageBox extends LightningElement {
 
     /**
      * @name handleAttachmentAttached
-     * @description in <lightning-layout/> footer on <c-message-attachments/> on custom event onattached
-     * defined in messageAttachments component adds attachement to attachments list.
-     * @param {DOMEvent} e
+     * @description in `<lightning-layout/>` footer on `<c-message-attachments/>` handles 
+     * custom event attached defined in messageAttachments.js adds attachement to attachments list.
+     * @param DOMEvent `e`
     **/
     handleAttachmentAttached(e){
         this.attachments.push(e.detail);
@@ -141,10 +141,9 @@ export default class NewMessageBox extends LightningElement {
 
     /**
      * @name handleAttachmentAttached
-     * @description in <lightning-layout/> footer on <c-message-attachments/> on custom 
-     * event onattachmentdeleted defined in messageAttachments component 
-     * removes attachment from attachments list.
-     * @param {DOMEvent} e
+     * @description in `<lightning-layout/>` footer on `<c-message-attachments/>` handles custom 
+     * event attachmentdeleted defined in messageAttachments.js removes attachment from attachments list.
+     * @param DOMEvent `e`
     **/
     handleAttachmentDeleted(e){
         this.attachments = this.attachments.filter( attachment => attachment.Title != e.detail.Title );
@@ -157,8 +156,10 @@ export default class NewMessageBox extends LightningElement {
     /**
      * @name getNewMessage
      * @description gets new message
-     * @param {EmailInfo, EmailMessage, EmailInfo} data, replyToMessage, replyAll 
-     * @return {EmailInfo} 
+     * @param EmailInfo `data` 
+     * @param EmailMessage `replyToMessage`
+     * @param EmailInfo `replyAll` 
+     * @return `EmailInfo` 
     **/
     getNewMessage(data, replyToMessage, replyAll){
         let newMessage = JSON.parse( data ); // newMessage of apex type EmailInfo
@@ -210,9 +211,10 @@ export default class NewMessageBox extends LightningElement {
     /**
      * @name fixRealtions
      * @description copies objects over for addresses component
-     * and flip the EmailMessageRelation record RelationType for addresses 
+     * and flips the EmailMessageRelation record RelationType for addresses 
      * component for getRelations method 
-     * @param {EmailInfo, EmailMessage} newMessage, replyToMessage
+     * @param EmailInfo `newMessage`
+     * @param EmailInfo `replyToMessage`
     **/
     fixRelations( newMessage, replyToMessage ){
 

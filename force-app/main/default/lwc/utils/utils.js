@@ -1,9 +1,14 @@
+
+/**
+ * IMPORTS
+ */ 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 /**
- * Reduces one or more LDS errors into a string[] of error messages.
- * @param {FetchResponse|FetchResponse[]} errors
- * @return {String[]} Error messages
+ * @name reduceErrors
+ * @description Reduces one or more LDS errors into a string[] of error messages.
+ * @param FetchResponse or `FetchReponse[]` `errors`
+ * @return `String[]` Error messages
  */
 function reduceErrors(errors) {
     if (!Array.isArray(errors)) {
@@ -39,9 +44,10 @@ function reduceErrors(errors) {
 }
 
 /**
- * Quick dirty version of above. Probably won't use
- * @param {String} error
- * @return {String} Error messages
+ * @name getErrorString
+ * @description Quick dirty version of above. Probably won't use
+ * @param `String` `error`
+ * @return `String` Error messages
  */
 const getErrorString = (error)=>{
     let ret = 'Unknown Error';
@@ -56,6 +62,12 @@ const getErrorString = (error)=>{
     return ret;
 };
 
+/**
+ * @name validateFields
+ * @description validates fields and returns all valid fields
+ * @param Array[] `fields`
+ * @return `Array[]`
+ */
 const validateFields = (fields)=>{
     // use reduce to get an accumulation of validity from lightning-input
     const allValid = [...fields].reduce((validSoFar, input)=>{
@@ -66,7 +78,13 @@ const validateFields = (fields)=>{
     return allValid;
 };
 
-
+/**
+ * @name getSuccessToast
+ * @description if theres no error messages message gets set to everything went well then returns a new
+ * ShowToastEvent custom event with assigned attributes
+ * @param `String` `message`
+ * @return `CustomEvent`
+ */
 const getSuccessToast = (message)=>{
     if(!message) message = 'Everthing went well.';
 
@@ -77,6 +95,13 @@ const getSuccessToast = (message)=>{
     });
 };
 
+/**
+ * @name getSuccessToast
+ * @description if theres no error messages message gets set to everything went well then returns a new
+ * ShowToastEvent custom event with assigned attributes
+ * @param String `message`
+ * @return `CustomEvent`
+ */
 const getErrorToast = (errors)=>{
     const messages = reduceErrors(errors);
     
@@ -96,6 +121,11 @@ const getErrorToast = (errors)=>{
     });
 };
 
+/**
+ * @name log
+ * @description logs the proxyOBect to to console
+ * @param ObjectLiteral `proxyObect`
+ */
 const log = (proxyObect)=>{
     if( proxyObect === undefined ) proxyObect = 'undefined';
     if( proxyObect === null ) proxyObect = 'null';
@@ -103,6 +133,13 @@ const log = (proxyObect)=>{
     console.log(JSON.parse(JSON.stringify(proxyObect)));
 }
 
+/**
+ * @name getDateDiff
+ * @description compares two dates and returns the difference between the dates in seconds
+ * @param Date `latterDate`
+ * @param Date `formerDate`
+ * @return `Object` - `ret`
+ */
 const getDateDiff = ( latterDate, formerDate )=>{
     // date diff in seconds
     let dateDiff = Math.abs(latterDate - formerDate) / 1000;
@@ -137,6 +174,9 @@ const getDateDiff = ( latterDate, formerDate )=>{
     return ret;
 }
 
+/**
+ * EXPORTS
+ */ 
 export { 
     validateFields, 
     getErrorToast, 

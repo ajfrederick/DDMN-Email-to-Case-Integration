@@ -21,7 +21,7 @@ export default class Collapse extends LightningElement {
 
     /**
      * @name toggleCollapse
-     * @description on <lightning-icon/> onclick toggles collapse functionality
+     * @description on lightning-icon handles onclick toggles collapse functionality
      */
     toggleCollapse(){
         if( this.isCollapsed ){

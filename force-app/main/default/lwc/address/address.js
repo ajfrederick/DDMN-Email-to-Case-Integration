@@ -66,7 +66,7 @@ export default class Address extends LightningElement {
     /**
      * @name handleKeyup
      * @description sugggests valid email addreses in address-input
-     * @param {DOMEvent} e 
+     * @param DOMEvent `e` 
     **/
     handleKeyup(e){
         let address = e.currentTarget.value;
@@ -88,8 +88,8 @@ export default class Address extends LightningElement {
 
     /**
      * @name handleBlur
-     * @description sugggests valid email addreses captured from .address-input <input/>
-     * @param any e
+     * @description sugggests valid email addreses captured from .address-input `<input/>`
+     * @param DOMEvent `e`
     **/
     handleBlur(e){
         let currentTarget = e.currentTarget,
@@ -116,7 +116,7 @@ export default class Address extends LightningElement {
     /**
      * @name search
      * @description sets value of current email searchString after suggesting valid ones in handleKeyup 
-     * @param {DOMEvent} e 
+     * @param DOMEvent `e` 
     **/
     search(e){
         if( this.errorMessage ) this.errorMessage = null;
@@ -151,7 +151,8 @@ export default class Address extends LightningElement {
 
     /**
      * @name hideDetail
-     * @description hides details onmouseleave on .address-container
+     * @description handles onmouseleave on .address-container hides details
+     * @param DOMEvent `e`
     **/
     hideDetail(e){
 
@@ -177,9 +178,9 @@ export default class Address extends LightningElement {
 
     /**
      * @name handleAddressAdded
-     * @description handles custom event fired in recipientOptions.js
+     * @description on c-recipient-options handles custom event addressadded defined in recipientOptions.js
      * this method zeros out string values
-     * @param {CustomEvent} e
+     * @param CustomEvent `e`
     **/
     handleAddressAdded(e){
         this.optionClicked = true;
@@ -189,7 +190,11 @@ export default class Address extends LightningElement {
 
         this.searchString = '';
     }
-
+    /**
+     * @name keepDetail
+     * @description on c-address-detail handles custom event detailleft defined in addressDetail.js
+     * this method sets detailEntered to true
+    **/
     keepDetail(){
         this.detailEntered = true;
     }
@@ -200,9 +205,9 @@ export default class Address extends LightningElement {
     /**
      * @name addAddress
      * @description if email address is valid gets addressObj/addressType and
-     * creates/dispatches the addressadded custom event
-     * @param {Address} address
-     * @return {Boolean}
+     * dispatches the addressadded custom event
+     * @param Address `address`
+     * @return `Boolean`
     **/
     addAddress(address){
         if( !address ) return false;

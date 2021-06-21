@@ -83,10 +83,10 @@ export default class RecipientOptions extends LightningElement {
  */
     /**
      * @name handleClick
-     * @description in .optionsClass in <template/> for loop on <div/> onclick sets up 
+     * @description in .optionsClass in `<template/>` for loop on <div/> handles onclick sets up 
      * email with email, id, and name. Sets up detail with address obj and type. Creates a
      * new custom event addressadded. Then dispatches the new custom event.
-     * @param {DOMEvent} e
+     * @param DOMEvent `e`
     **/
     handleClick(e){
         let email = e.currentTarget.dataset.email,
