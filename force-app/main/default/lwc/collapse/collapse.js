@@ -21,9 +21,7 @@ export default class Collapse extends LightningElement {
 
     /**
      * @name toggleCollapse
-     * @description on <lightning-icon/> onclick sets the detial with address email and type
-     * creates/dispatches custom event addressremoved.
-     * @param {DOMEvent} e
+     * @description on <lightning-icon/> onclick toggles collapse functionality
      */
     toggleCollapse(){
         if( this.isCollapsed ){
