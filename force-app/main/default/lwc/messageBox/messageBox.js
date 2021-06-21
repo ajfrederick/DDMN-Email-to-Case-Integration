@@ -1,3 +1,6 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement, api } from 'lwc';
 
 import { log, getDateDiff } from 'c/utils';
@@ -7,6 +10,9 @@ import { getRelations } from 'c/utilsApp';
 import IS_INCOMING from '@salesforce/schema/EmailMessage.Incoming';
 const INCOMING = IS_INCOMING.fieldApiName;
 
+/**
+ * CLASS
+ */ 
 export default class MessageBox extends LightningElement {
 
 /**
@@ -70,12 +76,24 @@ export default class MessageBox extends LightningElement {
  * DOM EVENT HANDLERS
  */
 
+    /**
+     * @name reply
+     * @description in Reply Button section on <lightning-button/> onclick sets a new message with
+     * the message input.
+     * @param {DOMEvent} e
+    **/
     reply(e){
         this.setNewMessage({
             message : this.message
         });
     }
 
+    /**
+     * @name replyAll
+     * @description in Reply All Button section on <lightning-button/> onclick sets new message with
+     * the message input and replyAll set to true
+     * @param {DOMEvent} e
+    **/
     replyAll(e){
         this.setNewMessage({
             message : this.message,
@@ -83,10 +101,20 @@ export default class MessageBox extends LightningElement {
         });
     }
 
+    /**
+     * @name handleMouseOver
+     * @description onmouseover adds the 'sld-current-color' class to the element
+     * @param {DOMEvent} e
+    **/
     handleMouseOver(e){
         e.currentTarget.classList.add('slds-current-color');
     }
 
+    /**
+     * @name handleMouseOut
+     * @description onmouseout removes the 'sld-current-color' from the element
+     * @param {DOMEvent} e
+    **/
     handleMouseOut(e){
         e.currentTarget.classList.remove('slds-current-color');
     }
@@ -94,6 +122,12 @@ export default class MessageBox extends LightningElement {
 /**
  * CONFIGURATION FUNCS
  */
+
+    /**
+     * @name setIconData
+     * @description creates icon data for a given message
+     * @param {EmailMessage} message
+    **/
     setIconData(message){
         this.iconData = new IconData(message);
     }
@@ -101,7 +135,11 @@ export default class MessageBox extends LightningElement {
 /**
  * UTILITIES
  */
-        
+     /**
+     * @name setNewMessage
+     * @description dispatches the custom event reply
+     * @param {ObjecLiteral} detail
+    **/   
     setNewMessage(detail){
         this.dispatchEvent( new CustomEvent( 'reply', {detail} ) );
     }
@@ -111,44 +149,44 @@ export default class MessageBox extends LightningElement {
  * MODULE CLASSES/CONSTRUCTOR FUNCS
  */
 
-/**
- * @description class to unpack name or address data to create initals for Icons in markup. This is only for markup.
- * @param {EmailMessage} message
- */
-function IconData(message){
-    let fromRelation, str1, str2, name;
+    /**
+     * @description class to unpack name or address data to create initals for Icons in markup. This is only for markup.
+     * @param {EmailMessage} message
+     */
+    function IconData(message){
+        let fromRelation, str1, str2, name;
 
-    if( message[INCOMING] ){
-        
-        fromRelation = getRelations(message, 'FromAddress');
+        if( message[INCOMING] ){
+            
+            fromRelation = getRelations(message, 'FromAddress');
 
-        // since the getRelations returns an array but there will always only be one from address
-        fromRelation = fromRelation.length > 0 ? fromRelation[0] : null;
+            // since the getRelations returns an array but there will always only be one from address
+            fromRelation = fromRelation.length > 0 ? fromRelation[0] : null;
 
-        if( fromRelation ){
-            str1 = fromRelation.FirstName;
-            str2 = fromRelation.LastName;
+            if( fromRelation ){
+                str1 = fromRelation.FirstName;
+                str2 = fromRelation.LastName;
+            } else {
+                str1 = message.FromAddress;
+            }
+
+            name = 'standard:client';
+            
         } else {
-            str1 = message.FromAddress;
+            str1 = message.FromName;
+            str2 = message.FromName.charAt(1);
+
+            name = 'standard:account';
         }
 
-        name = 'standard:client';
+        let initials = str1.charAt(0).toUpperCase();
+
+        if( str2 ){
+            initials += str2.charAt(0).toUpperCase();
+        } else {
+            initials += str1.charAt(1);
+        }
         
-    } else {
-        str1 = message.FromName;
-        str2 = message.FromName.charAt(1);
-
-        name = 'standard:account';
+        this.initials = initials;
+        this.name = name;
     }
-
-    let initials = str1.charAt(0).toUpperCase();
-
-    if( str2 ){
-        initials += str2.charAt(0).toUpperCase();
-    } else {
-        initials += str1.charAt(1);
-    }
-    
-    this.initials = initials;
-    this.name = name;
-}
