@@ -137,7 +137,7 @@ export default class Address extends LightningElement {
 
     /**
      * @name showDetail
-     * @description shows details on mouseenter on .address-container
+     * @description shows details onmouseenter on .address-container
     **/
     showDetail(){
 
@@ -151,7 +151,7 @@ export default class Address extends LightningElement {
 
     /**
      * @name hideDetail
-     * @description hides details on onmouseleave on .address-container
+     * @description hides details onmouseleave on .address-container
     **/
     hideDetail(e){
 
