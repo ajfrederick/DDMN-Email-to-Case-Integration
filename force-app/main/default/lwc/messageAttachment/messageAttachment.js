@@ -7,6 +7,9 @@ import { NavigationMixin } from 'lightning/navigation';
 
 import { log } from 'c/utils';
 
+/**
+ * CLASS
+ */ 
 export default class MessageAttachment extends NavigationMixin(LightningElement) {
 
 /**
@@ -83,7 +86,7 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
     /**
      * @name deleteAttachment
      * @description on <lightning-icon/> onclick removes attachment. Sets detail title and 
-     * creates/fires a custom event attachmentdeleted
+     *  dispatches custom event attachmentdeleted
     **/
     deleteAttachment(){
         let detail = {
