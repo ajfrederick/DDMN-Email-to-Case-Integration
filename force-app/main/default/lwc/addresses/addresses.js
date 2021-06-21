@@ -65,9 +65,15 @@ export default class Addresses extends LightningElement {
     }
 
 /**
- * DOM FUNCS
+ * DOM EVENT FUNCS
  */
 
+    /**
+     * @name handleClick
+     * @description on .addresses onclick focuses on addresses removes and then adds event listener
+     * for click. Stops event propagation for onclick on .addresses
+     * @param {DOMEvent} e
+     */
     handleClick(e){
         if( !this.isNew ) return;
 
@@ -84,10 +90,22 @@ export default class Addresses extends LightningElement {
         e.stopPropagation();
     }
 
+    /**
+     * @name handleAddressRemoved
+     * @description captured by c-address by the custom event addressremoved created in the addressPill
+     * component. Removes address from addresses.
+     * @param {CustomEvent.detail} detail
+     */
     handleAddressRemoved({detail}){
         this.addresses[detail.addressType] = this.addresses[detail.addressType].filter( address => address.email !== detail.email );
     }
 
+    /**
+     * @name handleAddressAdded
+     * @description captured by c-address by the custom event addressremoved created in the recipientOptions
+     * component. Adds address to addresses.
+     * @param {CustomEvent.detail} detail
+     */
     handleAddressAdded({detail}){
         this.addresses[detail.addressType].push(detail.addressObj);
     }
