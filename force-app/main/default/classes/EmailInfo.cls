@@ -114,7 +114,8 @@ public class EmailInfo {
     /**
      * @name setAttachement
      * @description adds attachements
-     * @params Blob body, String filename
+     * @param Blob body 
+     * @param String filename
      * @return void
     **/
     public void setAttachement( Blob body, String filename ){
@@ -124,7 +125,8 @@ public class EmailInfo {
     /**
      * @name setAttachement
      * @description adds attachements 
-     * @params String body, String filename 
+     * @param String body
+     * @param String filename 
      * @return void
     **/
     public void setAttachement( String body, String filename ){
@@ -136,7 +138,7 @@ public class EmailInfo {
     /**
      * @name setQuote
      * @description wraps the content in quote div, otherwise its an empty string
-     * @params String quote
+     * @param String quote
      * @return void
     **/
     public void setQuote( String quote ){
