@@ -190,6 +190,7 @@ export default class Address extends LightningElement {
 
         this.searchString = '';
     }
+    
     /**
      * @name keepDetail
      * @description on c-address-detail handles custom event detailleft defined in addressDetail.js
@@ -199,9 +200,6 @@ export default class Address extends LightningElement {
         this.detailEntered = true;
     }
 
-/**
- * UTILITY FUNCS
- */
     /**
      * @name addAddress
      * @description if email address is valid gets addressObj/addressType and
