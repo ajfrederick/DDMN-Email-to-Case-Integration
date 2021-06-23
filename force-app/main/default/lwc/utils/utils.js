@@ -46,7 +46,7 @@ function reduceErrors(errors) {
 /**
  * @name getErrorString
  * @description Quick dirty version of above. Probably won't use
- * @param `String` `error`
+ * @param String `error`
  * @return `String` Error messages
  */
 const getErrorString = (error)=>{
@@ -82,7 +82,7 @@ const validateFields = (fields)=>{
  * @name getSuccessToast
  * @description if theres no error messages message gets set to everything went well then returns a new
  * ShowToastEvent custom event with assigned attributes
- * @param `String` `message`
+ * @param String `message`
  * @return `CustomEvent`
  */
 const getSuccessToast = (message)=>{

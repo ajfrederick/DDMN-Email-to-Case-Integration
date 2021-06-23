@@ -415,9 +415,9 @@ public class UiComponentServices {
     // wrapper class that gets serialized into JSON for first main UI call that looks for all the message data for a record
     public class FeedData {
 
-    /**
-     * FIELDS
-    **/
+/**
+* FIELDS
+**/
 
         public EmailMessage[] messages {
             get {
@@ -445,27 +445,27 @@ public class UiComponentServices {
     }
 
     public class NewMessageData {
-    /**
-     * FIELDS
-    **/
+/**
+ * FIELDS
+**/
         public EmailInfo message {get;set;}
         public NewMessageAttachmentData[] attachments {get;set;}
         public ReplyToMessage replyToMessage {get;set;}
     }
 
     public class NewMessageAttachmentData {
-    /**
-     * FIELDS
-    **/
+/**
+ * FIELDS
+**/
         public String Title {get;set;}
         public String base64 {get;set;}
         public String FileExtension {get;set;}
     }
 
     public class ReplyToMessage {
-    /**
-     * FIELDS
-    **/
+/**
+ * FIELDS
+**/
         public DateTime MessageDate {get;set;}
         public String FromAddress {get;set;}
         public String FromName {get;set;}
