@@ -97,7 +97,9 @@ public class EmailInfo {
     /**
      * @name setContent
      * @description creats/sets up a new EmailContent object
-     * @params String Subject, String HtmlBody, String PlainTextBody
+     * @param String Subject
+     * @param String HtmlBody
+     * @param String PlainTextBody
      * @return void
     **/
     public void setContent( String Subject, String HtmlBody, String PlainTextBody ){
