@@ -103,7 +103,7 @@ export default class Addresses extends LightningElement {
     /**
      * @name handleAddressAdded
      * @description on c-address handles custom event addressremoved defined in the recipientOptions.js
-     * this method Adds address to addresses.
+     * this method adds address to addresses.
      * @param CustomEvent.detail detail
      */
     handleAddressAdded({detail}){

@@ -47,7 +47,6 @@ export default class EmailMessageFeed extends LightningElement {
  * ACTION FUNCTIONS
  */
 
-
     /**
      * @name getMessages
      * @description gets all messages
@@ -152,7 +151,7 @@ export default class EmailMessageFeed extends LightningElement {
      * @name newMessageSent
      * @description on `<c-new-message-box/>` handles onsent a custom event created in the 
      * newMessage component.
-     * This method sets the messages scrolls and calls the custom event successToast 
+     * This method sets the messages, scrolls, and calls the custom event successToast 
      * indicating the message was sent.
      * @param CustomEvent.detail `detail`
     **/

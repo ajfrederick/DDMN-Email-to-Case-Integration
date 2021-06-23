@@ -216,7 +216,7 @@ public class EmailInfo {
 
     /**
      * @name wrapHTMLBody
-     * @description takes a String and wraps it in a div with class of creed-message
+     * @description takes HTMLBody and wraps it in a div with class of creed-message
      * @param String HtmlBody
      * @return String
      */
