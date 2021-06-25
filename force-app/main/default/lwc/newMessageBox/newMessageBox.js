@@ -10,6 +10,10 @@ import sendEmailMessage from '@salesforce/apex/UiComponentServices.sendEmailMess
 
 import { addressTypes } from 'c/utilsApp';
 
+/**
+ * CLOSURE VAR
+ */ 
+
 let timeoutId = null;
 
 /**

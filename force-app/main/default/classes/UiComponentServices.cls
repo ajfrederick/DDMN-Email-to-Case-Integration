@@ -4,6 +4,10 @@
 **/
 public class UiComponentServices {
 
+/**
+ * FIELDS
+**/
+
     public static AttachmentCreator attachmentCreatorForTrigger {get;set;}
 
 /**

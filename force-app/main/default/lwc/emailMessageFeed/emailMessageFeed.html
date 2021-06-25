@@ -1,4 +1,4 @@
-<!-- this is the template for the email thread for a record that is tied to emails-->
+<!-- this is the template for the email thread for a record that is tied to emails -->
 <template>
     <div class="email-feed">
         <!-- 
@@ -9,18 +9,20 @@
         </c-new-message-box>
 
         <!-- 
-            SENT MESSAGES
+            OLD MESSAGES
         -->
         <!-- START LOOP -->
         <template 
             for:each={messages}
             for:item="message">
-            
+
+            <!-- Message box -->
             <c-message-box
                 key={message.Id} 
                 message={message}
                 onreply={setNewMessage}>
             </c-message-box>
+            <!-- END Message box -->
 
         </template>
         <!-- END LOOP -->

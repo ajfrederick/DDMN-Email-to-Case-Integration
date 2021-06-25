@@ -12,6 +12,10 @@ export default class AddressPill extends LightningElement {
  * PROPERTIES
  */ 
 
+/**
+ * PROPERTIES
+ */ 
+
     // address object that is made in addresses component
     @api address;
 
@@ -26,6 +30,10 @@ export default class AddressPill extends LightningElement {
     get linkUrl(){
         return window.location.origin + '/' + this.address.id;
     }
+
+/**
+ * CUSTOM EVENT FUNCS
+ */ 
     
 /**
  * DOM EVENT HANDLERS
