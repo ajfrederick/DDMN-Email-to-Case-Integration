@@ -8,7 +8,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
  * @name reduceErrors
  * @description Reduces one or more LDS errors into a string[] of error messages.
  * @param FetchResponse or `FetchReponse[]` `errors`
- * @return `String[]` Error messages
+ * @return String[] Error messages
  */
 function reduceErrors(errors) {
     if (!Array.isArray(errors)) {
@@ -47,7 +47,7 @@ function reduceErrors(errors) {
  * @name getErrorString
  * @description Quick dirty version of above. Probably won't use
  * @param String `error`
- * @return `String` Error messages
+ * @return String Error messages
  */
 const getErrorString = (error)=>{
     let ret = 'Unknown Error';
@@ -66,7 +66,7 @@ const getErrorString = (error)=>{
  * @name validateFields
  * @description validates fields and returns all valid fields
  * @param Array[] `fields`
- * @return `Array[]`
+ * @return Array[]
  */
 const validateFields = (fields)=>{
     // use reduce to get an accumulation of validity from lightning-input
@@ -83,7 +83,7 @@ const validateFields = (fields)=>{
  * @description if theres no error messages message gets set to everything went well then returns a new
  * ShowToastEvent custom event with assigned attributes
  * @param String `message`
- * @return `CustomEvent`
+ * @return CustomEvent
  */
 const getSuccessToast = (message)=>{
     if(!message) message = 'Everthing went well.';
@@ -100,7 +100,7 @@ const getSuccessToast = (message)=>{
  * @description if theres no error messages message gets set to everything went well then returns a new
  * ShowToastEvent custom event with assigned attributes
  * @param String `message`
- * @return `CustomEvent`
+ * @return CustomEvent
  */
 const getErrorToast = (errors)=>{
     const messages = reduceErrors(errors);
@@ -138,7 +138,7 @@ const log = (proxyObect)=>{
  * @description compares two dates and returns the difference between the dates in seconds
  * @param Date `latterDate`
  * @param Date `formerDate`
- * @return `Object` - `ret`
+ * @return Object - `ret`
  */
 const getDateDiff = ( latterDate, formerDate )=>{
     // date diff in seconds

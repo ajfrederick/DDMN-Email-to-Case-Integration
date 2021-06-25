@@ -205,7 +205,7 @@ export default class Address extends LightningElement {
      * @description if email address is valid gets addressObj/addressType and
      * dispatches the addressadded custom event
      * @param Address `address`
-     * @return `Boolean`
+     * @return Boolean
     **/
     addAddress(address){
         if( !address ) return false;

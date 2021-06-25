@@ -65,7 +65,6 @@ export default class Addresses extends LightningElement {
     }
 
 /**
-<<<<<<< HEAD
  * DOM EVENT FUNCS
  */
 
@@ -73,13 +72,8 @@ export default class Addresses extends LightningElement {
      * @name handleClick
      * @description on .addresses handles onclick focuses addresses removes and then adds event listener
      * for click. Stops event propagation for onclick on .addresses
-     * @param DOMEvent `e`
+     * @param DOMEvent `e`\
      */
-=======
- * DOM FUNCS
- */
-
->>>>>>> 21b25efeebf7b6f36574f8f4533906126fb59613
     handleClick(e){
         if( !this.isNew ) return;
 

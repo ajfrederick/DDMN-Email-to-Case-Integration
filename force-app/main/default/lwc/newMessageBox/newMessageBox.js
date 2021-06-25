@@ -163,7 +163,7 @@ export default class NewMessageBox extends LightningElement {
      * @param EmailInfo `data` 
      * @param EmailMessage `replyToMessage`
      * @param EmailInfo `replyAll` 
-     * @return `EmailInfo` 
+     * EmailInfo` 
     **/
     getNewMessage(data, replyToMessage, replyAll){
         let newMessage = JSON.parse( data ); // newMessage of apex type EmailInfo

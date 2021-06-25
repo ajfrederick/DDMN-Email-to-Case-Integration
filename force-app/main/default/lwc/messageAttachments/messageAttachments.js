@@ -87,7 +87,7 @@ export default class MessageAttachments extends LightningElement {
      * @description checks to see if a file's size is larger tha 5MB returns true if it is
      * else returns false
      * @param Integer `size`
-     * @return `Boolean`
+     * @return Boolean
     **/
     function largerThan5MB(size){
         return size > 5000000;

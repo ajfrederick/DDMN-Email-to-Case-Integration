@@ -7,7 +7,7 @@
  * @description gets message realtions see method for better description
  * @param Message `message`
  * @param String `addressType`
- * @return `Array[]` - `relationsToReturn`
+ * @return Array[] - `relationsToReturn`
  */
 const getRelations = ( message, addressType )=>{
     if( !message || !message.relationsById ) return [];
@@ -60,7 +60,7 @@ const addressTypes = [
  * @name eamilValid
  * @description validates a given email address
  * @param String `email`
- * @return `Boolean`
+ * @return Boolean
  */
 const emailValid = (email)=>{
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
