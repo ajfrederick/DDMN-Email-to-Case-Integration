@@ -86,7 +86,7 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
     /**
      * @name deleteAttachment
      * @description on `<lightning-icon/>` handles onclick removes attachment. Sets detail title and 
-     *  creates/dispatches custom event attachmentdeleted
+     *  creates/dispatches custom event attachmentdeleted where handled in newMessageBox
     **/
     deleteAttachment(){
         let detail = {

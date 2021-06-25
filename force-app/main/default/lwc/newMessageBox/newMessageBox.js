@@ -64,6 +64,7 @@ export default class NewMessageBox extends LightningElement {
     /**
      * @name send
      * @description in .slds-clearfix on `<lightning-button/>` handles onclick sends a new message
+     * and dispatches/creates custom event sent where handled in emailMessageFeed
     **/
     send(){
         this.isSending = true;

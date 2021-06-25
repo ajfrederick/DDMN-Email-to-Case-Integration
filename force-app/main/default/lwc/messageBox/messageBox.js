@@ -137,7 +137,7 @@ export default class MessageBox extends LightningElement {
  */
      /**
      * @name setNewMessage
-     * @description creates/dispatches the custom event reply
+     * @description creates/dispatches the custom event reply where handled in emailMessageFeed
      * @param ObjecLiteral `detail`
     **/   
     setNewMessage(detail){

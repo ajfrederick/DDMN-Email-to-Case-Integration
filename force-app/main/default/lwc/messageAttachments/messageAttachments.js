@@ -40,8 +40,8 @@ export default class MessageAttachments extends LightningElement {
     /**
      * @name handleAttachment
      * @description on `<lightning-input/>` handles onchange zeros out error messages checks to see if the
-     * file is larger than 5 MB and reads the attachment file. Creates/dispatches custom event attached.
-     * Gets any errors
+     * file is larger than 5 MB and reads the attachment file. Creates/dispatches
+     *  custom event attached where handled in newMessageBox. Gets any errors
      * @param DOMEvent `e`
     **/
     handleAttachment(e){

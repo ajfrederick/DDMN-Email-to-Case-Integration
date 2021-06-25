@@ -203,7 +203,7 @@ export default class Address extends LightningElement {
     /**
      * @name addAddress
      * @description if email address is valid gets addressObj/addressType and
-     * dispatches the addressadded custom event
+     * dispatches the addressadded custom event where handled in addresses
      * @param Address `address`
      * @return Boolean
     **/

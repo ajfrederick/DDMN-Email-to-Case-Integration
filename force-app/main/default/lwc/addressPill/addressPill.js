@@ -42,7 +42,7 @@ export default class AddressPill extends LightningElement {
     /**
      * @name handlePillRemove
      * @description on lightning-pill handles onremove sets the detial with address email and type
-     * creates/dispatches custom event addressremoved.
+     * creates/dispatches custom event addressremoved where handled in addresses
      * @param DOMEvent `e`
      */
     handlePillRemove(e){
