@@ -89,7 +89,7 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
 
     /**
      * @name deleteAttachment
-     * @description when clicking .delete-attachment-icon this method gets teh attachment's title and creates/dispatches the
+     * @description when clicking .delete-attachment-icon this method gets the attachment's title and creates/dispatches the
      * custom event attachmentdeleted which is handled in newMessageBox.js
     **/
     deleteAttachment(){
