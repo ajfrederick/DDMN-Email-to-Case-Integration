@@ -41,17 +41,17 @@ export default class AddressDetail extends LightningElement {
 
     /**
      * @name keepDetial
-     * @description on .detailclass handles onmouseenter creates/dispatches detailentered 
-     * custom event where handled in address
+     * @description when mouse enters .detailclass this method creates/dispatches the
+     * detailentered custom event. Handled in keepDetail() in address.js
     **/
     keepDetail(){
         this.dispatchEvent( new CustomEvent('detailentered') );
     }
 
-     /**
+    /**
      * @name hideDetail
-     * @description on .detailclass handles onmouseleave hides details
-     * and creates/dispatches detailleft custom event where handled in address
+     * @description when mouse leaves .detailclass this method indicates the address detail should be
+     * removed by creating/dispatching detailleft custom. Handled in hideDetail() in address.js
     **/
     hideDetail(){
         let event = new CustomEvent( 'detailleft', {

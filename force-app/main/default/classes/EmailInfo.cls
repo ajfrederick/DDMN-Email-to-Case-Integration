@@ -113,7 +113,9 @@ public class EmailInfo {
 
     /**
      * @name setAttachement
-     * @description adds attachements
+     * @description adds AttachementData when an outgoing or 
+     * incoming email contains a binary attachment which is formatted
+     * as Blob data
      * @param Blob body 
      * @param String filename
      * @return void
@@ -124,7 +126,8 @@ public class EmailInfo {
 
     /**
      * @name setAttachement
-     * @description adds attachements 
+     * @description adds AttachementData when an outgoing or 
+     * incoming email contains a text attachment which is formatted as a String
      * @param String body
      * @param String filename 
      * @return void
@@ -137,7 +140,7 @@ public class EmailInfo {
 
     /**
      * @name setQuote
-     * @description wraps the content in quote div, otherwise its an empty string
+     * @description wraps message history in quote div for a new outgoing message
      * @param String quote
      * @return void
     **/

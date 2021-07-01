@@ -50,7 +50,9 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
  */
     /**
      * @name preview
-     * @description on `<lightning-icon/>` handles onclick navigates to the filePreview page 
+     * @description when `<lightning-icon/>` within .message-attachment is clicked
+     * this method calls the Navigate api which navigates to the filePreview page giving a preview
+     * of the attachment.
      * @param DOMEvent `e`
     **/
     preview(e){
@@ -69,7 +71,8 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
 
     /**
      * @name showDelete
-     * @description on .message-attachment handles onmouseover removes the ' displayed' class
+     * @description when the mouse goes over .message-attachment this method displays the 'x' icon
+     * on the attachment icon which is used to delete the attatchment on the current message that is being drafted.
     **/
     showDelete(){
         this.deleteClass += ' displayed';
@@ -77,7 +80,8 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
 
     /**
      * @name hideDelete
-     * @description on .message-attachment handles onmouseout removes the 'delete-attachment' class
+     * @description when the mouse goes out of .message-attachment this method removes the 'x' icon from the
+     * attachment icon.
     **/
     hideDelete(){
         this.deleteClass = 'delete-attachment';
@@ -85,8 +89,8 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
 
     /**
      * @name deleteAttachment
-     * @description on `<lightning-icon/>` handles onclick removes attachment. Sets detail title and 
-     *  creates/dispatches custom event attachmentdeleted where handled in newMessageBox
+     * @description when clicking .delete-attachment-icon this method gets teh attachment's title and creates/dispatches the
+     * custom event attachmentdeleted which is handled in newMessageBox.js
     **/
     deleteAttachment(){
         let detail = {

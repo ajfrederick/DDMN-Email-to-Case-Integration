@@ -78,8 +78,9 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name reply
-     * @description in Reply Button section on `<lightning-button/>` handles onclick sets a new message with
-     * the message input.
+     * @description when .reply-button is clicked this method calls the setNewMessage method which will dispatch
+     * a custom event with the given message detail and pull up a message box modal
+     * 
      * @param DOMEvent `e`
     **/
     reply(e){
@@ -90,8 +91,9 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name replyAll
-     * @description in Reply All Button section on `<lightning-button/>` handles onclick sets new message with
-     * the message input and replyAll set to true
+     * @description when .reply-button is clicked this method calls the setNewMessage method which will dispatch
+     * a custom event with the given message detail and pull up a message box modal. 
+     * Same as the reply method except replyAll is indicated in the event details.
      * @param DOMEvent `e`
     **/
     replyAll(e){
@@ -103,7 +105,7 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name handleMouseOver
-     * @description handles onmouseover adds the 'sld-current-color' class to the element
+     * @description handles onmouseover adds the 'sld-current-color' class to the target element
      * @param DOMEvent `e`
     **/
     handleMouseOver(e){
@@ -112,7 +114,7 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name handleMouseOut
-     * @description handles onmouseout removes the 'sld-current-color' from the element
+     * @description handles onmouseout removes the 'sld-current-color' from the target element
      * @param DOMEvent `e`
     **/
     handleMouseOut(e){
@@ -125,7 +127,7 @@ export default class MessageBox extends LightningElement {
 
     /**
      * @name setIconData
-     * @description creates icon data for a given message
+     * @description instantiates new icon data for a given message, this is called in the message setter.
      * @param EmailMessage `message`
     **/
     setIconData(message){
@@ -137,7 +139,7 @@ export default class MessageBox extends LightningElement {
  */
      /**
      * @name setNewMessage
-     * @description creates/dispatches the custom event reply where handled in emailMessageFeed
+     * @description creates/dispatches the custom event reply which is handled in emailMessageFeed.js
      * @param ObjecLiteral `detail`
     **/   
     setNewMessage(detail){
@@ -149,11 +151,6 @@ export default class MessageBox extends LightningElement {
  * MODULE CLASSES/CONSTRUCTOR FUNCS
  */
 
-    /**
-     * @description used to unpack name or address data to create initals for Icons in markup. 
-     * This is only for markup.
-     * @param EmailMessage `message`
-     */
     function IconData(message){
         let fromRelation, str1, str2, name;
 

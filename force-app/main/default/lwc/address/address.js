@@ -65,7 +65,10 @@ export default class Address extends LightningElement {
 
     /**
      * @name handleKeyup
-     * @description sugggests valid email addreses in address-input
+     * @description on every keystroke searches database for user or contact by
+     * first name last name or email. But if keystroke is enter it checks to see
+     * if its a valid email address format, and if it is it clears search string and adds
+     * address to addresses list on address.js
      * @param DOMEvent `e` 
     **/
     handleKeyup(e){
@@ -115,7 +118,9 @@ export default class Address extends LightningElement {
 
     /**
      * @name search
-     * @description sets value of current email searchString after suggesting valid ones in handleKeyup 
+     * @description sets value of searchString after debouncing. The searchString value then
+     * gets passed into the recipientOptions component and when the searchString is populated
+     * it makes an apex server call.
      * @param DOMEvent `e` 
     **/
     search(e){
@@ -137,7 +142,7 @@ export default class Address extends LightningElement {
 
     /**
      * @name showDetail
-     * @description shows details onmouseenter on .address-container
+     * @description onmouseenter on .address-container shows a detailed list of all addresses
     **/
     showDetail(){
 
@@ -194,7 +199,7 @@ export default class Address extends LightningElement {
     /**
      * @name keepDetail
      * @description on c-address-detail handles custom event detailleft defined in addressDetail.js
-     * this method sets detailEntered to true
+     * this method indicates that the detail has been entered
     **/
     keepDetail(){
         this.detailEntered = true;

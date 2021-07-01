@@ -7,7 +7,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 /**
  * @name reduceErrors
  * @description Reduces one or more LDS errors into a string[] of error messages.
- * @param FetchResponse or `FetchReponse[]` `errors`
+ * @param Response or FetchReponse[] `errors`
  * @return String[] Error messages
  */
 function reduceErrors(errors) {

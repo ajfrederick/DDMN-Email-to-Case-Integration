@@ -70,9 +70,9 @@ export default class Addresses extends LightningElement {
 
     /**
      * @name handleClick
-     * @description on .addresses handles onclick focuses addresses removes and then adds event listener
-     * for click. Stops event propagation for onclick on .addresses
-     * @param DOMEvent `e`\
+     * @description when .addresses is clicked this method inidicates that addresses should be focused, isFocused is passed to
+     * the address component. If isFocus is true addresses are editable.
+     * @param DOMEvent `e`
      */
     handleClick(e){
         if( !this.isNew ) return;
@@ -93,7 +93,8 @@ export default class Addresses extends LightningElement {
     /**
      * @name handleAddressRemoved
      * @description on c-address handles custom event addressremoved defined in the addressPill.js
-     * this method removes address from addresses.
+     * this method gets the matching addressType array within addresses and filters out the
+     * address that was clicked on via matching email address.
      * @param ObjectLiteral `detail`
      */
     handleAddressRemoved({detail}){
@@ -103,7 +104,7 @@ export default class Addresses extends LightningElement {
     /**
      * @name handleAddressAdded
      * @description on c-address handles custom event addressremoved defined in the recipientOptions.js
-     * this method adds address to addresses.
+     * this method adds the address object to the appropriate addressType array.
      * @param CustomEvent.detail detail
      */
     handleAddressAdded({detail}){

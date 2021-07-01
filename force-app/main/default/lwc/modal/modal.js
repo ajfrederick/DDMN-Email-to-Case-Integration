@@ -18,8 +18,8 @@ export default class Modal extends LightningElement {
 
     /**
      * @name cancel
-     * @description in .slds-modal__footer on `<button/>` handles onclick creates/dispatches 
-     * custom event close where handled in ?
+     * @description when the `<button/>` within the `<footer/>` is clicked this method creates/dispatches 
+     * custom event close. Closes the new message modal.
      * @param DOMEvent `e`
     **/
     cancel(e){

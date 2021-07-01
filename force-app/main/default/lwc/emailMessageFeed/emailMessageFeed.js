@@ -49,7 +49,9 @@ export default class EmailMessageFeed extends LightningElement {
 
     /**
      * @name getMessages
-     * @description gets all messages
+     * @description gets messages with matching recordId using the apex service method getData in UiComponentServices.cls.
+     * Recieves, parses, and sets the data. If there are any errors it calls getErrorToast defined in utils.js and
+     * dispatches the Framework Event errorToast.
     **/
     getMessages(){
         getData({recordId : this.recordId})
@@ -65,7 +67,10 @@ export default class EmailMessageFeed extends LightningElement {
 
     /**
      * @name getFromAddress
-     * @description gets from address
+     * @description Using getFromAddress defined in the UiComponentServices.cls.
+     * Gets the from address that is the external inbox to which all inqueries go to that get forwarded to
+     * this application. If there are any errors it calls getErrorToast defined in utils.js and
+     * dispatches the Framework Event errorToast.
     **/
     getFromAddress(){
         getFromAddress()
@@ -88,7 +93,7 @@ export default class EmailMessageFeed extends LightningElement {
  */ 
     
     /**
-     * @name getFromAddress
+     * @name setData
      * @description process data recieved from apex call
      * @param Object `data`
     **/
@@ -138,7 +143,8 @@ export default class EmailMessageFeed extends LightningElement {
     /**
      * @name setNewMessage
      * @description on `<c-message-box/>` handles onreply a custom event created in the messageBox.js
-     * This method instantiates a newMessageBox and calls itself. 
+     * This method grabs the c-new-message-box component from the DOM, passes in the onReply event, and calls setNewMessage
+     * an api function defined in newMessageBox.js that makes server calls to set reply message data.
      * @param CustomEvent `event`
     **/
     setNewMessage(event){
@@ -149,11 +155,10 @@ export default class EmailMessageFeed extends LightningElement {
 
     /**
      * @name newMessageSent
-     * @description on `<c-new-message-box/>` handles onsent a custom event created in the 
-     * newMessage component.
-     * This method sets the messages, scrolls, and calls the custom event successToast 
-     * indicating the message was sent.
-     * @param CustomEvent.detail `detail`
+     * @description on `<c-new-message-box/>` handles onsent a custom event created in newMessageBox.js.
+     * This method calls setDatat which processes message data recieved from the onsent event. Then the message
+     * feed is scrolled back to the top and dispatches the Framework event getSuccessToast.
+     * @param ObjectLiteral `detail`
     **/
     newMessageSent({detail}){
         this.setData(detail.data);
@@ -171,7 +176,7 @@ export default class EmailMessageFeed extends LightningElement {
     
     /**
      * @name scroll
-     * @description scrolls to top of feed
+     * @description scrolls to top of message feed.
     **/
     scroll(){
         let feed = this.template.querySelector('.email-feed');

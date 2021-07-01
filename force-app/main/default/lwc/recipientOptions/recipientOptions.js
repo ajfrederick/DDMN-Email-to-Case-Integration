@@ -83,9 +83,11 @@ export default class RecipientOptions extends LightningElement {
  */
     /**
      * @name handleClick
-     * @description in .optionsClass in `<template/>` for loop on <div/> handles onclick sets up 
-     * email with email, id, and name. Sets up detail with address obj and type. Creates a
-     * new custom event addressadded. Then dispatches the new custom event.
+     * @description when clicking on a suggested email option `<div/>` this method gets the clicked on email's info
+     * and populates an the addressadded detail with and address object with the information from the Salesforce
+     * user or contact ( email, id, name). Then the addressadded custom event is created/dispatched which is handled
+     * in address.js and addresses.js. Finally, the email suggestion is hidden.
+     * addresses
      * @param DOMEvent `e`
     **/
     handleClick(e){

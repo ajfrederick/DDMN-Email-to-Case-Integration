@@ -38,9 +38,10 @@ export default class MessageBoxBody extends LightningElement {
 
     /**
      * @name parseBody
-     * @description parses the message box body using the DOMParser. Gets and sets all
-     * text and html tags, messages, and quoted messages. These are found using the associated classes
-     * and getting the innerHTML of the element.
+     * @description called from the body's setter. Gets all all of the DOM,
+     * from within the DOM all message elements are obtained by finding elements with .creed-message, and all of the quoted
+     * messages are obtained by finding elements with .creed-message-quote. Then the message and quoted messages are
+     * extracted from the elements setting this class' properties (quotedMessage & message).
      * @param MessageBoxBody `body`
     **/
     parseBody(body){
@@ -64,7 +65,7 @@ export default class MessageBoxBody extends LightningElement {
  */
     /**
      * @name handleAbbrClick
-     * @description on quoted-message-abbr handles onclick hides or shows quoted message history.
+     * @description when .quoted-message-abbr (the 3 ellipses) is clicked this method hides or shows quoted message history.
      * @param DOMEvent `e`
     **/
     handleAbbrClick(e){
