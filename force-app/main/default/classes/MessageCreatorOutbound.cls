@@ -68,8 +68,9 @@ public class MessageCreatorOutbound extends MessageCreator {
 
     /**
      * @name configureMessage
-     * @description called within getMessage
-     * configures message setting up id's on message from the wrapper, disables signature, enables SaveAsActivity
+     * @description called within getMessage, configures outgoing email. Message targeted recipitent's 
+     * id is set, sets the whatId which helps to further ensure that merge fields in the template contain the correct data, 
+     * and also sets InReplyTo which identifies the email or emails to which this email is a reply (parent emails).
      * @param Messaging.SingleEmailMessage message, EmailInfo wrapper
      * @return void
     **/
@@ -94,8 +95,9 @@ public class MessageCreatorOutbound extends MessageCreator {
     /**
      * @name setAddressInfo
      * @description called within getMessage
-     * sets message's to, cc, and bcc addresses. Sets from Address with org wide email address Id
-     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper 
+     * sets outgoing message's to, cc, and bcc addresses. Sets from Address with org wide email address Id
+     * @param Messaging.SingleEmailMessage message
+     * @param EmailInfo wrapper 
      * @return void
     **/
     private void setAddressInfo( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
@@ -112,8 +114,8 @@ public class MessageCreatorOutbound extends MessageCreator {
 
     /**
      * @name setContent
-     * @description called within getMessage
-     * sets body/subject of message with values from the wrapper & sets id's for attatched documents
+     * @description called within getMessage if there is a message and a wrapper
+     * sets body/subject of the outgoing message with values from the wrapper & sets id's for attatched documents
      * @param Messaging.SingleEmailMessage message, EmailInfo wrapper 
      * @return void
     **/

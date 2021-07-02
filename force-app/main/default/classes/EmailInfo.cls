@@ -96,7 +96,8 @@ public class EmailInfo {
 
     /**
      * @name setContent
-     * @description creats/sets up a new EmailContent object
+     * @description sets email subject and content for an outgoing or incoming email given a subject, HtmlBody, and PlaintextBody
+     * all formatted as Strings on a new EmailContent object.
      * @param String Subject
      * @param String HtmlBody
      * @param String PlainTextBody

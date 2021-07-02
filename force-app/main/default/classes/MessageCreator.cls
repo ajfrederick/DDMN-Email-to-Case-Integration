@@ -72,7 +72,7 @@ public abstract class MessageCreator {
 
     /**
      * @name hasOutboundMessages
-     * @description checks to see if outboundMessages of type Messaging.SingleEmailMessage[] is empty or not
+     * @description checks to see if there are outbound messages populating the array.
      * @return Boolean
     **/
     public Boolean hasOutboundMessages(){
@@ -81,7 +81,7 @@ public abstract class MessageCreator {
     
     /**
      * @name hasInboundMessages
-     * @description checks to see if hasInboundMessages of type EmailMessage[] is empty or not.
+     * @description checks to see if there are inbound messages populating the array.
      * @return Boolean
     **/
     public Boolean hasInboundMessages(){

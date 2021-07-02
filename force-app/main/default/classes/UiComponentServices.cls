@@ -169,7 +169,7 @@ public class UiComponentServices {
      * @name getFromAddress
      * @description this returns the from address that is the external inbox to which all inqueries go to that get forwarded to
      * this application
-     * @return String {JSON}
+     * @return String
     **/
     @AuraEnabled
     public static String getFromAddress(){

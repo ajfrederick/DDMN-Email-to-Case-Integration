@@ -53,10 +53,11 @@ public class MessageCreatorInbound extends MessageCreator {
 
     /**
      * @name configureMessage
-     * @description called within getMessage 
-     * checks to see if the wrapper has an id, if so it sets the ParentId to the wrapper whatId
-     * identifies message as incoming message & sets the messages's identifier as wrapper's message id
-     * @param EmailMessage message, EmailInfo wrapper
+     * @description called within getMessage, sets and incoming message's
+     *  parentId to the given EmailInfo object's whatId. Message is also identified as an incoming message.
+     * 
+     * @param EmailMessage message
+     * @param EmailInfo wrapper
      * @return void
     **/
     private void configureMessage( EmailMessage message, EmailInfo wrapper  ){
@@ -72,7 +73,8 @@ public class MessageCreatorInbound extends MessageCreator {
     /**
      * @name setAddressInfo
      * @description called within getMessage 
-     * sets all the associated addresses (to, cc, bcc, from, and name addresses) for the message
+     * sets all the associated addresses (to, cc, bcc, from, and name addresses) for the an inbound message as well as the
+     * name of the sender of the email.
      * @param EmailMessage message, EmailInfo wrapper
      * @return void
     **/
@@ -87,8 +89,8 @@ public class MessageCreatorInbound extends MessageCreator {
 
     /**
      * @name setContent
-     * @description called within getMessage 
-     * sets the related content of the message: the Subject, HtmlBody, & TextBody
+     * @description called within getMessage,
+     * sets the related content of the message: the Subject, HtmlBody, & TextBody of the inbound message
      * @param EmailMessage message, EmailInfo wrapper
      * @return void
     **/

@@ -77,7 +77,8 @@ public class Utils {
 
     /**
      * @name getOrgWideAddressQueryError
-     * @description returns error details about an org wide address query failure
+     * @description returns error details about an org wide address query failure and gives details on
+     * how to fix the issue.
      * @param String address 
      * @return String
     **/
