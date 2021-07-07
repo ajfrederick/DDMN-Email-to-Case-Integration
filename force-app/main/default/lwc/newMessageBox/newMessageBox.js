@@ -164,23 +164,24 @@ export default class NewMessageBox extends LightningElement {
 
     /**
      * @name getNewMessage
-     * @description gets new message of apex type EmailInfo by parsing the recieved JSON object. If reply all convert reply to 
-     * message To Address and Cc Addresses (if there are Cc Addresses) to CcAddress for new message and only if there are 
-     * CcAddresses on the reply to message add those Ccaddresses to the newMessage CcAddresses.
+     * @description this method gets new EmailInfo message and since this is a REPLY the TO and FROM addresses are flipped.
+     * Also if there are ccAddresses on the REPLYTO message those Ccaddresses are added to to the newMessage CcAddresses.
      * @param EmailInfo `data` 
      * @param EmailMessage `replyToMessage`
      * @param EmailInfo `replyAll` 
      * @return EmailInfo 
     **/
     getNewMessage(data, replyToMessage, replyAll){
-        let newMessage = JSON.parse( data );
+        let newMessage = JSON.parse( data ); // newMessage of apex type EmailInfo
 
         // TO DO make this more eligant. But this is to flip flop address info since it's a reply
         newMessage.ToAddresses = [replyToMessage.FromAddress];
 
+        // if reply all convert reply to message To Address and Cc Addresses (if there are Cc Addresses) to CcAddress for new message
         if( replyAll ){
             newMessage.CcAddresses = replyToMessage.ToAddresses.filter( address => !address.includes( newMessage.FromAddress ) );
             
+            // only if there are CcAddresses on the reply to message
             if( replyToMessage.CcAddresses ){
                 newMessage.CcAddresses = replyToMessage.CcAddresses.filter((address)=>{
                     return !address.includes( newMessage.FromAddress );
@@ -223,16 +224,16 @@ export default class NewMessageBox extends LightningElement {
     /**
      * @name fixRealtions
      * @description copies objects over for addresses component
-     * and flips the EmailMessageRelation record RelationType for addresses 
-     * component for getRelations method 
+     * and flips the EmailMessageRelation record RelationType for the addresses component and the getRelations method 
      * @param EmailInfo `newMessage`
      * @param EmailInfo `replyToMessage`
     **/
     fixRelations( newMessage, replyToMessage ){
-
+        // copy these objects over for addresses component
         newMessage.relationsById = {...replyToMessage.relationsById};
         newMessage.EmailMessageRelations = {...replyToMessage.EmailMessageRelations};
 
+        // hack-ish: flip the EmailMessageRelation record RelationType for addresses component for getRelations method
         // TODO: overall better organize data from server and how it is sorted through, flattened, etc
         let records = [];
 

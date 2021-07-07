@@ -38,11 +38,11 @@ export default class MessageBoxBody extends LightningElement {
 
     /**
      * @name parseBody
-     * @description called from the body's setter. Gets all all of the DOM,
-     * from within the DOM all message elements are obtained by finding elements with .creed-message, and all of the quoted
-     * messages are obtained by finding elements with .creed-message-quote. Then the message and quoted messages are
-     * extracted from the elements setting this class' properties (quotedMessage & message).
-     * @param MessageBoxBody `body`
+     * @description called from the body's setter. Searches the body String which contains the email’s entire body 
+     * (message and all quoted messages). Using the DOMParser a temporary HTML document is created then searched for
+     * corrisponding 'creed-message' and 'creed-message-quote' classes. Using what is found the mehod then separates
+     * the actual message that is sent and the message history.
+     * @param String `body`
     **/
     parseBody(body){
         let document = new DOMParser().parseFromString(body, 'text/html'),
