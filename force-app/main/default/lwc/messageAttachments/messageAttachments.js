@@ -1,9 +1,18 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement, api } from 'lwc';
 
 import { log } from 'c/utils';
 
+/**
+ * CLASS
+ */ 
 export default class MessageAttachments extends LightningElement {
 
+/**
+ * PROPS
+ */
     @api attachments = [];
 
     @api isNew = false;
@@ -24,6 +33,18 @@ export default class MessageAttachments extends LightningElement {
 
     hasErrors = false;
 
+/**
+ * DOM EVENTS
+ */
+
+    /**
+     * @name handleAttachment
+     * @description when there is a change on `<lightning-input/>` this method zeros out error messages, 
+     * checks to see if the file is larger than 5 MB, and reads the attachment file (getting the file extention etc. 
+     * and passing that properties into the event detail). Creates/dispatches custom event attached where 
+     * handled in newMessageBox.js and gets any errors
+     * @param DOMEvent `e`
+    **/
     handleAttachment(e){
         this.setErrorMessage('');
 
@@ -58,6 +79,17 @@ export default class MessageAttachments extends LightningElement {
     }
 }
 
-function largerThan5MB(size){
-    return size > 5000000;
-};
+/**
+ * UTIL FUNCS
+ */
+
+    /**
+     * @name handleAttachment
+     * @description checks to see if a file's size is larger tha 5MB returns true if it is
+     * else returns false
+     * @param Integer `size`
+     * @return Boolean
+    **/
+    function largerThan5MB(size){
+        return size > 5000000;
+    };

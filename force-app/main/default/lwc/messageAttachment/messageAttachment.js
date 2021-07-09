@@ -1,9 +1,15 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement, api } from 'lwc';
 
 import { NavigationMixin } from 'lightning/navigation';
 
 import { log } from 'c/utils';
 
+/**
+ * CLASS
+ */ 
 export default class MessageAttachment extends NavigationMixin(LightningElement) {
 
 /**
@@ -42,6 +48,13 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
 /**
  * DOM EVENTS
  */
+    /**
+     * @name preview
+     * @description when `<lightning-icon/>` within .message-attachment is clicked
+     * this method calls the Navigate api which navigates to the filePreview page giving a preview
+     * of the attachment.
+     * @param DOMEvent `e`
+    **/
     preview(e){
         if( this.isNew ) return;
         
@@ -56,14 +69,29 @@ export default class MessageAttachment extends NavigationMixin(LightningElement)
         });
     }
 
+    /**
+     * @name showDelete
+     * @description when the mouse goes over .message-attachment this method displays the 'x' icon
+     * on the attachment icon which is used to delete the attatchment on the current message that is being drafted.
+    **/
     showDelete(){
         this.deleteClass += ' displayed';
     }
 
+    /**
+     * @name hideDelete
+     * @description when the mouse goes out of .message-attachment this method removes the 'x' icon from the
+     * attachment icon.
+    **/
     hideDelete(){
         this.deleteClass = 'delete-attachment';
     }
 
+    /**
+     * @name deleteAttachment
+     * @description when clicking .delete-attachment-icon this method gets the attachment's title and creates/dispatches the
+     * custom event attachmentdeleted which is handled in newMessageBox.js
+    **/
     deleteAttachment(){
         let detail = {
             Title : this.attachment.Title    

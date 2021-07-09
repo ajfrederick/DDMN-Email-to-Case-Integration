@@ -66,6 +66,14 @@ public class MessageCreatorOutbound extends MessageCreator {
  * WATER FALL METHODS FOR CLEANLINESS
 **/
 
+    /**
+     * @name configureMessage
+     * @description called within getMessage, configures outgoing email. Message targeted recipitent's 
+     * id is set, sets the whatId which helps to further ensure that merge fields in the template contain the correct data, 
+     * and also sets InReplyTo which identifies the email or emails to which this email is a reply (parent emails).
+     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper
+     * @return void
+    **/
     private void configureMessage( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
         
         if( wrapper.hasWhoId() ){  
@@ -84,19 +92,33 @@ public class MessageCreatorOutbound extends MessageCreator {
         message.setUseSignature( false );
     }
 
+    /**
+     * @name setAddressInfo
+     * @description called within getMessage
+     * sets outgoing message's to, cc, and bcc addresses. Sets from Address with org wide email address Id
+     * @param Messaging.SingleEmailMessage message
+     * @param EmailInfo wrapper 
+     * @return void
+    **/
     private void setAddressInfo( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
         
         message.setToAddresses( wrapper.ToAddresses );
         message.setCcAddresses( wrapper.CcAddresses );
         message.setBccAddresses( wrapper.BccAddresses );
 
-        // sets from Address with org wide email address Id
         // we have to do this cause this how SF handles setting the From Address for outgoing emails
         if( oweAddressId != null ){
             message.setOrgWideEmailAddressId( oweAddressId );
         }
     }
 
+    /**
+     * @name setContent
+     * @description called within getMessage if there is a message and a wrapper
+     * sets body/subject of the outgoing message with values from the wrapper & sets id's for attatched documents
+     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper 
+     * @return void
+    **/
     private void setContent( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
         String body = '';
         String subject = '';

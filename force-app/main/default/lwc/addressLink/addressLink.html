@@ -1,8 +1,12 @@
+<!-- this is the template for the address link-->
 <template>
+
+    <!-- IF IS INTERAL RECIPITIENT-->
     <span if:true={isInternalRecipient}>
         <a href={linkUrl} target='blank'>{address.name}</a>
     </span>
 
+    <!-- IF NOT INTERAL RECIPITIENT-->
     <span if:false={isInternalRecipient}>
 
         <span if:true={isOrgFromAddress}>{fromAddressDisplayName}</span>
@@ -10,6 +14,9 @@
 
     </span>
 
+     <!-- 
+         COMMA BETWEEN ADDRESSES
+     -->
     <span if:false={isLast} style="margin-right: 4px;">
         ,
     </span>

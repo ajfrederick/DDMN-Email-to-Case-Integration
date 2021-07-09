@@ -1,7 +1,19 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api } from 'lwc';
 import { log } from 'c/utils';
 
+/**
+ * CLASS
+ */ 
+
 export default class AddressLink extends LightningElement {
+
+/**
+ * PROPERTIES
+ */ 
 
     @api address;
     @api total = null;

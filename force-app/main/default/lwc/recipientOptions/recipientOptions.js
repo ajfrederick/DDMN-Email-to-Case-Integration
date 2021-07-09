@@ -1,3 +1,6 @@
+/**
+ * IMPORTS
+ */ 
 import { LightningElement, api } from 'lwc';
 import { log, getErrorToast } from 'c/utils';
 
@@ -5,8 +8,14 @@ import searchRecipients from '@salesforce/apex/UiComponentServices.searchRecipie
 
 import { getAddressObj } from 'c/utilsApp';
 
+/**
+ * CLASS
+ */ 
 export default class RecipientOptions extends LightningElement {
 
+/**
+ * PROPERTIES
+ */ 
     // an array of addresses of this address type for this message
     @api addresses;
 
@@ -69,6 +78,18 @@ export default class RecipientOptions extends LightningElement {
 
     shown = false
 
+/**
+ * DOM EVENT HANDLERS
+ */
+    /**
+     * @name handleClick
+     * @description when clicking on a suggested email option `<div/>` this method gets the clicked on email's info
+     * and populates an the addressadded detail with and address object with the information from the Salesforce
+     * user or contact ( email, id, name). Then the addressadded custom event is created/dispatched which is handled
+     * in address.js and addresses.js. Finally, the email suggestion is hidden.
+     * addresses
+     * @param DOMEvent `e`
+    **/
     handleClick(e){
         let email = e.currentTarget.dataset.email,
             id = e.currentTarget.dataset.id,
@@ -89,13 +110,25 @@ export default class RecipientOptions extends LightningElement {
 
         this.hide();
     }
-
+/**
+ * UTIL FUNCS
+ */
+    /**
+     * @name hide
+     * @description if element is shown replaces the class ' displayed' with ''
+     * and hides element
+    **/
     hide(){
         if( !this.shown ) return;
         this.optionsClass = this.optionsClass.replace(' displayed', '');
         this.shown = false;
     }
 
+    /**
+     * @name show
+     * @description if element is not shown adds the class ' displayed'
+     * and shows element
+    **/
     show(){
         if( this.shown ) return;
         this.optionsClass = this.optionsClass + ' displayed';

@@ -1,15 +1,16 @@
 /**
  * IMPORTS
  */ 
-
 import { LightningElement, api } from 'lwc';
 import { log } from 'c/utils';
 
 /**
  * CLASS
  */ 
-
 export default class AddressPill extends LightningElement {
+/**
+ * PROPERTIES
+ */ 
 
 /**
  * PROPERTIES
@@ -19,6 +20,8 @@ export default class AddressPill extends LightningElement {
     @api address;
 
     @api addressType;
+
+
     
     get hasRelation(){
         return this.address.id ? true : false;
@@ -32,6 +35,17 @@ export default class AddressPill extends LightningElement {
  * CUSTOM EVENT FUNCS
  */ 
     
+/**
+ * DOM EVENT HANDLERS
+ */
+
+    /**
+     * @name handlePillRemove
+     * @description When the <lightning-pill/> is clicked this function dispatches 
+     * a custom event with a payload of addressType (ie. To, Cc, etc.) and the address' email. 
+     * It is captured in the addresses.js component.
+     * @param DOMEvent `e`
+     */
     handlePillRemove(e){
         let detail = {
                 email : this.address.email,

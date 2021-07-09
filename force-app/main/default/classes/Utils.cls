@@ -59,6 +59,12 @@ public class Utils {
         return template;
     }
 
+     /**
+     * @name getTemplateQueryError
+     * @description returns error details about a query template failure
+     * @param String name
+     * @return String
+    **/
     private static String getTemplateQueryError( String name ){
         String ret = '';
         
@@ -69,6 +75,13 @@ public class Utils {
         return ret;
     }
 
+    /**
+     * @name getOrgWideAddressQueryError
+     * @description returns error details about an org wide address query failure and gives details on
+     * how to fix the issue.
+     * @param String address 
+     * @return String
+    **/
     private static String getOrgWideAddressQueryError( String address ){
         String ret = '';
 

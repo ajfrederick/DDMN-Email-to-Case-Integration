@@ -70,10 +70,20 @@ public abstract class MessageCreator {
  * UTILITY METHODS
 **/
 
+    /**
+     * @name hasOutboundMessages
+     * @description checks to see if there are outbound messages populating the array.
+     * @return Boolean
+    **/
     public Boolean hasOutboundMessages(){
         return !outboundMessages.isEmpty();
     }
     
+    /**
+     * @name hasInboundMessages
+     * @description checks to see if there are inbound messages populating the array.
+     * @return Boolean
+    **/
     public Boolean hasInboundMessages(){
         return !inboundMessages.isEmpty();
     }

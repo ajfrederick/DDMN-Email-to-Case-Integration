@@ -1,7 +1,15 @@
+/**
+ * IMPORTS
+ */ 
+
 import { LightningElement, api, track } from 'lwc';
 import { log } from 'c/utils';
 
 import { getRelations, getAddressObj, addressTypes } from 'c/utilsApp';
+
+/**
+ * CLASS
+ */ 
 
 export default class Addresses extends LightningElement {
 
@@ -33,8 +41,12 @@ export default class Addresses extends LightningElement {
  * LIFECYCLE HOOKS
  */
 
+    /**
+     * @name connectedCallback
+     * @description prep class with props and 
+     * fill with 'address objects' that are formatted for the UI
+    */
     connectedCallback(){
-        // prep class with props and fill with 'address objects' that are formatted for the UI
         addressTypes.map((addressType)=>{
             this.addresses[addressType] = getAddresses( 
                 this.message, 
@@ -53,9 +65,15 @@ export default class Addresses extends LightningElement {
     }
 
 /**
- * DOM FUNCS
+ * DOM EVENT FUNCS
  */
 
+    /**
+     * @name handleClick
+     * @description when .addresses is clicked this method inidicates that addresses should be focused, isFocused is passed to
+     * the address component. If isFocus is true addresses are editable.
+     * @param DOMEvent `e`
+     */
     handleClick(e){
         if( !this.isNew ) return;
 
@@ -72,10 +90,23 @@ export default class Addresses extends LightningElement {
         e.stopPropagation();
     }
 
+    /**
+     * @name handleAddressRemoved
+     * @description on c-address handles custom event addressremoved defined in the addressPill.js
+     * this method gets the matching addressType array within addresses and filters out the
+     * address that was clicked on via matching email address.
+     * @param ObjectLiteral `detail`
+     */
     handleAddressRemoved({detail}){
         this.addresses[detail.addressType] = this.addresses[detail.addressType].filter( address => address.email !== detail.email );
     }
 
+    /**
+     * @name handleAddressAdded
+     * @description on c-address handles custom event addressremoved defined in the recipientOptions.js
+     * this method adds the address object to the appropriate addressType array.
+     * @param CustomEvent.detail detail
+     */
     handleAddressAdded({detail}){
         this.addresses[detail.addressType].push(detail.addressObj);
     }
@@ -89,9 +120,9 @@ export default class Addresses extends LightningElement {
  * @name getAddresses
  * @description method that unpacks address addresses of any type (ie To Address, Cc Address, etc.)
  * from addressesbase model to markup model. Unpacks either an address of an email or an address, name and id of a contact or user
- * @param {String} message email message that all addresses pertain to
- * @param {String} addresses comma separated 'string' list of Email Addresses
- * @param {String} addressType type of address (ie From, To, etc). types list above.
+ * @param String `message` email message that all addresses pertain to
+ * @param String `addresses` comma separated 'string' list of Email Addresses
+ * @param String `addressType` type of address (ie From, To, etc). types list above.
  */
 function getAddresses( message, addresses, addressType ){
     // gets any users or contacts that are associated with an address

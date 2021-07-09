@@ -1,9 +1,10 @@
 <!-- this is a container for all addresses of all types -->
 <template>
 
+    <!-- ADDRESSES --> 
     <div class="addresses" onclick={handleClick}>
 
-        <!-- FROM ADDRESS --> 
+        <!-- FROM ADDRESS -->
         <template if:false={isNew}>
             <c-address
                 if:true={hasTos}
@@ -46,5 +47,6 @@
         </c-address>
 
     </div>
+    <!-- END ADDRESSES --> 
 
 </template>

@@ -1,6 +1,6 @@
 /**
  * @name TestExceptionHandler
- * @description this us a unit test of the exception handler class
+ * @description this is a unit test of the exception handler class
  */
 @isTest(SeeAllData=true)
 public class TestExceptionHandler {
