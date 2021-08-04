@@ -9,9 +9,9 @@ public class OutboundEmailResults {
  * FIELDS
 **/
 
-    public Map<Id, Messaging.SingleEmailMessage[]> sentEmailsByObjId {
+    public Map<String, Messaging.SingleEmailMessage[]> sentEmailsByObjId {
         get {
-            if( sentEmailsByObjId == null ) sentEmailsByObjId = new Map<Id, Messaging.SingleEmailMessage[]>();
+            if( sentEmailsByObjId == null ) sentEmailsByObjId = new Map<String, Messaging.SingleEmailMessage[]>();
             return sentEmailsByObjId;
         }
         set;
@@ -57,7 +57,7 @@ public class OutboundEmailResults {
         }
 
         for( Messaging.SingleEmailMessage message : messages ){
-            Id objId = message.whatId != null ? message.whatId : '';
+            String objId = message.whatId != null ? message.whatId : 'NotAnId';
 
             if( failedIds.indexOf( objId ) < 0 ){
 

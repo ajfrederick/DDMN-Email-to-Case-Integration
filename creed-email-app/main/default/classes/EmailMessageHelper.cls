@@ -4,6 +4,8 @@
 **/
 public class EmailMessageHelper {
 
+    public static AttachmentCreator attachmentCreatorForTrigger {get;set;}
+
 /**
  * TIGGER METHODS
 **/
@@ -17,15 +19,16 @@ public class EmailMessageHelper {
      * @return void
     **/
     public static void updateContentDocumentLinks( EmailMessage[] messages ){
+        
         if( Test.isRunningTest() ){
-            UiComponentServices.attachmentCreatorForTrigger = null;
+            attachmentCreatorForTrigger = null;
             return;
         }
 
-        if( UiComponentServices.attachmentCreatorForTrigger == null ) return;
+        if( attachmentCreatorForTrigger == null ) return;
 
-        UiComponentServices.attachmentCreatorForTrigger.insertContentDocumentLinks( messages );
+        attachmentCreatorForTrigger.insertContentDocumentLinks( messages );
 
-        UiComponentServices.attachmentCreatorForTrigger = null;
+        attachmentCreatorForTrigger = null;
     }
 }

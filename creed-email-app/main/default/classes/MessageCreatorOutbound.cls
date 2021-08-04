@@ -157,7 +157,7 @@ public class MessageCreatorOutbound extends MessageCreator {
         
         for( String address : wrapper.ToAddresses ){
             // don't allow users to send to forwarding 'From' email address 
-            if( address == Constants.FROM_ADDRESS ){
+            if( address == Utils.FROM_ADDRESS ){
                 ret = false;
                 break;
             }
@@ -165,7 +165,7 @@ public class MessageCreatorOutbound extends MessageCreator {
 
         for( String address : wrapper.CcAddresses ){
             // don't allow users to send to forwarding 'From' email address 
-            if( address == Constants.FROM_ADDRESS ){
+            if( address == Utils.FROM_ADDRESS ){
                 ret = false;
                 break;
             }
@@ -173,7 +173,7 @@ public class MessageCreatorOutbound extends MessageCreator {
 
         for( String address : wrapper.BccAddresses ){
             // don't allow users to send to forwarding 'From' email address 
-            if( address == Constants.FROM_ADDRESS ){
+            if( address == Utils.FROM_ADDRESS ){
                 ret = false;
                 break;
             }

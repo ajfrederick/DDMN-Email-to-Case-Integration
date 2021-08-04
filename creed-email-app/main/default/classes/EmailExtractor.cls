@@ -54,7 +54,6 @@ public virtual class EmailExtractor {
      * @return void
     **/
     public void setWrappers( Messaging.InboundEmail[] emails ){
-        String toAddress = System.Label.Connect_Team_From_Email_Address;
 
         for( Messaging.InboundEmail email : emails ){
             EmailInfo wrapper = new EmailInfo();
