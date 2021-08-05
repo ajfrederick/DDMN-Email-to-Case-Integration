@@ -11,6 +11,8 @@ public class EmailMessageRelationHelper {
      * @return Map<Id, EmailMessageRelation>
     **/
     public static void updateRelationIds( EmailMessage[] messages ){
+        if( !MessageHandler.triggerEnabled ) return;
+
         Set<Id> messageIds = new Map<Id, EmailMessage>( messages ).keyset();
 
         EmailMessageRelation[] relations = getRelations( messageIds );
@@ -45,6 +47,8 @@ public class EmailMessageRelationHelper {
             ExceptionHandler handler = new ExceptionHandler(e);
             handler.handle();
         }
+
+        MessageHandler.triggerEnabled = null;
     }
 
     /**

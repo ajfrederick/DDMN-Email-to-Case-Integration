@@ -6,6 +6,15 @@ public class MessageHandler {
 
     private MessageCreator messageCreator {get;set;}
 
+    public static Boolean triggerEnabled {
+        get {
+            if( triggerEnabled == null ) triggerEnabled = false;
+
+            return triggerEnabled;
+        }
+        set;
+    }
+
 /**
  * CONSTRUCTOR
 **/
@@ -24,6 +33,8 @@ public class MessageHandler {
     **/
     public void handle( MessageCreator mc  ){
         messageCreator = mc;
+
+        triggerEnabled = true;
 
         if( messageCreator.hasOutboundMessages() ){
             send( messageCreator.getOutboundMessages() );
