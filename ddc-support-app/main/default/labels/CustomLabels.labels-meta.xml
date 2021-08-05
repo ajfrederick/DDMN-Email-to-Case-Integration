@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
-        <fullName>Creed_Email_Messaging_Sender_Address</fullName>
+        <fullName>DDC_Sender_Address</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>This address should be an exact match to a chosen Org Wide Email Address</shortDescription>

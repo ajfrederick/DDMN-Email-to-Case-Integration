@@ -4,6 +4,8 @@
 **/
 public class Constants {
 
+    public static final String FROM_ADDRESS = System.Label.DDC_Sender_Address;
+
     public static final String NEW_EMAIL_TEMPLATE_NAME = 'Connect_Team_Notification_of_New_Case';
     public static final String CLOSED_EMAIL_TEMPLATE_NAME = 'Connect_Team_Notification_of_Closed_Case';
 

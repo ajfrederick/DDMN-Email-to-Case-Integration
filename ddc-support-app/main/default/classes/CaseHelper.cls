@@ -53,7 +53,7 @@ public class CaseHelper {
 
         // instatiate a message creator, set option, then set messages
         MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( extractor.getWrappers() );
-        messageCreator.setOrgWideEmailAddressId( Utils.FROM_ADDRESS );
+        messageCreator.setOrgWideEmailAddressId( Constants.FROM_ADDRESS );
         messageCreator.setMessages();
 
         // send the emails

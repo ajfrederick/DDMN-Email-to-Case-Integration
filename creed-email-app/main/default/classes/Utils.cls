@@ -4,8 +4,6 @@
 **/
 public class Utils {
 
-    public static final String FROM_ADDRESS = System.Label.Creed_Email_Messaging_Sender_Address;
-
     /**
      * @name getOrgWideEmailAddress
      * @description returns Org Wide Email Address

@@ -89,7 +89,7 @@ public class UiComponentServices {
             // instatiate a message creator, set option, set contentversionids for attatchments and 
             // set messages which unpacks wrapper info into Messaging.SingleEmailMessage
             MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( wrappers );
-            messageCreator.setOrgWideEmailAddressId( Utils.FROM_ADDRESS );
+            messageCreator.setOrgWideEmailAddressId( Constants.FROM_ADDRESS );
             messageCreator.setContentVersionIds( attachmentCreator.getContentVersionIds() );
             messageCreator.setMessages();
 
@@ -134,7 +134,7 @@ public class UiComponentServices {
                                 LastName, 
                                 Email 
                                     FROM Contact
-                                    WHERE Email != :Utils.FROM_ADDRESS
+                                    WHERE Email != :Constants.FROM_ADDRESS
                                     AND Email NOT IN :escapedEmails
                                     AND (Email LIKE :search
                                         OR Name LIKE :search)
@@ -146,7 +146,7 @@ public class UiComponentServices {
                             LastName, 
                             Email 
                                 FROM User
-                                WHERE Email != :Utils.FROM_ADDRESS
+                                WHERE Email != :Constants.FROM_ADDRESS
                                 AND Email NOT IN :escapedEmails
                                 AND (Email LIKE :search
                                     OR Name LIKE :search)
@@ -171,7 +171,7 @@ public class UiComponentServices {
 
         try {
 
-            oweAddress = Utils.getOrgWideEmailAddress( Utils.FROM_ADDRESS );
+            oweAddress = Utils.getOrgWideEmailAddress( Constants.FROM_ADDRESS );
 
         } catch( Exception e ){
             throw new AuraHandledException(e.getMessage());
@@ -265,7 +265,7 @@ public class UiComponentServices {
 
         try {
 
-            OrgWideEmailAddress oweAddress = Utils.getOrgWideEmailAddress( Utils.FROM_ADDRESS );
+            OrgWideEmailAddress oweAddress = Utils.getOrgWideEmailAddress( Constants.FROM_ADDRESS );
             
             wrapper.whatId = (String) message.get('ParentId');
             wrapper.FromAddress = oweAddress.Address;

@@ -153,33 +153,7 @@ public class MessageCreatorOutbound extends MessageCreator {
      * @return Boolean
     **/
     private Boolean isVaild( EmailInfo wrapper ){
-        Boolean ret = wrapper.hasToAddresses();
-        
-        for( String address : wrapper.ToAddresses ){
-            // don't allow users to send to forwarding 'From' email address 
-            if( address == Utils.FROM_ADDRESS ){
-                ret = false;
-                break;
-            }
-        }
-
-        for( String address : wrapper.CcAddresses ){
-            // don't allow users to send to forwarding 'From' email address 
-            if( address == Utils.FROM_ADDRESS ){
-                ret = false;
-                break;
-            }
-        }
-
-        for( String address : wrapper.BccAddresses ){
-            // don't allow users to send to forwarding 'From' email address 
-            if( address == Utils.FROM_ADDRESS ){
-                ret = false;
-                break;
-            }
-        }
-
-        return ret;
+        return wrapper.hasToAddresses();
     }
 
     /**
