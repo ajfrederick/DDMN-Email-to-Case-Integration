@@ -59,7 +59,7 @@ public class EmailInfo {
     public EmailTemplate template {get;set;}
 
     // email content
-    public EmailContent content {get;set;}
+    private EmailContent content {get;set;}
 
     // optional record Id to be used for whatId
     public Id whatId {get;set;}
@@ -104,12 +104,94 @@ public class EmailInfo {
      * @return void
     **/
     public void setContent( String Subject, String HtmlBody, String PlainTextBody ){
+
+        HtmlBody = checkBodyLength( HtmlBody );
+        PlainTextBody = checkBodyLength( PlainTextBody );
+
         EmailContent cont = new EmailContent();
         cont.Subject = Subject;
         cont.HtmlBody = wrapHTMLBody(HtmlBody);
         cont.PlainTextBody = PlainTextBody;
 
         content = cont;
+    }
+
+    /**
+     * @name getContent
+     * @description get email contact
+     * @return void
+    **/
+    public EmailContent getContent(){
+        return content;
+    }
+
+    /**
+     * @name getSubject
+     * @description gets the email contents subject
+     * @return String
+    **/
+    public String getSubject(){
+        if( content == null ) return null;
+
+        return content.Subject;
+    }
+
+    /**
+     * @name getHTMLBody
+     * @description gets the email contents HTML Body
+     * @return String
+    **/
+    public String getHTMLBody(){
+        if( content == null ) return null;
+        
+        return content.HtmlBody;
+    }
+
+    /**
+     * @name getPlainTextBody
+     * @description gets the email contents Plain Text Body
+     * @return String
+    **/
+    public String getPlainTextBody(){
+        if( content == null ) return null;
+
+        return content.PlainTextBody;
+    }
+
+    /**
+     * @name setSubject
+     * @description sets the email contents subject
+     * @param String Subject
+     * @return void
+    **/
+    public void setSubject( String Subject ){
+        if( content == null ) content = new EmailContent();
+
+        content.Subject = Subject;
+    }
+
+    /**
+     * @name setHTMLBody
+     * @description sets the email contents HTML Body
+     * @param String HtmlBody
+     * @return void
+    **/
+    public void setHTMLBody( String HtmlBody ){
+        if( content == null ) content = new EmailContent();
+
+        content.HtmlBody = HtmlBody;
+    }
+
+    /**
+     * @name setPlainTextBody
+     * @description sets the email contents Plain text Body
+     * @param String PlainTextBody
+     * @return void
+    **/
+    public void setPlainTextBody( String PlainTextBody ){
+        if( content == null ) content = new EmailContent();
+
+        content.PlainTextBody = PlainTextBody;
     }
 
     /**
@@ -146,7 +228,10 @@ public class EmailInfo {
      * @return void
     **/
     public void setQuote( String quote ){
-        if( content == null ) setContent( '', '', '' );
+        if( content == null ){
+            System.debug('Content for EmailInfo.cls must be set before set the quoted email in the body');
+            return;
+        }
 
         content.HtmlBody += '<br/>' + wrapQuotedHTMLBody(quote);
     }
@@ -237,6 +322,19 @@ public class EmailInfo {
     private String wrapQuotedHTMLBody( String quote ){
         return '<div class="creed-message-quote">' + quote +'</div>';
     }
+
+    /**
+     * @name checkBodyLength
+     * @description there is a character limit of 4000 for EmailMessage body. Unfortunately we'll have to truncate extra long email bodies
+     * @param String body
+     * @return String
+     */
+    private String checkBodyLength( String body ){
+        if( body.length() > 30000 ) body = body.substring( 0, 29999 ) + '... (original message truncated due to size)';
+
+        return body;
+    }
+
 
 /**
  * CLASSES

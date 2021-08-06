@@ -127,9 +127,9 @@ public class MessageCreatorOutbound extends MessageCreator {
             subject = wrapper.template.Subject;
             body = wrapper.template.HtmlValue;
         } else 
-        if( wrapper.content != null ){
-            subject = wrapper.content.Subject;
-            body = wrapper.content.HtmlBody;
+        if( wrapper.getContent() != null ){
+            subject = wrapper.getSubject();
+            body = wrapper.getHTMLBody();
         }
 
         message.setSubject( subject );

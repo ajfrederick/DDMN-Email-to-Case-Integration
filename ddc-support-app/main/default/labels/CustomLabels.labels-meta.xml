@@ -5,6 +5,6 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>This address should be an exact match to a chosen Org Wide Email Address</shortDescription>
-        <value>test.salesforce.e2c@gmail.com</value>
+        <value>creed.sf.test@gmail.com</value>
     </labels>
 </CustomLabels>

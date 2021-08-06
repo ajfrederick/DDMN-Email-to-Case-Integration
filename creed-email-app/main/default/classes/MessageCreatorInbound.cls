@@ -95,9 +95,9 @@ public class MessageCreatorInbound extends MessageCreator {
      * @return void
     **/
     private void setContent( EmailMessage message, EmailInfo wrapper ){
-        message.Subject = wrapper.content.Subject;
-        message.HtmlBody = wrapper.content.HtmlBody;
-        message.TextBody = wrapper.content.PlainTextBody;
+        message.Subject = wrapper.getSubject();
+        message.HtmlBody = wrapper.getHTMLBody();
+        message.TextBody = wrapper.getPlainTextBody();
     }
 
 /**

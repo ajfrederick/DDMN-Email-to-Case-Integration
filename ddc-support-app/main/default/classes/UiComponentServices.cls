@@ -71,7 +71,9 @@ public class UiComponentServices {
 
         EmailInfo wrapper = newMessageData.message;
         
-        wrapper.content.HtmlBody = wrapper.wrapHTMLBody( wrapper.content.HtmlBody );
+        String wrappedBody = wrapper.wrapHTMLBody( wrapper.getHtmlBody() );
+
+        wrapper.setHtmlBody( wrappedBody );
         wrapper.setQuote( getQuote(newMessageData.replyToMessage) );
 
         try {
@@ -162,7 +164,7 @@ public class UiComponentServices {
     /**
      * @name getFromAddress
      * @description this returns the from address that is the external inbox to which all inqueries go to that get forwarded to
-     * this application
+     * this application.
      * @return String
     **/
     @AuraEnabled
