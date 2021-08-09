@@ -17,6 +17,14 @@ public virtual class EmailExtractor {
         set;
     }
 
+    public AttachmentData[] attachments {
+        get {
+            if( attachments == null ) attachments = new AttachmentData[]{};
+            return attachments;
+        }
+        set;
+    }
+
     protected EmailTemplate template {get;set;}
 
     public Id relatedToId {get;set;}

@@ -48,6 +48,18 @@ public class EmailExtractorCase extends EmailExtractor {
                 wrapper.ToAddresses.add(obj.SuppliedEmail);
             }
 
+            wrapper.setContent(
+                obj.Subject,
+                obj.Description,
+                obj.Description
+            );
+
+            if( attachments.size() > 0 ){
+                for( AttachmentData attachment : attachments ){
+                    wrapper.setAttachement( attachment.base64, attachment.Title );
+                }
+            }
+
             wrappers.add( wrapper );
         }
     }

@@ -78,7 +78,7 @@ public class UiComponentServices {
 
         try {
 
-            for( NewMessageAttachmentData attachment : newMessageData.attachments ){
+            for( AttachmentData attachment : newMessageData.attachments ){
                 wrapper.setAttachement( attachment.base64, attachment.Title );
             }
 
@@ -446,14 +446,8 @@ public class UiComponentServices {
 
     public class NewMessageData {
         public EmailInfo message {get;set;}
-        public NewMessageAttachmentData[] attachments {get;set;}
+        public AttachmentData[] attachments {get;set;}
         public ReplyToMessage replyToMessage {get;set;}
-    }
-
-    public class NewMessageAttachmentData {
-        public String Title {get;set;}
-        public String base64 {get;set;}
-        public String FileExtension {get;set;}
     }
 
     public class ReplyToMessage {
