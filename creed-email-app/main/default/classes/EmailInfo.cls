@@ -179,7 +179,7 @@ public class EmailInfo {
     public void setHTMLBody( String HtmlBody ){
         if( content == null ) content = new EmailContent();
 
-        content.HtmlBody = HtmlBody;
+        content.HtmlBody = checkBodyLength( HtmlBody );
     }
 
     /**
@@ -191,7 +191,7 @@ public class EmailInfo {
     public void setPlainTextBody( String PlainTextBody ){
         if( content == null ) content = new EmailContent();
 
-        content.PlainTextBody = PlainTextBody;
+        content.PlainTextBody = checkBodyLength( PlainTextBody );
     }
 
     /**

@@ -27,6 +27,9 @@ public abstract class AttachmentCreator {
     // Class Wrappers that contain email to info
     protected EmailInfo[] wrappers {get;set;}
 
+    // used for when it's necessary to save one content version for many emails
+    public ContentVersion[] versionsForMultipleMessages {get;set;}
+
 /**
  * CONSTRUCTOR
  */
@@ -66,16 +69,26 @@ public abstract class AttachmentCreator {
         for( EmailInfo wrapper : wrappers ){
             String messageId = getMessageId( wrapper );
 
-            for( EmailInfo.AttachmentData attachment : wrapper.attachments ){
-                ContentVersion version = getContentVersion(attachment);
+            // This is simply is we want to send many emails with the same attachments
+            if( versionsForMultipleMessages != null ){
 
-                if( versionsByMessageId.containsKey( messageId ) ){
-                    versionsByMessageId.get(messageId).add(version);
-                } else {
-                    versionsByMessageId.put( messageId, new ContentVersion[]{version} );
+                versionsByMessageId.put( messageId, versionsForMultipleMessages );
+
+                if( versions.isEmpty() ) versions.addAll( versionsForMultipleMessages );
+
+            } else {
+                
+                for( EmailInfo.AttachmentData attachment : wrapper.attachments ){
+                    ContentVersion version = getContentVersion(attachment);
+
+                    if( versionsByMessageId.containsKey( messageId ) ){
+                        versionsByMessageId.get(messageId).add(version);
+                    } else {
+                        versionsByMessageId.put( messageId, new ContentVersion[]{version} );
+                    }
+
+                    versions.add(version);
                 }
-
-                versions.add(version);
             }
         }
 
@@ -166,7 +179,7 @@ public abstract class AttachmentCreator {
      * @param EmailInfo.AttachmentData attachment 
      * @return ContentVersion
      */
-    private ContentVersion getContentVersion( EmailInfo.AttachmentData attachment ){
+    public ContentVersion getContentVersion( EmailInfo.AttachmentData attachment ){
         return new ContentVersion(
             Title = attachment.Title,
             PathOnClient = attachment.Title,
@@ -182,7 +195,7 @@ public abstract class AttachmentCreator {
      * @param ContentVersion version
      * @return ContentDocumentLink
      */
-    private ContentDocumentLink getContentDocumentLink( EmailMessage message, ContentVersion version ){
+    public ContentDocumentLink getContentDocumentLink( EmailMessage message, ContentVersion version ){
         return new ContentDocumentLink(
             LinkedEntityId = message.Id,
             ContentDocumentId = version.ContentDocumentId,
