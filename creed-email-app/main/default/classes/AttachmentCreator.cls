@@ -28,7 +28,13 @@ public abstract class AttachmentCreator {
     protected EmailInfo[] wrappers {get;set;}
 
     // used for when it's necessary to save one content version for many emails
-    public ContentVersion[] versionsForMultipleMessages {get;set;}
+    public Boolean useFirstAttachementsForAllMessages {
+        get {
+            if( useFirstAttachementsForAllMessages == null ) useFirstAttachementsForAllMessages = false;
+            return useFirstAttachementsForAllMessages;
+        }
+        set;
+    }
 
 /**
  * CONSTRUCTOR
@@ -69,26 +75,10 @@ public abstract class AttachmentCreator {
         for( EmailInfo wrapper : wrappers ){
             String messageId = getMessageId( wrapper );
 
-            // This is simply is we want to send many emails with the same attachments
-            if( versionsForMultipleMessages != null ){
-
-                versionsByMessageId.put( messageId, versionsForMultipleMessages );
-
-                if( versions.isEmpty() ) versions.addAll( versionsForMultipleMessages );
-
+            if( useFirstAttachementsForAllMessages ){
+                setVersionsForAllMessages( wrapper, messageId );
             } else {
-                
-                for( EmailInfo.AttachmentData attachment : wrapper.attachments ){
-                    ContentVersion version = getContentVersion(attachment);
-
-                    if( versionsByMessageId.containsKey( messageId ) ){
-                        versionsByMessageId.get(messageId).add(version);
-                    } else {
-                        versionsByMessageId.put( messageId, new ContentVersion[]{version} );
-                    }
-
-                    versions.add(version);
-                }
+                setVersions( wrapper, messageId );
             }
         }
 
@@ -146,8 +136,45 @@ public abstract class AttachmentCreator {
 /**
  * UTILITY METHODS
  */ 
+    /**
+     * @name setVersions
+     * @description sets a single or single set of content verions (attachments) for many emails
+     * @param EmailInfo wrapper
+     * @param String messageId
+     * @return void
+     */
+    private void setVersions( EmailInfo wrapper, String messageId ){
 
- /**
+        for( EmailInfo.AttachmentData attachment : wrapper.attachments ){
+            ContentVersion version = getContentVersion(attachment);
+
+            if( versionsByMessageId.containsKey( messageId ) ){
+                versionsByMessageId.get(messageId).add(version);
+            } else {
+                versionsByMessageId.put( messageId, new ContentVersion[]{version} );
+            }
+
+            versions.add(version);
+        }
+    }
+
+    /**
+     * @name setVersionsForAllMessages
+     * @description sets a single or single set of content verions (attachments) for many emails
+     * @param EmailInfo wrapper
+     * @param String messageId
+     * @return void
+     */
+    private void setVersionsForAllMessages( EmailInfo wrapper, String messageId ){
+
+        if( versions.size() == 0 ){
+            setVersions( wrapper, messageId );
+        } else {
+            versionsByMessageId.put( messageId, versions );
+        }
+    }
+
+    /**
      * @name getContentVersions
      * @description returns all versions that where created. Used in creating outbound messages
      * @return ContentVersion[]
@@ -179,7 +206,7 @@ public abstract class AttachmentCreator {
      * @param EmailInfo.AttachmentData attachment 
      * @return ContentVersion
      */
-    public ContentVersion getContentVersion( EmailInfo.AttachmentData attachment ){
+    private ContentVersion getContentVersion( EmailInfo.AttachmentData attachment ){
         return new ContentVersion(
             Title = attachment.Title,
             PathOnClient = attachment.Title,
@@ -195,7 +222,7 @@ public abstract class AttachmentCreator {
      * @param ContentVersion version
      * @return ContentDocumentLink
      */
-    public ContentDocumentLink getContentDocumentLink( EmailMessage message, ContentVersion version ){
+    private ContentDocumentLink getContentDocumentLink( EmailMessage message, ContentVersion version ){
         return new ContentDocumentLink(
             LinkedEntityId = message.Id,
             ContentDocumentId = version.ContentDocumentId,
