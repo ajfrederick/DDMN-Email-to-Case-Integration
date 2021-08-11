@@ -28,10 +28,10 @@ public abstract class AttachmentCreator {
     protected EmailInfo[] wrappers {get;set;}
 
     // used for when it's necessary to save one content version for many emails
-    public Boolean useFirstAttachementsForAllMessages {
+    public Boolean useFirstAttachmentsForAllMessages {
         get {
-            if( useFirstAttachementsForAllMessages == null ) useFirstAttachementsForAllMessages = false;
-            return useFirstAttachementsForAllMessages;
+            if( useFirstAttachmentsForAllMessages == null ) useFirstAttachmentsForAllMessages = false;
+            return useFirstAttachmentsForAllMessages;
         }
         set;
     }
@@ -75,7 +75,7 @@ public abstract class AttachmentCreator {
         for( EmailInfo wrapper : wrappers ){
             String messageId = getMessageId( wrapper );
 
-            if( useFirstAttachementsForAllMessages ){
+            if( useFirstAttachmentsForAllMessages ){
                 setVersionsForAllMessages( wrapper, messageId );
             } else {
                 setVersions( wrapper, messageId );
