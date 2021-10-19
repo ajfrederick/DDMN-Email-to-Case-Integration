@@ -94,7 +94,8 @@ public abstract class AttachmentCreator {
 
     /**
      * @name insertContentDocumentLinks
-     * @description creates ContentDocumentLinks that link content documents to EmailMessage
+     * @description creates ContentDocumentLinks that link content documents to EmailMessage. Gets called in email message trigger
+     * after the messages have been sent
      * @param EmailMessage[] messages
      * @return void
     **/
@@ -198,6 +199,29 @@ public abstract class AttachmentCreator {
         }
 
         return ids;
+    }
+
+    /**
+     * @name getContentVersionIdsByMessageId
+     * @description returns all version Ids that where created by the external messageId
+     * @return Map<String, String[]>
+     */
+    public getContentVersionIdsByMessageId(){
+        Map<String, String[]> contentVersionIdsByMessageId = new Map<String, String[]>();
+
+        for( String messageId : versionsByMessageId.keyset() ){
+
+            for( ContentVersion version : versionsByMessageId.get(messageId) ){
+
+                if( contentVersionIdsByMessageId.containsKey(messageId) ){
+                    contentVersionIdsByMessageId.get(messageId).add(version.Id);
+                } else {
+                    contentVersionIdsByMessageId.put( messageId, new String[]{version.Id} );
+                }
+            }
+        }
+
+        return contentVersionIdsByMessageId;
     }
 
     /**

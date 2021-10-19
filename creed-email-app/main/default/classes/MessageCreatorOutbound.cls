@@ -11,9 +11,18 @@ public class MessageCreatorOutbound extends MessageCreator {
     // org wide email address Id which is optional. You cannot set a proper 'from address' on outgoing email without one
     private Id oweAddressId {get;set;}
 
-    private String[] contentVersionIds {
+    // for multiple outbound messages
+    private Map<String, String[]> contentVersionIdsByMessageId {
         get {
-            if( contentVersionIds == null ) contentVersionIds = new String[]{};
+            if( contentVersionIdsByMessageId == null ) contentVersionIdsByMessageId = new String[]{};
+            return contentVersionIdsByMessageId;
+        }
+        set;
+    }
+
+    private Set<Id> contentVersionIds {
+        get {
+            if( contentVersionIds == null ) contentVersionIds = new Set<Id>();
             return contentVersionIds;
         }
         set;
@@ -137,6 +146,10 @@ public class MessageCreatorOutbound extends MessageCreator {
         message.setTreatBodiesAsTemplate(true);
 
 
+        if( contentVersionIdsByMessageId.containsKey( wrapper.inReplyTo ) ){
+            message.setEntityAttachments( contentVersionIdsByMessageId.get( wrapper.inReplyTo ) );
+        }
+
         if( !contentVersionIds.isEmpty() ){
             message.setEntityAttachments( contentVersionIds );
         }
@@ -154,6 +167,16 @@ public class MessageCreatorOutbound extends MessageCreator {
     **/
     private Boolean isVaild( EmailInfo wrapper ){
         return wrapper.hasToAddresses();
+    }
+
+    /**
+     * @name setContentVersionIdsByMessageId
+     * @description sets a map of ContentVersion Id by an external message Id that gets determined in Attachement Creator
+     * @param Map<String, String[]> val
+     * @return void
+    **/
+    public void setContentVersionIdsByMessageId( Map<String, String[]> val ){
+        contentVersionIdsByMessageId = val;
     }
 
     /**
