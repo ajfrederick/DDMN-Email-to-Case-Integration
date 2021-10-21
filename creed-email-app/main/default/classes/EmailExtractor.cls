@@ -9,6 +9,8 @@ public virtual class EmailExtractor {
  * FIELDS
 **/
 
+    // a list of central understandable ubiquitis wrappers for the whole email application. These get passed around and loaded up
+    // with info and then unpacked
     protected EmailInfo[] wrappers {
         get {
             if( wrappers == null ) wrappers = new EmailInfo[]{};
@@ -17,10 +19,20 @@ public virtual class EmailExtractor {
         set;
     }
 
+    // attachment data to create ContentVersions (files)
     public AttachmentData[] attachments {
         get {
             if( attachments == null ) attachments = new AttachmentData[]{};
             return attachments;
+        }
+        set;
+    }
+
+    // to add ContentVersions (files) to wrapper that are already in the database and will be used to send an attachment
+    public Map<String, String[]> versionIdsByTitle {
+        get {
+            if( versionIdsByTitle == null ) versionIdsByTitle = new Map<String, String[]>();
+            return versionIdsByTitle;
         }
         set;
     }
@@ -128,7 +140,7 @@ public virtual class EmailExtractor {
         return !wrappers.isEmpty();
     }
 
-     /**
+    /**
      * @name setTemplate
      * @description sets Email Template filtered by developerName
      * @param String name
@@ -136,5 +148,21 @@ public virtual class EmailExtractor {
     **/
     public void setTemplate( String name ){
         template = Utils.getTemplate( name );
+    }
+
+    /**
+     * @name setTemplate
+     * @description adds a verion id by it's name
+     * @param ContentVersion version
+     * @return void
+    **/
+    public void addVersionId( ContentVersion version ){
+        String key = version.Title;
+
+        if( versionIdsByTitle.containsKey(key) ){
+            versionIdsByTitle.get(key).add(version.Id);
+        } else {
+            versionIdsByTitle.put(key, new String[]{version.Id});
+        }
     }
 }

@@ -11,23 +11,6 @@ public class MessageCreatorOutbound extends MessageCreator {
     // org wide email address Id which is optional. You cannot set a proper 'from address' on outgoing email without one
     private Id oweAddressId {get;set;}
 
-    // for multiple outbound messages
-    private Map<String, String[]> contentVersionIdsByMessageId {
-        get {
-            if( contentVersionIdsByMessageId == null ) contentVersionIdsByMessageId = new String[]{};
-            return contentVersionIdsByMessageId;
-        }
-        set;
-    }
-
-    private Set<Id> contentVersionIds {
-        get {
-            if( contentVersionIds == null ) contentVersionIds = new Set<Id>();
-            return contentVersionIds;
-        }
-        set;
-    }
-
 /**
  * CONSTRUCTOR
 **/
@@ -145,13 +128,8 @@ public class MessageCreatorOutbound extends MessageCreator {
         message.setHtmlBody( body );
         message.setTreatBodiesAsTemplate(true);
 
-
-        if( contentVersionIdsByMessageId.containsKey( wrapper.inReplyTo ) ){
-            message.setEntityAttachments( contentVersionIdsByMessageId.get( wrapper.inReplyTo ) );
-        }
-
-        if( !contentVersionIds.isEmpty() ){
-            message.setEntityAttachments( contentVersionIds );
+        if( !wrapper.getVersionIds().isEmpty() ){
+            message.setEntityAttachments( wrapper.getVersionIds() );
         }
     }
 
@@ -167,26 +145,6 @@ public class MessageCreatorOutbound extends MessageCreator {
     **/
     private Boolean isVaild( EmailInfo wrapper ){
         return wrapper.hasToAddresses();
-    }
-
-    /**
-     * @name setContentVersionIdsByMessageId
-     * @description sets a map of ContentVersion Id by an external message Id that gets determined in Attachement Creator
-     * @param Map<String, String[]> val
-     * @return void
-    **/
-    public void setContentVersionIdsByMessageId( Map<String, String[]> val ){
-        contentVersionIdsByMessageId = val;
-    }
-
-    /**
-     * @name setContentVersionIds
-     * @description sets ContentVersion Ids for attachemnts
-     * @param String[] ids
-     * @return void
-    **/
-    public void setContentVersionIds( String[] ids ){
-        contentVersionIds = ids;
     }
 
 /**

@@ -1,6 +1,7 @@
 /**
  * @name EmailInfo
- * @description wrapper class to get email content and info predictably no matter the source
+ * @description wrapper class to get email content and info predictably no matter the source.
+ * These get loaded up and passed around and unloaded by the entire application.
 **/
 public class EmailInfo {
 
@@ -73,11 +74,20 @@ public class EmailInfo {
     // external unique identifier given by email clients and salesforce email client
     public String inReplyTo {get;set;}
 
-    // attachments
+    // attachment data to be used to created ContentVersions (files) if need be
     public AttachmentData[] attachments {
         get {
             if( attachments == null ) attachments = new AttachmentData[]{};
             return attachments;
+        }
+        set;
+    }
+
+    // Ids of ContentVersion (file) records that will be used to send attachments
+    public String[] versionIds {
+        get {
+            if( versionIds == null ) versionIds = new String[]{};
+            return versionIds;
         }
         set;
     }
@@ -219,6 +229,36 @@ public class EmailInfo {
         Blob bodyBlob = EncodingUtil.base64Decode(body);
 
         attachments.add( new AttachmentData( bodyBlob, filename ) );
+    }
+
+    /**
+     * @name addVersionId
+     * @description adds a ContentVersion Id after a file is inserted to the database or is already in the database
+     * @param String versionId
+     * @return void
+    **/
+    public void addVersionId( String versionId ){
+        versionIds.add(versionId);
+    }
+
+    /**
+     * @name addVersionId
+     * @description sets all ContentVersion Ids
+     * @param String ids
+     * @return void
+    **/
+    public void setVersionIds( String[] ids ){
+        versionIds = ids;
+    }
+
+    /**
+     * @name getVersionIds
+     * @description gets actual file ids for message attachments
+     * @param none
+     * @return String[] versionIds
+    **/
+    public String[] getVersionIds(){
+        return versionIds;
     }
 
     /**

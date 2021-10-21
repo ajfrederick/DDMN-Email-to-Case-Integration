@@ -71,6 +71,32 @@ public class OutboundEmailResults {
     }
 
     /**
+     * @name getSuccesses
+     * @description returns all successfully sent messages
+     * @return void
+    **/
+    public Messaging.SingleEmailMessage[] getSuccesses(){
+        Messaging.SingleEmailMessage[] successes = new Messaging.SingleEmailMessage[]{};
+
+        for( String objId : sentEmailsByObjId.keyset() ){
+            for( Messaging.SingleEmailMessage message : sentEmailsByObjId.get(objId) ){
+                successes.add(message);
+            }
+        }
+        
+        return successes;
+    }
+
+    /**
+     * @name getSuccesses
+     * @description returns all successfully sent messages but record Id
+     * @return void
+    **/
+    public Map<String, Messaging.SingleEmailMessage[]> getSuccessesByObjId(){
+        return sentEmailsByObjId;
+    }
+
+    /**
      * @name setFailures
      * @description checks the results for failed emails
      * @return void
@@ -83,6 +109,15 @@ public class OutboundEmailResults {
                 failedResults.add(result);
             }
         }
+    }
+
+    /**
+     * @name getFailures
+     * @description returns failures
+     * @return void
+    **/
+    public Messaging.SendEmailResult[] getFailures(){
+        return failedResults;
     }
 
     /**

@@ -6,6 +6,8 @@ public class MessageHandler {
 
     private MessageCreator messageCreator {get;set;}
 
+    private OutboundEmailResults outboundResults {get;set;}
+
     public static Boolean triggerEnabled {
         get {
             if( triggerEnabled == null ) triggerEnabled = false;
@@ -57,7 +59,7 @@ public class MessageHandler {
             
             Messaging.SendEmailResult[] results = Messaging.sendEmail( messages );
 
-            OutboundEmailResults outboundResults = new OutboundEmailResults( results );
+            outboundResults = new OutboundEmailResults( results );
             outboundResults.setSuccesses( messages );
 
             if( outboundResults.hasFailures() ){
@@ -67,7 +69,7 @@ public class MessageHandler {
             }
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler(e);
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
             handler.handle();
         }
     }
@@ -84,9 +86,18 @@ public class MessageHandler {
             insert messages;
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler(e);
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
             handler.handle();
         }
+    }
+
+    /**
+     * @name getOutboundEmailResults
+     * @description return the results of the outbound messages to get failures
+     * @return OutboundEmailResults
+    **/
+    public OutboundEmailResults getOutboundEmailResults(){
+        return outboundResults;
     }
 
 /**

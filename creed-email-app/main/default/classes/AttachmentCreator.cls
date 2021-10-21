@@ -87,9 +87,11 @@ public abstract class AttachmentCreator {
             insert versions;
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler(e);
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
             handler.handle();
         }
+
+        setVerionIdsOnWrappers();
     }
 
     /**
@@ -129,7 +131,7 @@ public abstract class AttachmentCreator {
             insert links;
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler(e);
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
             handler.handle();
         }
     }
@@ -206,7 +208,7 @@ public abstract class AttachmentCreator {
      * @description returns all version Ids that where created by the external messageId
      * @return Map<String, String[]>
      */
-    public getContentVersionIdsByMessageId(){
+    public Map<String, String[]> getContentVersionIdsByMessageId(){
         Map<String, String[]> contentVersionIdsByMessageId = new Map<String, String[]>();
 
         for( String messageId : versionsByMessageId.keyset() ){
@@ -252,6 +254,26 @@ public abstract class AttachmentCreator {
             ContentDocumentId = version.ContentDocumentId,
             ShareType = 'V'
         );
+    }
+
+    /**
+     * @name setVerionIdsOnWrappers
+     * @description set files on wrapper to be accessed by MessageCreator
+     * @param none
+     * @return none
+     */
+    private void setVerionIdsOnWrappers(){
+
+        for( EmailInfo wrapper : wrappers ){
+            String messageId = getMessageId( wrapper );
+
+            if( versionsByMessageId.containsKey(messageId) ){
+
+                for( ContentVersion version : versionsByMessageId.get(messageId) ){
+                    wrapper.addVersionId( version.Id );
+                }
+            }
+        }
     }
 
 /**

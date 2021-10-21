@@ -23,7 +23,7 @@ public class Utils {
                     WHERE Address = :addressName];
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler( e );
+            CreedExceptionHandler handler = new CreedExceptionHandler( e );
             handler.addMessage( 'Failed attempt to query Org Wide Address with address of ' + addressName + '. ' );
             handler.handle();
         }
@@ -51,7 +51,7 @@ public class Utils {
                     WHERE DeveloperName = :name];
 
         } catch( QueryException e ){
-            ExceptionHandler handler = new ExceptionHandler( e );
+            CreedExceptionHandler handler = new CreedExceptionHandler( e );
             handler.addMessage( 'Failed attempt to query Template with name of ' + name + '. ');
             handler.handle();
         }
