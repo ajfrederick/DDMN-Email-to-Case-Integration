@@ -26,15 +26,15 @@ public abstract class MessageCreator {
         set;
     }
 
-    // Class Wrappers that contain email to info
-    protected EmailInfo[] wrappers {get;set;}
+    // Class containers that contain email to info
+    protected EmailContainer[] containers {get;set;}
 
 /**
  * CONSTRUCTOR
 **/
 
-    public MessageCreator( EmailInfo[] ws ){
-        wrappers = ws;
+    public MessageCreator( EmailContainer[] ws ){
+        containers = ws;
     }
 
 /**
@@ -42,11 +42,11 @@ public abstract class MessageCreator {
 **/
 
     /**
-     * @name setMessages
-     * @description loop through wrappers and get an email message
+     * @name create
+     * @description loop through containers and get an email message
      * @return void
     **/
-    public abstract void setMessages();
+    public abstract void create();
 
     /**
      * @name getOutboundMessages

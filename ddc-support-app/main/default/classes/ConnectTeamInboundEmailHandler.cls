@@ -45,19 +45,19 @@ public class ConnectTeamInboundEmailHandler implements Messaging.InboundEmailHan
             caseId = newCase.Id;
         }
 
-        EmailExtractor extractor = new EmailExtractor();
-        extractor.relatedToId = caseId;
-        extractor.setWrappers( new Messaging.InboundEmail[]{ email } );
+        EmailContainerCreator containerCreator = new EmailContainerCreator();
+        containerCreator.relatedToId = caseId;
+        containerCreator.create( new Messaging.InboundEmail[]{ email } );
 
         // instatiate a message creator then set messages
-        MessageCreatorInbound messageCreator = new MessageCreatorInbound( extractor.getWrappers() );
-        messageCreator.setMessages();
+        MessageCreatorInbound messageCreator = new MessageCreatorInbound( containerCreator.getContainers() );
+        messageCreator.create();
 
-        MessageHandler handler = new MessageHandler();
-        handler.handle( messageCreator );
+        MessageHandler handler = new MessageHandler( messageCreator );
+        handler.handle();
 
         // insert our attachments since we have EmailMessage
-        AttachmentCreatorInbound attachmentCreator = new AttachmentCreatorInbound(  extractor.getWrappers() );
+        AttachmentCreatorInbound attachmentCreator = new AttachmentCreatorInbound(  containerCreator.getContainers() );
         attachmentCreator.insertAttachments();
         attachmentCreator.insertContentDocumentLinks( messageCreator.getInboundMessages() );
 
@@ -82,12 +82,12 @@ public class ConnectTeamInboundEmailHandler implements Messaging.InboundEmailHan
                 WHERE Id = :caseId
                 LIMIT 1];
 
-        EmailExtractorCase extractor = new EmailExtractorCase();
-        extractor.setTemplate( Constants.NEW_EMAIL_TEMPLATE_NAME );
-        extractor.setWrappers( new Case[]{ newCase } );
+        EmailContainerCreatorCase containerCreator = new EmailContainerCreatorCase();
+        containerCreator.setTemplate( Constants.NEW_EMAIL_TEMPLATE_NAME );
+        containerCreator.create( new Case[]{ newCase } );
 
         // instatiate a message creator, set option, then set messages
-        MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( extractor.getWrappers() );
+        MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( containerCreator.getContainers() );
         messageCreator.setOrgWideEmailAddressId( Constants.FROM_ADDRESS );
         messageCreator.setMessages();
 

@@ -8,8 +8,8 @@ public class AttachmentCreatorInbound extends AttachmentCreator {
  * CONSTRUCTOR
  */
 
-    public AttachmentCreatorInbound( EmailInfo[] wrappers ) {
-        super(wrappers);
+    public AttachmentCreatorInbound( EmailContainer[] containers ) {
+        super(containers);
     }
 
 /**
@@ -29,10 +29,10 @@ public class AttachmentCreatorInbound extends AttachmentCreator {
     /**
      * @name getMessageId
      * @description returns an external email message Id for insertContentDocumentLinks method
-     * @param EmailInfo wrapper
+     * @param EmailContainer container
      * @return String
      */
-    protected override String getMessageId( EmailInfo wrapper ){
-        return wrapper.messageId;
+    protected override String getMessageId( EmailContainer container ){
+        return container.messageId;
     }
 }

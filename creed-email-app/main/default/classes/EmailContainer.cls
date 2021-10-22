@@ -1,9 +1,9 @@
 /**
- * @name EmailInfo
+ * @name EmailContainer
  * @description wrapper class to get email content and info predictably no matter the source.
  * These get loaded up and passed around and unloaded by the entire application.
 **/
-public class EmailInfo {
+public class EmailContainer {
 
 /**
  * FIELDS
@@ -96,7 +96,7 @@ public class EmailInfo {
  * CONSTRUCTOR
 **/
 
-    public EmailInfo(){
+    public EmailContainer(){
 
     }
 
@@ -205,30 +205,30 @@ public class EmailInfo {
     }
 
     /**
-     * @name setAttachement
+     * @name setAttachment
      * @description adds AttachementData when an outgoing or 
      * incoming email contains a binary attachment which is formatted
      * as Blob data
-     * @param Blob body 
      * @param String filename
+     * @param Blob body
      * @return void
     **/
-    public void setAttachement( Blob body, String filename ){
-        attachments.add( new AttachmentData( body, filename ) );
+    public void setAttachment( String filename, Blob body ){
+        attachments.add( new AttachmentData( filename, body ) );
     }
 
     /**
-     * @name setAttachement
+     * @name setAttachment
      * @description adds AttachementData when an outgoing or 
      * incoming email contains a text attachment which is formatted as a String
-     * @param String body
-     * @param String filename 
+     * @param String filename
+     * @param String (base64) body
      * @return void
     **/
-    public void setAttachement( String body, String filename ){
+    public void setAttachment( String filename, String body ){
         Blob bodyBlob = EncodingUtil.base64Decode(body);
 
-        attachments.add( new AttachmentData( bodyBlob, filename ) );
+        attachments.add( new AttachmentData( filename, bodyBlob ) );
     }
 
     /**
@@ -269,7 +269,7 @@ public class EmailInfo {
     **/
     public void setQuote( String quote ){
         if( content == null ){
-            System.debug('Content for EmailInfo.cls must be set before set the quoted email in the body');
+            System.debug('Content for EmailContainer.cls must be set before set the quoted email in the body');
             return;
         }
 
@@ -387,12 +387,16 @@ public class EmailInfo {
     }
 
     public class AttachmentData {
-        public Blob VersionData {get;set;}
-        public String Title {get;set;}
 
-        public AttachmentData( Blob body, String filename ){
-            VersionData = body;
-            Title = filename;
+        public String fileName {get;set;}
+        public Blob body {get;set;}
+        public String contentType {get;set;}
+
+        public AttachmentData( String fn, Blob b ){
+            fileName = fn;
+            body = b;
+
+            // TODO intellgently determine content type by filename
         }
     }
 }

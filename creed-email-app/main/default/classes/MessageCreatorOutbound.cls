@@ -15,8 +15,8 @@ public class MessageCreatorOutbound extends MessageCreator {
  * CONSTRUCTOR
 **/
 
-    public MessageCreatorOutbound( EmailInfo[] wrappers ) {
-        super(wrappers);
+    public MessageCreatorOutbound( EmailContainer[] containers ) {
+        super(containers);
     }
 
 /**
@@ -24,16 +24,16 @@ public class MessageCreatorOutbound extends MessageCreator {
 **/
 
     /**
-     * @name setMessages
-     * @description loop through wrappers and get an email message
+     * @name create
+     * @description loop through containers and get an email message
      * @return void
     **/
-    public override void setMessages(){
+    public override void create(){
 
-        for( EmailInfo wrapper : wrappers ){
-            if( !isVaild( wrapper ) ) continue;
+        for( EmailContainer container : containers ){
+            if( !isVaild( container ) ) continue;
 
-            outboundMessages.add( getMessage( wrapper ) );
+            outboundMessages.add( getMessage( container ) );
         }
     }
 
@@ -41,15 +41,15 @@ public class MessageCreatorOutbound extends MessageCreator {
      * @name getMessage
      * @description creates a single email massage and sets necessary fields base on certain conditions
      * waterfalls the next 3 methods
-     * @param EmailInfo wrapper
+     * @param EmailContainer container
      * @return SObject message
     **/
-    private Messaging.SingleEmailMessage getMessage( EmailInfo wrapper ){
+    private Messaging.SingleEmailMessage getMessage( EmailContainer container ){
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
 
-        configureMessage( message, wrapper );
-        setAddressInfo( message, wrapper );
-        setContent( message, wrapper );
+        configureMessage( message, container );
+        setAddressInfo( message, container );
+        setContent( message, container );
 
         return message;
     }
@@ -63,21 +63,21 @@ public class MessageCreatorOutbound extends MessageCreator {
      * @description called within getMessage, configures outgoing email. Message targeted recipitent's 
      * id is set, sets the whatId which helps to further ensure that merge fields in the template contain the correct data, 
      * and also sets InReplyTo which identifies the email or emails to which this email is a reply (parent emails).
-     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper
+     * @param Messaging.SingleEmailMessage message, EmailContainer container
      * @return void
     **/
-    private void configureMessage( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
+    private void configureMessage( Messaging.SingleEmailMessage message, EmailContainer container ){
         
-        if( wrapper.hasWhoId() ){  
-            message.setTargetObjectId( wrapper.whoId );
+        if( container.hasWhoId() ){  
+            message.setTargetObjectId( container.whoId );
         }
 
-        if( wrapper.hasWhatId() ){
-            message.setWhatId( wrapper.whatId );
+        if( container.hasWhatId() ){
+            message.setWhatId( container.whatId );
         }
 
-        if( wrapper.hasInReplyTo() ){
-            message.setInReplyTo( wrapper.inReplyTo );
+        if( container.hasInReplyTo() ){
+            message.setInReplyTo( container.inReplyTo );
         }
 
         message.setSaveAsActivity( true );
@@ -89,14 +89,14 @@ public class MessageCreatorOutbound extends MessageCreator {
      * @description called within getMessage
      * sets outgoing message's to, cc, and bcc addresses. Sets from Address with org wide email address Id
      * @param Messaging.SingleEmailMessage message
-     * @param EmailInfo wrapper 
+     * @param EmailContainer container 
      * @return void
     **/
-    private void setAddressInfo( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
+    private void setAddressInfo( Messaging.SingleEmailMessage message, EmailContainer container ){
         
-        message.setToAddresses( wrapper.ToAddresses );
-        message.setCcAddresses( wrapper.CcAddresses );
-        message.setBccAddresses( wrapper.BccAddresses );
+        message.setToAddresses( container.ToAddresses );
+        message.setCcAddresses( container.CcAddresses );
+        message.setBccAddresses( container.BccAddresses );
 
         // we have to do this cause this how SF handles setting the From Address for outgoing emails
         if( oweAddressId != null ){
@@ -106,30 +106,46 @@ public class MessageCreatorOutbound extends MessageCreator {
 
     /**
      * @name setContent
-     * @description called within getMessage if there is a message and a wrapper
-     * sets body/subject of the outgoing message with values from the wrapper & sets id's for attatched documents
-     * @param Messaging.SingleEmailMessage message, EmailInfo wrapper 
+     * @description called within getMessage if there is a message and a container
+     * sets body/subject of the outgoing message with values from the container & sets id's for attatched documents
+     * @param Messaging.SingleEmailMessage message, EmailContainer container 
      * @return void
     **/
-    private void setContent( Messaging.SingleEmailMessage message, EmailInfo wrapper ){
+    private void setContent( Messaging.SingleEmailMessage message, EmailContainer container ){
         String body = '';
         String subject = '';
 
-        if( wrapper.template != null ){
-            subject = wrapper.template.Subject;
-            body = wrapper.template.HtmlValue;
+        if( container.template != null ){
+            subject = container.template.Subject;
+            body = container.template.HtmlValue;
         } else 
-        if( wrapper.getContent() != null ){
-            subject = wrapper.getSubject();
-            body = wrapper.getHTMLBody();
+        if( container.getContent() != null ){
+            subject = container.getSubject();
+            body = container.getHTMLBody();
         }
 
         message.setSubject( subject );
         message.setHtmlBody( body );
         message.setTreatBodiesAsTemplate(true);
 
-        if( !wrapper.getVersionIds().isEmpty() ){
-            message.setEntityAttachments( wrapper.getVersionIds() );
+        // set Salesforce files as attachments if there are any
+        if( !container.getVersionIds().isEmpty() ){
+            message.setEntityAttachments( container.getVersionIds() );
+        } else
+        // or set attachements with Attachment data. These attachments aren't saved in Salesforce as files
+        if( !container.attachments.isEmpty() ){
+           Messaging.EmailFileAttachment[] attachments = new Messaging.EmailFileAttachment[]{};
+
+            for( EmailContainer.AttachmentData attachment : container.attachments ){
+                Messaging.EmailFileAttachment attachmentToAdd = new Messaging.EmailFileAttachment();
+                attachmentToAdd.setFileName( attachment.filename );
+                attachmentToAdd.setBody( attachment.body );
+                attachmentToAdd.setContentType( attachment.contentType );
+
+                attachments.add( attachmentToAdd );
+            }
+
+            message.setFileAttachments( attachments );
         }
     }
 
@@ -139,12 +155,12 @@ public class MessageCreatorOutbound extends MessageCreator {
 
     /**
      * @name isVaild
-     * @description checks wrapper to ensure it has a toAddress and it doesn't match the forward from email address
-     * @param EmailInfo wrapper
+     * @description checks container to ensure it has a toAddress and it doesn't match the forward from email address
+     * @param EmailContainer container
      * @return Boolean
     **/
-    private Boolean isVaild( EmailInfo wrapper ){
-        return wrapper.hasToAddresses();
+    private Boolean isVaild( EmailContainer container ){
+        return container.hasToAddresses();
     }
 
 /**

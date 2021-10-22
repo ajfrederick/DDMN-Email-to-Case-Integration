@@ -21,7 +21,7 @@ public class MessageHandler {
  * CONSTRUCTOR
 **/
 
-    public MessageHandler() {
+    public MessageHandler( MessageCreator mc ) {
 
     }
 
@@ -33,9 +33,7 @@ public class MessageHandler {
      * @description sends outbound and recieves inbound messages
      * @return void
     **/
-    public void handle( MessageCreator mc  ){
-        messageCreator = mc;
-
+    public void handle(){
         triggerEnabled = true;
 
         if( messageCreator.hasOutboundMessages() ){

@@ -14,24 +14,23 @@ public class TestEmailMessaging {
 
         insert c;
 
-        EmailInfo wrapper = new EmailInfo();
+        EmailContainer container = new EmailContainer();
 
-        wrapper.whatId = c.Id;
-        wrapper.ToAddresses = new String[]{'me@test.com'};
-        wrapper.FromAddress = 'you@test.com';
-        wrapper.setContent( 'Subject', 'HTMLBody', 'PlainTextBody' );
-        wrapper.setAttachement( Blob.valueOf('Attachment'), 'Attachment.txt' );
+        container.whatId = c.Id;
+        container.ToAddresses = new String[]{'me@test.com'};
+        container.FromAddress = 'you@test.com';
+        container.setContent( 'Subject', 'HTMLBody', 'PlainTextBody' );
+        container.setAttachment( 'Attachment.txt', Blob.valueOf('Attachment') );
 
-        EmailInfo[] wrappers = new EmailInfo[]{wrapper};
+        EmailContainer[] containers = new EmailContainer[]{container};
 
         // insert our attachments since we have before we set messages so SingleEmailMessage can access the ContentVersionIds
-        AttachmentCreatorOutbound attachmentCreator = new AttachmentCreatorOutbound( wrappers );
+        AttachmentCreatorOutbound attachmentCreator = new AttachmentCreatorOutbound( containers );
         attachmentCreator.insertAttachments();
 
         // instatiate a message creator, set option, set contentversionids for attatchments and 
-        // set messages which unpacks wrapper info into Messaging.SingleEmailMessage
-        MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( wrappers );
-        messageCreator.setContentVersionIds( attachmentCreator.getContentVersionIds() );
+        // set messages which unpacks container info into Messaging.SingleEmailMessage
+        MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( containers );
         messageCreator.setMessages();
 
         // since the EmailMessage gets created asyncronously after sending the SingleMessage
@@ -79,12 +78,12 @@ public class TestEmailMessaging {
         email.binaryAttachments = new Messaging.InboundEmail.BinaryAttachment[]{attachment};
 
 
-        EmailExtractor extractor = new EmailExtractor();
-        extractor.relatedToId = c.Id;
-        extractor.setWrappers( new Messaging.InboundEmail[]{ email } );
+        EmailContainerCreator containerCreator = new EmailContainerCreator();
+        containerCreator.relatedToId = c.Id;
+        containerCreator.create( new Messaging.InboundEmail[]{ email } );
 
         // instatiate a message creator then set messages
-        MessageCreatorInbound messageCreator = new MessageCreatorInbound( extractor.getWrappers() );
+        MessageCreatorInbound messageCreator = new MessageCreatorInbound( containerCreator.getContainers() );
         messageCreator.setMessages();
 
         // recieve the emails
@@ -92,42 +91,12 @@ public class TestEmailMessaging {
         handler.handle( messageCreator );
 
         // insert our attachments since we have EmailMessage
-        AttachmentCreatorInbound attachmentCreator = new AttachmentCreatorInbound(  extractor.getWrappers() );
+        AttachmentCreatorInbound attachmentCreator = new AttachmentCreatorInbound(  containerCreator.getContainers() );
         attachmentCreator.insertAttachments();
         attachmentCreator.insertContentDocumentLinks( messageCreator.getInboundMessages() );
 
         EmailMessage message = [SELECT Id, ParentId FROM EmailMessage][0];
 
         System.assertEquals( c.Id, message.ParentId );
-    }
-
-    @IsTest
-    static void testEmailForCase(){
-        Case c = new Case(
-            SuppliedEmail = 'me@test.com'
-        );
-
-        insert c;
-
-        EmailExtractor extractor = new EmailExtractorCase();
-        extractor.setWrappers( new Case[]{ c } );
-
-        // instatiate a message creator then set messages
-        MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( extractor.getWrappers() );
-        messageCreator.setMessages();
-
-        Integer numberOfEmailsSent = 0;
-
-        Test.startTest();
-
-            // send the emails
-            MessageHandler handler = new MessageHandler();
-            handler.handle( messageCreator );
-
-            numberOfEmailsSent = Limits.getEmailInvocations();
-            
-        Test.stopTest();
-
-        System.assertEquals( 1, numberOfEmailsSent );
     }
 }

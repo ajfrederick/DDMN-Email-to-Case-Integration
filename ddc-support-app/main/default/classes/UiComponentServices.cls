@@ -37,7 +37,7 @@ public class UiComponentServices {
 
     /**
      * @name getReply
-     * @description this returns a predicatbly formatted object, formatted as an EmailInfo Object, when a user clicks reply
+     * @description this returns a predicatbly formatted object, formatted as an EmailContainer Object, when a user clicks reply
      * it sets only one To Address
      * @param String replyToMessageJSON
      * @return String {JSON}
@@ -52,15 +52,15 @@ public class UiComponentServices {
             throw new AuraHandledException(e.getMessage());
         }
 
-        EmailInfo wrapper = getWrapper( message );
+        EmailContainer container = getcontainer( message );
 
-        return JSON.serialize( wrapper );
+        return JSON.serialize( container );
     }
 
     /**
      * @name sendEmailMessage
      * @description sends a reply message which was formatted by the above methods
-     * @param EmailInfo message
+     * @param EmailContainer message
      * @return String {JSON}
     **/
     @AuraEnabled
@@ -69,28 +69,28 @@ public class UiComponentServices {
 
         NewMessageData newMessageData = (NewMessageData) JSON.deserialize( JSONnewMessageData, NewMessageData.class );
 
-        EmailInfo wrapper = newMessageData.message;
+        EmailContainer container = newMessageData.message;
         
-        String wrappedBody = wrapper.wrapHTMLBody( wrapper.getHtmlBody() );
+        String wrappedBody = container.wrapHTMLBody( container.getHtmlBody() );
 
-        wrapper.setHtmlBody( wrappedBody );
-        wrapper.setQuote( getQuote(newMessageData.replyToMessage) );
+        container.setHtmlBody( wrappedBody );
+        container.setQuote( getQuote(newMessageData.replyToMessage) );
 
         try {
 
-            for( AttachmentData attachment : newMessageData.attachments ){
-                wrapper.setAttachement( attachment.base64, attachment.Title );
+            for( NewMessageAttachmentData attachment : newMessageData.attachments ){
+                container.setAttachement( attachment.Title, attachment.base64 );
             }
 
-            EmailInfo[] wrappers = new EmailInfo[]{wrapper};
+            EmailContainer[] containers = new EmailContainer[]{container};
 
             // insert our attachments since we have before we set messages so SingleEmailMessage can access the ContentVersionIds
-            AttachmentCreatorOutbound attachmentCreator = new AttachmentCreatorOutbound( wrappers );
+            AttachmentCreatorOutbound attachmentCreator = new AttachmentCreatorOutbound( containers );
             attachmentCreator.insertAttachments();
 
             // instatiate a message creator, set option, set contentversionids for attatchments and 
-            // set messages which unpacks wrapper info into Messaging.SingleEmailMessage
-            MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( wrappers );
+            // set messages which unpacks container info into Messaging.SingleEmailMessage
+            MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( containers );
             messageCreator.setOrgWideEmailAddressId( Constants.FROM_ADDRESS );
             messageCreator.setContentVersionIds( attachmentCreator.getContentVersionIds() );
             messageCreator.setMessages();
@@ -102,14 +102,14 @@ public class UiComponentServices {
             EmailMessageHelper.attachmentCreatorForTrigger = attachmentCreator;
 
             // send the emails
-            MessageHandler handler = new MessageHandler();
-            handler.handle( messageCreator );
+            MessageHandler handler = new MessageHandler( messageCreator );
+            handler.handle();
 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
         
-        return getData( wrapper.whatId );
+        return getData( container.whatId );
     }
 
     /**
@@ -257,29 +257,29 @@ public class UiComponentServices {
     }
 
     /**
-     * @name getWrapper
-     * @description returns an EmailInfo object for reply and replyAll methods
+     * @name getcontainer
+     * @description returns an EmailContainer object for reply and replyAll methods
      * @param EmailMessage message 
-     * @return EmailInfo
+     * @return EmailContainer
     **/
-    public static EmailInfo getWrapper( Map<String, Object> message ){
-        EmailInfo wrapper = new EmailInfo();
+    public static EmailContainer getcontainer( Map<String, Object> message ){
+        EmailContainer container = new EmailContainer();
 
         try {
 
             OrgWideEmailAddress oweAddress = Utils.getOrgWideEmailAddress( Constants.FROM_ADDRESS );
             
-            wrapper.whatId = (String) message.get('ParentId');
-            wrapper.FromAddress = oweAddress.Address;
-            wrapper.FromName = oweAddress.DisplayName;
-            wrapper.setContent( (String) message.get('Subject'), '', '');
-            wrapper.inReplyTo = (String) message.get('MessageIdentifier');
+            container.whatId = (String) message.get('ParentId');
+            container.FromAddress = oweAddress.Address;
+            container.FromName = oweAddress.DisplayName;
+            container.setContent( (String) message.get('Subject'), '', '');
+            container.inReplyTo = (String) message.get('MessageIdentifier');
 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
 
-        return wrapper;
+        return container;
     }
 
     /**
@@ -412,7 +412,7 @@ public class UiComponentServices {
  * CLASSES
 **/
 
-    // wrapper class that gets serialized into JSON for first main UI call that looks for all the message data for a record
+    // container class that gets serialized into JSON for first main UI call that looks for all the message data for a record
     public class FeedData {
 
 /**
@@ -445,10 +445,17 @@ public class UiComponentServices {
     }
 
     public class NewMessageData {
-        public EmailInfo message {get;set;}
-        public AttachmentData[] attachments {get;set;}
+        public EmailContainer message {get;set;}
+        public NewMessageAttachmentData[] attachments {get;set;}
         public ReplyToMessage replyToMessage {get;set;}
     }
+
+    // this is partially the way lwc formats attachment data in their file loader
+    public class NewMessageAttachmentData {
+        public String Title {get;set;}
+        public String base64 {get;set;}
+        public String FileExtension {get;set;}
+    }    
 
     public class ReplyToMessage {
         public DateTime MessageDate {get;set;}

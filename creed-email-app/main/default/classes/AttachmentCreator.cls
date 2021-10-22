@@ -8,6 +8,9 @@ public abstract class AttachmentCreator {
  * FIELDS
  */
 
+    // Class containers that contain email to info
+    protected EmailContainer[] containers {get;set;}
+
     private ContentVersion[] versions {
         get {
             if( versions == null ) versions = new ContentVersion[]{};
@@ -24,9 +27,6 @@ public abstract class AttachmentCreator {
         set;
     }
 
-    // Class Wrappers that contain email to info
-    protected EmailInfo[] wrappers {get;set;}
-
     // used for when it's necessary to save one content version for many emails
     public Boolean useFirstAttachmentsForAllMessages {
         get {
@@ -40,8 +40,8 @@ public abstract class AttachmentCreator {
  * CONSTRUCTOR
  */
 
-    public AttachmentCreator( EmailInfo[] ws ) {
-        wrappers = ws;
+    public AttachmentCreator( EmailContainer[] ws ) {
+        containers = ws;
     }
 
 /**
@@ -58,27 +58,27 @@ public abstract class AttachmentCreator {
     /**
      * @name getMessageId
      * @description returns an external email message Id for insertContentDocumentLinks method
-     * @param EmailInfo wrapper
+     * @param EmailContainer container
      * @return String
      */
-    protected abstract String getMessageId( EmailInfo wrapper );
+    protected abstract String getMessageId( EmailContainer container );
 
     /**
      * @name insertAttachments
      * @description inserts the Email attachments as ContentVersion and then creates the necessary ContentDocumentLinks
      * for incoming messages
-     * @param EmailInfo wrappers
+     * @param EmailContainer containers
      * @return void
      */
     public void insertAttachments(){
 
-        for( EmailInfo wrapper : wrappers ){
-            String messageId = getMessageId( wrapper );
+        for( EmailContainer container : containers ){
+            String messageId = getMessageId( container );
 
             if( useFirstAttachmentsForAllMessages ){
-                setVersionsForAllMessages( wrapper, messageId );
+                setVersionsForAllMessages( container, messageId );
             } else {
-                setVersions( wrapper, messageId );
+                setVersions( container, messageId );
             }
         }
 
@@ -91,7 +91,7 @@ public abstract class AttachmentCreator {
             handler.handle();
         }
 
-        setVerionIdsOnWrappers();
+        setVerionIdsOnContainers();
     }
 
     /**
@@ -142,13 +142,13 @@ public abstract class AttachmentCreator {
     /**
      * @name setVersions
      * @description sets a single or single set of content verions (attachments) for many emails
-     * @param EmailInfo wrapper
+     * @param EmailContainer container
      * @param String messageId
      * @return void
      */
-    private void setVersions( EmailInfo wrapper, String messageId ){
+    private void setVersions( EmailContainer container, String messageId ){
 
-        for( EmailInfo.AttachmentData attachment : wrapper.attachments ){
+        for( EmailContainer.AttachmentData attachment : container.attachments ){
             ContentVersion version = getContentVersion(attachment);
 
             if( versionsByMessageId.containsKey( messageId ) ){
@@ -159,19 +159,26 @@ public abstract class AttachmentCreator {
 
             versions.add(version);
         }
+
+        /**
+         * clear attachement data so that message creator only uses the ContentVersion (file) created here.
+         * If we don't clear it the message creator will read the attachments list and creat an attachment that isn't
+         * saved as a file and essentially send two of every attachment because of the files created in this class.
+         */
+        container.attachments.clear();
     }
 
     /**
      * @name setVersionsForAllMessages
      * @description sets a single or single set of content verions (attachments) for many emails
-     * @param EmailInfo wrapper
+     * @param EmailContainer container
      * @param String messageId
      * @return void
      */
-    private void setVersionsForAllMessages( EmailInfo wrapper, String messageId ){
+    private void setVersionsForAllMessages( EmailContainer container, String messageId ){
 
         if( versions.size() == 0 ){
-            setVersions( wrapper, messageId );
+            setVersions( container, messageId );
         } else {
             versionsByMessageId.put( messageId, versions );
         }
@@ -229,14 +236,14 @@ public abstract class AttachmentCreator {
     /**
      * @name getContentVersion
      * @description returns a predicatably formatted ContentVersion
-     * @param EmailInfo.AttachmentData attachment 
+     * @param EmailContainer.AttachmentData attachment 
      * @return ContentVersion
      */
-    private ContentVersion getContentVersion( EmailInfo.AttachmentData attachment ){
+    private ContentVersion getContentVersion( EmailContainer.AttachmentData attachment ){
         return new ContentVersion(
-            Title = attachment.Title,
-            PathOnClient = attachment.Title,
-            VersionData = attachment.VersionData,
+            Title = attachment.fileName,
+            PathOnClient = attachment.fileName,
+            VersionData = attachment.body,
             ContentLocation = 'S'
         );
     }
@@ -257,20 +264,20 @@ public abstract class AttachmentCreator {
     }
 
     /**
-     * @name setVerionIdsOnWrappers
-     * @description set files on wrapper to be accessed by MessageCreator
+     * @name setVerionIdsOnContainers
+     * @description set files on container to be accessed by MessageCreator
      * @param none
      * @return none
      */
-    private void setVerionIdsOnWrappers(){
+    private void setVerionIdsOnContainers(){
 
-        for( EmailInfo wrapper : wrappers ){
-            String messageId = getMessageId( wrapper );
+        for( EmailContainer container : containers ){
+            String messageId = getMessageId( container );
 
             if( versionsByMessageId.containsKey(messageId) ){
 
                 for( ContentVersion version : versionsByMessageId.get(messageId) ){
-                    wrapper.addVersionId( version.Id );
+                    container.addVersionId( version.Id );
                 }
             }
         }
