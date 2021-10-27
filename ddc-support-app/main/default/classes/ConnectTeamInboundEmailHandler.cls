@@ -89,11 +89,11 @@ public class ConnectTeamInboundEmailHandler implements Messaging.InboundEmailHan
         // instatiate a message creator, set option, then set messages
         MessageCreatorOutbound messageCreator = new MessageCreatorOutbound( containerCreator.getContainers() );
         messageCreator.setOrgWideEmailAddressId( Constants.FROM_ADDRESS );
-        messageCreator.setMessages();
+        messageCreator.create();
 
         // send the emails
-        MessageHandler handler = new MessageHandler();
-        handler.handle( messageCreator );
+        MessageHandler handler = new MessageHandler( messageCreator );
+        handler.handle();
     }
 
     /**

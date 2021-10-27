@@ -54,10 +54,14 @@ public class OutboundEmailResults {
 
                 failedIds += error.getTargetObjectId();
             }
+
+            System.debug(failedIds);
         }
 
         for( Messaging.SingleEmailMessage message : messages ){
-            String objId = message.whatId != null ? message.whatId : 'NotAnId';
+            String objId = message.getWhatId() != null ? message.getWhatId() : message.getTargetObjectId() != null ? message.getTargetObjectId() : null;
+
+            if( objId == null ) continue;
 
             if( failedIds.indexOf( objId ) < 0 ){
 

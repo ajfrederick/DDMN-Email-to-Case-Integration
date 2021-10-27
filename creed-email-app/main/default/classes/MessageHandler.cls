@@ -22,7 +22,7 @@ public class MessageHandler {
 **/
 
     public MessageHandler( MessageCreator mc ) {
-
+        messageCreator = mc;
     }
 
 /**
