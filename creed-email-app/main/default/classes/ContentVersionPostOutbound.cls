@@ -1,15 +1,15 @@
 /**
- * @name AttachmentCreatorOutbound
+ * @name ContentVersionPostOutbound
  * @description this child class helps create and insert attachments for outgoing emails
  */
-public class AttachmentCreatorOutbound extends AttachmentCreator {
+global class ContentVersionPostOutbound extends ContentVersionPost {
 
 /**
  * CONSTRUCTOR
  */
 
-    public AttachmentCreatorOutbound( EmailContainer[] containers ) {
-        super(containers);
+    global ContentVersionPostOutbound( EmailParcel[] parcels ) {
+        super(parcels);
     }
 
 /**
@@ -22,17 +22,17 @@ public class AttachmentCreatorOutbound extends AttachmentCreator {
      * @param EmailMessage message
      * @return String
      */
-    protected override String getMessageId( EmailMessage message ){
+    global override String getMessageId( EmailMessage message ){
         return message.Headers.substringAfter('In-Reply-To: ');
     }
 
     /**
      * @name getMessageId
      * @description returns an external email message Id for insertContentDocumentLinks method
-     * @param EmailContainer container
+     * @param EmailParcel parcel
      * @return String
      */
-    protected override String getMessageId( EmailContainer container ){
-        return container.inReplyTo;
+    global override String getMessageId( EmailParcel parcel ){
+        return parcel.inReplyTo;
     }
 }

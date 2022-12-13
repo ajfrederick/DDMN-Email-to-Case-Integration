@@ -1,8 +1,8 @@
 /**
- * @name EmailMessageRelationHelper
+ * @name EmailMessageRelationUtil
  * @description Ensures that system generated EmailMessageRelations get associated with recipient record
 **/
-public class EmailMessageRelationHelper {
+global class EmailMessageRelationUtil {
 
     /**
      * @name updateRelationIds
@@ -10,8 +10,8 @@ public class EmailMessageRelationHelper {
      * @param EmailMessage[] message
      * @return Map<Id, EmailMessageRelation>
     **/
-    public static void updateRelationIds( EmailMessage[] messages ){
-        if( !MessageHandler.triggerEnabled ) return;
+    global static void updateRelationIds( EmailMessage[] messages ){
+        if( !EmailPost.triggerEnabled ) return;
 
         Set<Id> messageIds = new Map<Id, EmailMessage>( messages ).keyset();
 
@@ -44,11 +44,11 @@ public class EmailMessageRelationHelper {
             update relationsToUpdate;
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler(e);
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
             handler.handle();
         }
 
-        MessageHandler.triggerEnabled = null;
+        EmailPost.triggerEnabled = null;
     }
 
     /**
@@ -64,16 +64,16 @@ public class EmailMessageRelationHelper {
         try {
 
             relations.addAll([SELECT
-                                    Id,
-                                    RelationAddress,
-                                    RelationId,
-                                    RelationType,
-                                    EmailMessageId
-                                        FROM EmailMessageRelation
-                                        WHERE EmailMessageId IN :messageIds]);
+                                Id,
+                                RelationAddress,
+                                RelationId,
+                                RelationType,
+                                EmailMessageId
+                                    FROM EmailMessageRelation
+                                    WHERE EmailMessageId IN :messageIds]);
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler(e);
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
             handler.debug();
         }
 
@@ -104,7 +104,7 @@ public class EmailMessageRelationHelper {
                                     WHERE Email IN :addresses]);
 
         } catch( Exception e ){
-            ExceptionHandler handler = new ExceptionHandler(e);
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
             handler.debug();
         }
 

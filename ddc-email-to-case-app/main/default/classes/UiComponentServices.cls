@@ -52,7 +52,7 @@ public class UiComponentServices {
             throw new AuraHandledException(e.getMessage());
         }
 
-        EmailContainer container = getcontainer( message );
+        EmailContainer container = getContainer( message );
 
         return JSON.serialize( container );
     }
@@ -257,12 +257,12 @@ public class UiComponentServices {
     }
 
     /**
-     * @name getcontainer
+     * @name getContainer
      * @description returns an EmailContainer object for reply and replyAll methods
      * @param EmailMessage message 
      * @return EmailContainer
     **/
-    public static EmailContainer getcontainer( Map<String, Object> message ){
+    public static EmailContainer getContainer( Map<String, Object> message ){
         EmailContainer container = new EmailContainer();
 
         try {

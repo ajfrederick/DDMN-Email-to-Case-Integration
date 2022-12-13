@@ -4,21 +4,21 @@
             "path": "creed-exception-handler",
             "default": false,
             "package": "Creed Exception Handler",
-            "versionName": "ver 0.1",
-            "versionNumber": "0.1.0.NEXT"
+            "versionName": "ver 1.1",
+            "versionNumber": "1.1.0.NEXT"
         },
         {
             "path": "creed-email-app",
-            "package": "Creed Email Messaging",
-            "versionName": "ver 0.1",
-            "versionNumber": "0.1.0.NEXT",
+            "package": "Creed Email App",
+            "versionName": "ver 2.0",
+            "versionNumber": "2.0.0.NEXT",
             "default": false,
             "dependencies": [
                 {
                     "package": "Creed Exception Handler",
-                    "versionNumber": "0.1.0.LATEST"
+                    "versionNumber": "1.1.0.RELEASED"
                 }
-            ]  
+            ]
         },
         {
             "path": "ddc-support-app",
@@ -28,12 +28,12 @@
             "default": true,
             "dependencies": [
                 {
-                    "package": "Creed Email Messaging",
-                    "versionNumber": "0.1.0.LATEST"
+                    "package": "Creed Exception Handler",
+                    "versionNumber": "1.1.0.RELEASED"
                 },
                 {
-                    "package": "Creed Exception Handler",
-                    "versionNumber": "0.1.0.LATEST"
+                    "package": "Creed Email App",
+                    "versionNumber": "2.0.0.RELEASED"
                 }
             ]
         }
@@ -43,7 +43,8 @@
     "sourceApiVersion": "50.0",
     "packageAliases": {
         "Creed Exception Handler": "0Ho4x000000PBA9CAO",
-        "Creed Email Messaging": "0Ho4x000000PB9uCAG",
-        "Delta Dental Connect Support App": "0Ho4x000000PBA4CAO"
+        "Creed Exception Handler@1.1.0-1": "04t4x000000AJjqAAG",
+        "Creed Email App": "0Ho4x000000PBBHCA4",
+        "Creed Email App@2.0.0-2": "04t4x0000006sGTAAY",
     }
 }

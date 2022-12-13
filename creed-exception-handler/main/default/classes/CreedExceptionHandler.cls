@@ -1,8 +1,10 @@
 /**
- * @name MessageCreator
+ * @name CreedExceptionHandler
  * @description custom exception handler for robust debugging and sends an email notification
+ * 
+ * @author Andrew Frederick (Creed Interactive) 11/23/2021
 **/
-public class ExceptionHandler {
+global class CreedExceptionHandler {
 
 /**
  * CONSTRUCTOR
@@ -12,13 +14,29 @@ public class ExceptionHandler {
     private Exception ex {get;set;}
 
     // email address to send error details to
-    private static final String recipientAddress = 'salesforceteam@creedinteractive.com';
+    private static final String creedAddress = 'salesforceteam@creedinteractive.com';
 
     // org name for email subject and body
-    private static final String orgName = ConnectApi.Organization.getSettings().Name;
+    private static String orgName = '';
+
+    static {
+        try {
+            orgName = [SELECT InstanceName FROM Organization LIMIT 1].InstanceName;
+        } catch( Exception e ){
+
+        }
+    }
 
     // optional append a message
     private String appendedMessage {get;set;}
+
+    private String[] recipientAddresses {
+        get {
+            if( recipientAddresses == null ) recipientAddresses = new String[]{};
+            return recipientAddresses;
+        }
+        set;
+    }
 
     // a list of sobjects to derive error info for email
     private SObject[] errorRecords {
@@ -33,12 +51,12 @@ public class ExceptionHandler {
  * CONSTRUCTOR
 **/
 
-    public ExceptionHandler( Exception e ) {
+    global CreedExceptionHandler( Exception e ) {
         ex = e;
     }
 
     // Overloaded Constuctor
-    public ExceptionHandler( Exception e, SObject[] errorRecs ) {
+    global CreedExceptionHandler( Exception e, SObject[] errorRecs ) {
         ex = e;
         errorRecords = errorRecs;
     }
@@ -52,7 +70,7 @@ public class ExceptionHandler {
      * @description handles with an email and debud
      * @return void
     **/
-    public void handle(){
+    global void handle(){
         debug();
         email();
     }
@@ -62,7 +80,7 @@ public class ExceptionHandler {
      * @description logs a full debug of exception
      * @return void
     **/
-    public void debug(){
+    global void debug(){
         System.debug('Exception type caught: ' + ex.getTypeName());    
         System.debug('Exception Message: ' + ex.getMessage());
 
@@ -87,14 +105,16 @@ public class ExceptionHandler {
      *
      * @return void
     **/
-    public void email(){
+    global void email(){
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+
+        recipientAddresses.add(creedAddress);
 
         String body = getMessageBody( ex );
 
         message.setHtmlBody( body );
         message.setSubject( 'Caught Apex Exception in org: ' + orgName );
-        message.setToAddresses( new String[]{ recipientAddress } );
+        message.setToAddresses( recipientAddresses );
 
         message.setSaveAsActivity( false );
         message.setUseSignature( false );
@@ -108,8 +128,28 @@ public class ExceptionHandler {
      * @param String message
      * @return void
     **/
-    public void addMessage( String message ){
+    global void addMessage( String message ){
         appendedMessage = message;
+    }
+
+    /**
+     * @name addAddress
+     * @description appends additional recipient email addresses
+     * @param String address
+     * @return void
+    **/
+    global void addAddress( String address ){
+        String emailRegex = '^[a-zA-Z0-9._|\\\\%#~`=?&/$^*!}{+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$';
+
+        Pattern myPattern = Pattern.compile(emailRegex);
+        Matcher myMatcher = myPattern.matcher(address);
+
+        if( !myMatcher.matches() ){
+            System.debug('Error while attempting to add a recipient address in CreedExceptionHandler. ' + address + ' is an invalid email address.');
+            return;
+        }
+
+        recipientAddresses.add( address );
     }
 
 /**

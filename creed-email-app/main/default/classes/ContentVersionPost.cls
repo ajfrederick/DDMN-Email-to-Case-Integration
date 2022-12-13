@@ -1,15 +1,15 @@
 /**
- * @name AttachmentCreator
- * @description this base class helps create and insert attachments for outgoing and incoming emails
+ * @name ContentVersionPost
+ * @description this base class helps create and insert ContentVersions (files) for outgoing and incoming emails
  */
-public abstract class AttachmentCreator {
+global abstract class ContentVersionPost {
 
 /**
  * FIELDS
  */
 
-    // Class containers that contain email to info
-    protected EmailContainer[] containers {get;set;}
+    // Class parcels that contain email to info
+    global EmailParcel[] parcels {get;set;}
 
     private ContentVersion[] versions {
         get {
@@ -28,10 +28,10 @@ public abstract class AttachmentCreator {
     }
 
     // used for when it's necessary to save one content version for many emails
-    public Boolean useFirstAttachmentsForAllMessages {
+    global Boolean useFirstForAllMessages {
         get {
-            if( useFirstAttachmentsForAllMessages == null ) useFirstAttachmentsForAllMessages = false;
-            return useFirstAttachmentsForAllMessages;
+            if( useFirstForAllMessages == null ) useFirstForAllMessages = false;
+            return useFirstForAllMessages;
         }
         set;
     }
@@ -40,45 +40,50 @@ public abstract class AttachmentCreator {
  * CONSTRUCTOR
  */
 
-    public AttachmentCreator( EmailContainer[] ws ) {
-        containers = ws;
+    global ContentVersionPost( EmailParcel[] parcels ) {
+        this.parcels = parcels;
     }
+
+/**
+ * ABSTACT METHODS
+ */ 
+
+    /**
+     * @name getMessageId
+     * @description returns an external email message Id for postContentDocumentLinks method
+     * @param EmailMessage message
+     * @return String
+     */
+    global abstract String getMessageId( EmailMessage message );
+
+    /**
+     * @name getMessageId
+     * @description returns an external email message Id for postContentDocumentLinks method
+     * @param EmailParcel parcel
+     * @return String
+     */
+    global abstract String getMessageId( EmailParcel parcel );
 
 /**
  * ACTION METHODS
  */ 
-    /**
-     * @name getMessageId
-     * @description returns an external email message Id for insertContentDocumentLinks method
-     * @param EmailMessage message
-     * @return String
-     */
-    protected abstract String getMessageId( EmailMessage message );
 
     /**
-     * @name getMessageId
-     * @description returns an external email message Id for insertContentDocumentLinks method
-     * @param EmailContainer container
-     * @return String
-     */
-    protected abstract String getMessageId( EmailContainer container );
-
-    /**
-     * @name insertAttachments
+     * @name post
      * @description inserts the Email attachments as ContentVersion and then creates the necessary ContentDocumentLinks
      * for incoming messages
-     * @param EmailContainer containers
+     * @param none
      * @return void
      */
-    public void insertAttachments(){
+    global void post(){
 
-        for( EmailContainer container : containers ){
-            String messageId = getMessageId( container );
+        for( EmailParcel parcel : parcels ){
+            String messageId = getMessageId( parcel );
 
-            if( useFirstAttachmentsForAllMessages ){
-                setVersionsForAllMessages( container, messageId );
+            if( useFirstForAllMessages ){
+                setFirstForAllMessages( parcel, messageId );
             } else {
-                setVersions( container, messageId );
+                setContentVersions( parcel, messageId );
             }
         }
 
@@ -91,21 +96,21 @@ public abstract class AttachmentCreator {
             handler.handle();
         }
 
-        setVerionIdsOnContainers();
+        setVerionIdsOnparcels();
     }
 
     /**
-     * @name insertContentDocumentLinks
+     * @name postContentDocumentLinks
      * @description creates ContentDocumentLinks that link content documents to EmailMessage. Gets called in email message trigger
      * after the messages have been sent
      * @param EmailMessage[] messages
      * @return void
     **/
-    public void insertContentDocumentLinks( EmailMessage[] messages ){
-        if( versionsByMessageId.isEmpty() ) return;
+    global void postContentDocumentLinks( EmailMessage[] messages ){
+        if( messages == null || messages.isEmpty() || versionsByMessageId.isEmpty() ) return;
 
         // put the fresh list of versions in a map keyed on their Id to access below
-        Map<Id, ContentVersion> versionsById = refreshVersions();
+        Map<Id, ContentVersion> versionsById = refreshContentVersions();
 
         ContentDocumentLink[] links = new ContentDocumentLink[]{};
 
@@ -139,16 +144,17 @@ public abstract class AttachmentCreator {
 /**
  * UTILITY METHODS
  */ 
+
     /**
-     * @name setVersions
+     * @name setContentVersions
      * @description sets a single or single set of content verions (attachments) for many emails
-     * @param EmailContainer container
+     * @param EmailParcel parcel
      * @param String messageId
      * @return void
      */
-    private void setVersions( EmailContainer container, String messageId ){
+    private void setContentVersions( EmailParcel parcel, String messageId ){
 
-        for( EmailContainer.AttachmentData attachment : container.attachments ){
+        for( EmailParcel.AttachmentData attachment : parcel.attachments ){
             ContentVersion version = getContentVersion(attachment);
 
             if( versionsByMessageId.containsKey( messageId ) ){
@@ -161,46 +167,70 @@ public abstract class AttachmentCreator {
         }
 
         /**
-         * clear attachement data so that message creator only uses the ContentVersion (file) created here.
+         * clear attachement data so that the EmailFacotry only uses the ContentVersion (file) created here.
          * If we don't clear it the message creator will read the attachments list and creat an attachment that isn't
          * saved as a file and essentially send two of every attachment because of the files created in this class.
          */
-        container.attachments.clear();
+        parcel.attachments.clear();
     }
 
     /**
-     * @name setVersionsForAllMessages
+     * @name setFirstForAllMessages
      * @description sets a single or single set of content verions (attachments) for many emails
-     * @param EmailContainer container
+     * @param EmailParcel parcel
      * @param String messageId
      * @return void
      */
-    private void setVersionsForAllMessages( EmailContainer container, String messageId ){
+    private void setFirstForAllMessages( EmailParcel parcel, String messageId ){
 
         if( versions.size() == 0 ){
-            setVersions( container, messageId );
+            setContentVersions( parcel, messageId );
         } else {
             versionsByMessageId.put( messageId, versions );
         }
     }
+
+     /**
+     * @name setVerionIdsOnparcels
+     * @description set files on parcel to be accessed by MessageCreator
+     * @param none
+     * @return none
+     */
+    private void setVerionIdsOnparcels(){
+
+        for( EmailParcel parcel : parcels ){
+            String messageId = getMessageId( parcel );
+
+            if( versionsByMessageId.containsKey(messageId) ){
+
+                for( ContentVersion version : versionsByMessageId.get(messageId) ){
+                    parcel.addVersionId( version.Id );
+                }
+            }
+        }
+    }
+
+/**
+ * 'GETTER' METHODS
+ */ 
 
     /**
      * @name getContentVersions
      * @description returns all versions that where created. Used in creating outbound messages
      * @return ContentVersion[]
      */
-    public ContentVersion[] getContentVersions(){
+    global ContentVersion[] getContentVersions(){
         return versions;
     }
 
     /**
-     * @name getContentVersionIds
+     * @name getVersionIds
      * @description returns all version Ids that where created. Used in creating outbound messages.
      * return must be String[] because the method for setting attachments on outgoing SingleEmailMessages takes 
      * type String[] as an argument
      * @return String[]
      */
-    public String[] getContentVersionIds(){
+    global String[] getVersionIds(){
         String[] ids = new String[]{};
 
         for( ContentVersion version : versions ){
@@ -211,35 +241,35 @@ public abstract class AttachmentCreator {
     }
 
     /**
-     * @name getContentVersionIdsByMessageId
+     * @name getVersionIdsByMessageId
      * @description returns all version Ids that where created by the external messageId
      * @return Map<String, String[]>
      */
-    public Map<String, String[]> getContentVersionIdsByMessageId(){
-        Map<String, String[]> contentVersionIdsByMessageId = new Map<String, String[]>();
+    global Map<String, String[]> getVersionIdsByMessageId(){
+        Map<String, String[]> versionIdsByMessageId = new Map<String, String[]>();
 
         for( String messageId : versionsByMessageId.keyset() ){
 
             for( ContentVersion version : versionsByMessageId.get(messageId) ){
 
-                if( contentVersionIdsByMessageId.containsKey(messageId) ){
-                    contentVersionIdsByMessageId.get(messageId).add(version.Id);
+                if( versionIdsByMessageId.containsKey(messageId) ){
+                    versionIdsByMessageId.get(messageId).add(version.Id);
                 } else {
-                    contentVersionIdsByMessageId.put( messageId, new String[]{version.Id} );
+                    versionIdsByMessageId.put( messageId, new String[]{version.Id} );
                 }
             }
         }
 
-        return contentVersionIdsByMessageId;
+        return versionIdsByMessageId;
     }
 
     /**
      * @name getContentVersion
      * @description returns a predicatably formatted ContentVersion
-     * @param EmailContainer.AttachmentData attachment 
+     * @param EmailParcel.AttachmentData attachment 
      * @return ContentVersion
      */
-    private ContentVersion getContentVersion( EmailContainer.AttachmentData attachment ){
+    private ContentVersion getContentVersion( EmailParcel.AttachmentData attachment ){
         return new ContentVersion(
             Title = attachment.fileName,
             PathOnClient = attachment.fileName,
@@ -263,51 +293,38 @@ public abstract class AttachmentCreator {
         );
     }
 
-    /**
-     * @name setVerionIdsOnContainers
-     * @description set files on container to be accessed by MessageCreator
-     * @param none
-     * @return none
-     */
-    private void setVerionIdsOnContainers(){
-
-        for( EmailContainer container : containers ){
-            String messageId = getMessageId( container );
-
-            if( versionsByMessageId.containsKey(messageId) ){
-
-                for( ContentVersion version : versionsByMessageId.get(messageId) ){
-                    container.addVersionId( version.Id );
-                }
-            }
-        }
-    }
-
 /**
  * QUERY METHODS
  */
 
     /**
-     * @name refreshVersions
+     * @name refreshContentVersions
      * @description simply to get the ContentDocumentId that gets populated after insert.
      * also does the work of putting them in a map keyed on Id
      * @return Map<Id, ContentVersion>
     **/
-    private Map<Id, ContentVersion> refreshVersions(){
+    private Map<Id, ContentVersion> refreshContentVersions(){
         if(versions.isEmpty()) return new Map<Id, ContentVersion>();
 
         // get all the Ids to query for fresh copy of versions to access the newly created ContentDocumentId
         Set<Id> versionIds = new Map<Id, ContentVersion>(versions).keyset();
 
         // the ContentDocumentId is the Id of the ContentDocument that is created when a content version is created
-        versions = [SELECT 
-                        Id,
-                        Title,
-                        PathOnClient,
-                        VersionData,
-                        ContentDocumentId 
-                            FROM ContentVersion 
-                            WHERE Id IN :versionIds];
+        try {
+
+            versions = [SELECT 
+                Id,
+                Title,
+                PathOnClient,
+                VersionData,
+                ContentDocumentId 
+                    FROM ContentVersion 
+                    WHERE Id IN :versionIds];
+
+        } catch( Exception e ){
+            CreedExceptionHandler handler = new CreedExceptionHandler(e);
+            handler.handle();
+        }
 
         // put the fresh list of versions in a map keyed on their Id to access below
         return new Map<Id, ContentVersion>(versions);

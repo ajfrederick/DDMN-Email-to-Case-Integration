@@ -1,9 +1,9 @@
 /**
- * @name TestExceptionHandler
+ * @name CreedExceptionHandlerTest
  * @description this is a unit test of the exception handler class
  */
 @isTest(SeeAllData=true)
-public class TestExceptionHandler {
+public class CreedExceptionHandlerTest {
     
     @IsTest
     static void testHandler(){
@@ -16,7 +16,8 @@ public class TestExceptionHandler {
             try {
                 insert contact;
             } catch( Exception e ){
-                ExceptionHandler handler = new ExceptionHandler(e);
+                CreedExceptionHandler handler = new CreedExceptionHandler(e);
+                handler.addAddress('test@me.com');
                 handler.handle();
             }
 

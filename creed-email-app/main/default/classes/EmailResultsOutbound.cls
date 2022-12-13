@@ -1,26 +1,42 @@
 /**
- * @name OutboundEmailResults
+ * @name EmailResultsOutbound
  * @description Contains Email Sent email results for further activites (ie creating feed Items or error handling) 
  * after sending an email
 **/
-public class OutboundEmailResults {
+global class EmailResultsOutbound {
 
 /**
  * FIELDS
 **/
 
-    public Map<String, Messaging.SingleEmailMessage[]> sentEmailsByObjId {
+    global Messaging.SendEmailResult[] results {
         get {
-            if( sentEmailsByObjId == null ) sentEmailsByObjId = new Map<String, Messaging.SingleEmailMessage[]>();
-            return sentEmailsByObjId;
+            if( results == null ) results = new Messaging.SendEmailResult[]{};
+            return results;
         }
         set;
     }
 
-    public Messaging.SendEmailResult[] failedResults {
+    global Map<String, Messaging.SingleEmailMessage[]> successesByObjId {
         get {
-            if( failedResults == null ) failedResults = new Messaging.SendEmailResult[]{};
-            return failedResults;
+            if( successesByObjId == null ) successesByObjId = new Map<String, Messaging.SingleEmailMessage[]>();
+            return successesByObjId;
+        }
+        set;
+    }
+
+    global Messaging.SendEmailResult[] failures {
+        get {
+            if( failures == null ) failures = new Messaging.SendEmailResult[]{};
+            return failures;
+        }
+        set;
+    }
+    
+    global String failedIds {
+        get {
+            if( failedIds == null ) failedIds = '';
+            return failedIds;
         }
         set;
     }
@@ -28,9 +44,11 @@ public class OutboundEmailResults {
 /**
  * CONSTRUCTOR
 **/
-    
-    public OutboundEmailResults( Messaging.SendEmailResult[] results ){
-        setFailures(results);
+
+    global EmailResultsOutbound( Messaging.SendEmailResult[] res ){
+        results = res;
+
+        setFailures();
     }
     
 /**
@@ -43,19 +61,18 @@ public class OutboundEmailResults {
      * if the messages are NOT in the failed list then they were sent successfully
      * @return void
     **/
-    public void setSuccesses( Messaging.SingleEmailMessage[] messages ){
-        String failedIds = '';
+    global void setSuccesses( Messaging.SingleEmailMessage[] messages ){
 
-        for( Messaging.SendEmailResult result : failedResults ){
+        for( Messaging.SendEmailResult result : failures ){
             Messaging.SendEmailError[] errors = result.getErrors();
 
             for( Integer i = 0; i < errors.size(); i++ ){
                 Messaging.SendEmailError error = errors[i];
 
                 failedIds += error.getTargetObjectId();
-            }
 
-            System.debug(failedIds);
+                System.debug('Failed Email Target Object Id >>>' + error.getTargetObjectId());
+            }
         }
 
         for( Messaging.SingleEmailMessage message : messages ){
@@ -65,10 +82,10 @@ public class OutboundEmailResults {
 
             if( failedIds.indexOf( objId ) < 0 ){
 
-                if( sentEmailsByObjId.containsKey( objId ) ){
-                    sentEmailsByObjId.get( objId ).add( message );
+                if( successesByObjId.containsKey( objId ) ){
+                    successesByObjId.get( objId ).add( message );
                 } else {
-                    sentEmailsByObjId.put( objId, new Messaging.SingleEmailMessage[]{ message } );
+                    successesByObjId.put( objId, new Messaging.SingleEmailMessage[]{ message } );
                 }   
             }
         }
@@ -79,11 +96,11 @@ public class OutboundEmailResults {
      * @description returns all successfully sent messages
      * @return void
     **/
-    public Messaging.SingleEmailMessage[] getSuccesses(){
+    global Messaging.SingleEmailMessage[] getSuccesses(){
         Messaging.SingleEmailMessage[] successes = new Messaging.SingleEmailMessage[]{};
 
-        for( String objId : sentEmailsByObjId.keyset() ){
-            for( Messaging.SingleEmailMessage message : sentEmailsByObjId.get(objId) ){
+        for( String objId : successesByObjId.keyset() ){
+            for( Messaging.SingleEmailMessage message : successesByObjId.get(objId) ){
                 successes.add(message);
             }
         }
@@ -96,8 +113,8 @@ public class OutboundEmailResults {
      * @description returns all successfully sent messages but record Id
      * @return void
     **/
-    public Map<String, Messaging.SingleEmailMessage[]> getSuccessesByObjId(){
-        return sentEmailsByObjId;
+    global Map<String, Messaging.SingleEmailMessage[]> getSuccessesByObjId(){
+        return successesByObjId;
     }
 
     /**
@@ -105,12 +122,12 @@ public class OutboundEmailResults {
      * @description checks the results for failed emails
      * @return void
     **/
-    private void setFailures( Messaging.SendEmailResult[] results ){
+    private void setFailures(){
         if( results == null ) return;
 
         for( Messaging.SendEmailResult result : results ){
             if( !result.isSuccess() ){
-                failedResults.add(result);
+                failures.add(result);
             }
         }
     }
@@ -120,19 +137,23 @@ public class OutboundEmailResults {
      * @description returns failures
      * @return void
     **/
-    public Messaging.SendEmailResult[] getFailures(){
-        return failedResults;
+    global Messaging.SendEmailResult[] getFailures(){
+        return failures;
     }
+
+/**
+ * UTILITY METHODS
+**/
 
     /**
      * @name getErrorMessages
      * @description returns a list of all the error messages for failed emails
      * @return String[]
     **/
-    public String[] getErrorMessages(){
+    global String[] getErrorMessages(){
         String[] messages = new String[]{};
 
-        for( Messaging.SendEmailResult result : failedResults ){
+        for( Messaging.SendEmailResult result : failures ){
             Messaging.SendEmailError[] errors = result.getErrors();
 
             String message = 'Email Errors: \n \n';
@@ -140,6 +161,7 @@ public class OutboundEmailResults {
             for( Integer i = 0; i < errors.size(); i++ ){
                 Messaging.SendEmailError error = errors[i];
 
+                message += 'Object Id: ' + error.getTargetObjectId() + '\n \n';
                 message += 'Error #' + i+1 + ': ' + error.getMessage() + '\n \n';
             }
 
@@ -148,18 +170,14 @@ public class OutboundEmailResults {
 
         return messages;
     }
-
-/**
- * UTILITY METHODS
-**/
     
     /**
      * @name hasSuccesses
      * @description checks if email was sent successfully or not
      * @return Boolean
     **/
-    public Boolean hasSuccesses(){
-        return !sentEmailsByObjId.isEmpty();
+    global Boolean hasSuccesses(){
+        return !successesByObjId.isEmpty();
     }
     
     /**
@@ -167,7 +185,7 @@ public class OutboundEmailResults {
      * @description checks if email has any failures
      * @return Boolean
     **/
-    public Boolean hasFailures(){
-        return !failedResults.isEmpty();
+    global Boolean hasFailures(){
+        return !failures.isEmpty();
     }
 }

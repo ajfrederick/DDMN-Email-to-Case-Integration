@@ -1,15 +1,15 @@
 /**
- * @name MessageCreator
- * @description creates email messages and is extended by MessageCreatorOutbound and MessageCreatorInbound
+ * @name EmailFactory
+ * @description creates email messages and is extended by EmailFactoryOutbound and EmailFactoryInbound
 **/
-public abstract class MessageCreator {
+global abstract class EmailFactory {
 
 /**
  * FIELDS
 **/
 
     // List of outboundMessages
-    public Messaging.SingleEmailMessage[] outboundMessages {
+    global Messaging.SingleEmailMessage[] outboundMessages {
         get {
             if( outboundMessages == null ) outboundMessages = new Messaging.SingleEmailMessage[]{};
             return outboundMessages;
@@ -18,7 +18,7 @@ public abstract class MessageCreator {
     }
 
     // List of inboundMessages
-    public EmailMessage[] inboundMessages {
+    global EmailMessage[] inboundMessages {
         get {
             if( inboundMessages == null ) inboundMessages = new EmailMessage[]{};
             return inboundMessages;
@@ -26,15 +26,15 @@ public abstract class MessageCreator {
         set;
     }
 
-    // Class containers that contain email to info
-    protected EmailContainer[] containers {get;set;}
+    // Class parcels that contain email to info
+    protected EmailParcel[] parcels {get;set;}
 
 /**
  * CONSTRUCTOR
 **/
 
-    public MessageCreator( EmailContainer[] ws ){
-        containers = ws;
+    global EmailFactory( EmailParcel[] parcels ){
+        this.parcels = parcels;
     }
 
 /**
@@ -42,18 +42,18 @@ public abstract class MessageCreator {
 **/
 
     /**
-     * @name create
-     * @description loop through containers and get an email message
+     * @name build
+     * @description loop through parcels and get an email message
      * @return void
     **/
-    public abstract void create();
+    global abstract void build();
 
     /**
      * @name getOutboundMessages
      * @description for external use. returns list of outbound messages
      * @return Messaging.SingleEmailMessage[]
     **/
-    public Messaging.SingleEmailMessage[] getOutboundMessages(){
+    global Messaging.SingleEmailMessage[] getOutboundMessages(){
         return outboundMessages;
     }
 
@@ -62,7 +62,7 @@ public abstract class MessageCreator {
      * @description for external use. returns list of inbound messages
      * @return EmailMessage[]
     **/
-    public EmailMessage[] getInboundMessages(){
+    global EmailMessage[] getInboundMessages(){
         return inboundMessages;
     }
 
@@ -75,7 +75,7 @@ public abstract class MessageCreator {
      * @description checks to see if there are outbound messages populating the array.
      * @return Boolean
     **/
-    public Boolean hasOutboundMessages(){
+    global Boolean hasOutboundMessages(){
         return !outboundMessages.isEmpty();
     }
     
@@ -84,7 +84,7 @@ public abstract class MessageCreator {
      * @description checks to see if there are inbound messages populating the array.
      * @return Boolean
     **/
-    public Boolean hasInboundMessages(){
+    global Boolean hasInboundMessages(){
         return !inboundMessages.isEmpty();
     }
 }
